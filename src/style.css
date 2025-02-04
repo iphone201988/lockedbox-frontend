@@ -1,0 +1,107 @@
+/* Home Page  */
+.store-hover {
+  fill: #1e1e1e;
+  transition: all 0.3s ease-in-out;
+}
+.store-hover:hover {
+  background: #235370;
+  border-color: #235370;
+}
+.store-hover svg {
+  fill: #1e1e1e;
+  transition: all 0.3s ease-in-out;
+}
+.store-hover:hover svg {
+  fill: #fff;
+}
+
+.before-line::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 510px;
+  background: rgba(35, 82, 112, 60%);
+  top: 0;
+  z-index: -1;
+}
+
+/* responsive */
+@media only screen and (max-width: 1024px) {
+  .before-line::before {
+    height: 370px;
+  }
+}
+
+/* Auth pages  */
+
+.host-rent-btns button svg {
+  fill: #235370;
+  transition: all 0.3s ease-in-out;
+}
+.host-rent-btns button {
+  display: flex;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  align-items: center;
+  padding: 32px 36px;
+  border: 1px solid #235370;
+  border-radius: 16px;
+  color: #235370;
+}
+.host-rent-btns button:hover svg {
+  fill: #fff;
+}
+.host-rent-btns button:hover {
+  background: #235370;
+  color: #fff;
+}
+
+.select-option button {
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+//Search page
+
+.filter-btns-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-btns-row > button {
+  padding: 6px 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.filter-btns-row button.active {
+  background: #235370;
+  color: #fff;
+}
+.filter-btns-row > button svg {
+  stroke: #1f1f1f;
+  transition: all 0.3s ease;
+}
+.filter-btns-row > button.active svg {
+  stroke: #235370;
+}
+.filter-btns-row > button:hover svg {
+  stroke: #fff;
+}
+.filter-btns-row > button:hover {
+  background: #235370;
+  color: #fff;
+}
+
+@media only screen and (max-width: 560px) {
+  .fliters-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

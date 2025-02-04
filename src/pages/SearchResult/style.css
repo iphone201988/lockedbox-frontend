@@ -1,0 +1,13 @@
+.filter-btns-row {display: flex; align-items: center; gap: 8px;}
+.filter-btns-row>button{padding: 6px 12px; border: 1px solid #eeeeee; border-radius: 8px; cursor: pointer; transition: all .3s ease; position: relative;}
+.filter-btns-row button.active{background: #235370; color: #fff;}
+.filter-btns-row>button svg{stroke: #1f1f1f;transition: all .3s ease; }
+.filter-btns-row>button.active svg{stroke: #235370; }
+.filter-btns-row>button:hover svg{stroke: #fff; }
+.filter-btns-row>button:hover{background: #235370; color: #fff;}
+
+
+@media only screen and (max-width: 560px){
+.fliters-row{flex-direction: column; gap: 16px;}
+}
+
