@@ -105,3 +105,93 @@
     gap: 16px;
   }
 }
+
+// Booking Review
+
+.before-dotted-line::before {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 1px;
+  border-bottom: 1px dashed #eeeeee;
+  top: 50%;
+  left: 5%;
+  z-index: -1;
+}
+.on-hover-text {
+  transition: all 0.3s ease-in;
+}
+.on-hover-text .show-on-hover {
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 2px 16px 20px rgba(0, 0, 0, 10%);
+  position: absolute;
+  text-align: center;
+  top: -70px;
+  left: 70px;
+  color: #000 !important;
+  padding: 16px;
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+  background: #fff;
+  width: max-content;
+  transition: all 0.3s ease-in;
+  z-index: 5;
+  font-size: 18px;
+}
+.on-hover-text:hover .show-on-hover {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media only screen and (max-width: 767px) {
+  .on-hover-text .show-on-hover {
+    left: 0;
+    right: 0;
+    font-size: 16px;
+  }
+}
+
+/* Search Result filters  */
+
+.filter-btns-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-btns-row > button {
+  padding: 6px 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.filter-btns-row button.active {
+  background: #235370;
+  color: #fff;
+}
+.filter-btns-row > button svg {
+  stroke: #1f1f1f;
+  transition: all 0.3s ease;
+}
+.filter-btns-row > button.active svg {
+  stroke: #235370;
+}
+.filter-btns-row > button:hover svg {
+  stroke: #fff;
+}
+.filter-btns-row > button:hover {
+  background: #235370;
+  color: #fff;
+}
+.filter-btns-row > button.active svg {
+  stroke: #ffffff;
+}
+
+@media only screen and (max-width: 560px) {
+  .fliters-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import ProfileNavbar from "../../components/ProfileNavbar";
 import { LocationIcon, SizeIcon } from "../../icons";
 
 const Search = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <ProfileNavbar />
@@ -48,7 +51,12 @@ const Search = () => {
               </span>
             </div>
           </div>
-          <button className="btn-pri cursor-pointer">Start Search</button>
+          <button
+            className="btn-pri cursor-pointer"
+            onClick={() => navigate("/search-results")}
+          >
+            Start Search
+          </button>
         </div>
       </div>
     </div>

@@ -46,6 +46,11 @@ export const CreatePasswordSchema = yup.object({
   confirmPassword: yup.string().required("Confirm Password is required"),
 });
 
+export const UpdatePasswordSchema = yup.object({
+  oldPassword: yup.string().required("Old Password is required"),
+  newPassword: yup.string().required("New Password is required"),
+});
+
 export const validateForm = async (
   schema: yup.ObjectSchema<any>,
   data: any

@@ -1,6 +1,10 @@
-const PriceFilter = () => {
+const PriceFilter = ({ showFilters }: { showFilters: boolean }) => {
   return (
-    <div className="hidden shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[38px] bg-white z-[999] w-max p-[12px] min-w-[300px] max-md:min-w-[240px] max-md:right-[-40px]">
+    <div
+      className={`${
+        showFilters ? "block" : "hidden"
+      } shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[38px] bg-white z-[999] w-max p-[12px] min-w-[300px] max-md:min-w-[240px] max-md:right-[-40px]`}
+    >
       <label className="text-black flex justify-between">
         Filter by price <span className="font-bold">$250</span>
       </label>

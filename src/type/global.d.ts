@@ -38,3 +38,17 @@ type CreatePasswordFormType = {
   password: string;
   confirmPassword: string;
 };
+
+type SearchFilters = {
+  items: boolean;
+  price: boolean;
+  sort: boolean;
+  main: boolean;
+};
+
+type RenterProfileFormType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+};

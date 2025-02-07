@@ -11,6 +11,14 @@ import PasswordSuccess from "../pages/Auth/password-success";
 import Search from "../pages/Search";
 import ListingDetail from "../pages/ListingDetail";
 import SearchResult from "../pages/SearchResult";
+import BookingReview from "../pages/BookingReview";
+import DashboardLayout from "../layout/Dashboard";
+import RenterAccount from "../pages/Dashboard/Renter/Account";
+import RenterBasicInfo from "../pages/Dashboard/Renter/Account/BasicInfo";
+import RenterProfile from "../pages/Dashboard/Renter/Account/Profile";
+import RenterSecurity from "../pages/Dashboard/Renter/Account/Security";
+import RenterNotification from "../pages/Dashboard/Renter/Account/Notification";
+import RenterPayment from "../pages/Dashboard/Renter/Account/Payment";
 
 const Router = createBrowserRouter([
   {
@@ -61,6 +69,10 @@ const Router = createBrowserRouter([
     path: "/search-results",
     element: <SearchResult />,
   },
+  {
+    path: "/booking-review",
+    element: <BookingReview />,
+  },
   //   {
   //     path: "/",
   //     element: (
@@ -69,26 +81,31 @@ const Router = createBrowserRouter([
   //       </PublicRoute>
   //     ),
   //   },
-  //   {
-  //     path: "/home",
-  //     element: <Layout />,
-  //     children: [
-  //       {
-  //         path: "",
-  //         element: (
-  //           <ProtectedRoute>
-  //             <Home />
-  //           </ProtectedRoute>
-  //         ),
-  //       },
-  //       {
-  //         path: "feeds",
-  //         element: (
-  //           <ProtectedRoute>
-  //             <Home />
-  //           </ProtectedRoute>
-  //         ),
-  //       },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      // {
+      //   path: "",
+      //   element: (
+      //     <ProtectedRoute>
+      //       <Home />
+      //     </ProtectedRoute>
+      //   ),
+      // },
+      {
+        path: "account",
+        element: <RenterAccount />,
+        children: [
+          { path: "basic-info", element: <RenterBasicInfo /> },
+          { path: "profile", element: <RenterProfile /> },
+          { path: "security", element: <RenterSecurity /> },
+          { path: "notification", element: <RenterNotification /> },
+          { path: "payment", element: <RenterPayment /> },
+        ],
+      },
+    ],
+  },
 ]);
 
 export default Router;

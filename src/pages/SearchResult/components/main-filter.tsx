@@ -1,6 +1,10 @@
-const MainFilter = () => {
+const MainFilter = ({ showFilters }: { showFilters: boolean }) => {
   return (
-    <div className="hidden flex flex-col items-stretch gap-[12px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]">
+    <div
+      className={`${
+        showFilters ? "flex" : "hidden"
+      } flex-col items-stretch gap-[12px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]`}
+    >
       <label className="inline-flex items-center cursor-pointer justify-between">
         <p className="mr-[32px] text-black">Climate control</p>
         <input type="checkbox" value="" className="sr-only peer" />
