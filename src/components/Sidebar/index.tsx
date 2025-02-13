@@ -1,17 +1,9 @@
 import { useState } from "react";
 import Logo from "../../assets/logo.png";
 import RenterProfilePic from "../../assets/rent-profile-pic.png";
-import {
-  AccountIcon,
-  BookingIcon,
-  HelpIcon,
-  HomeIcon,
-  LogoutIcon,
-  MessageIcon,
-  ReviewIcon,
-  SearchIcon,
-  SwitchIcon,
-} from "../../icons";
+import { HelpIcon, LogoutIcon, SwitchIcon } from "../../icons";
+import { RenterRoutes } from "../../constants";
+import { Link, useLocation } from "react-router-dom";
 
 const ProfilePopup = () => {
   return (
@@ -35,38 +27,30 @@ const ProfilePopup = () => {
 };
 
 const SideBar = () => {
+  const location = useLocation();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   return (
-    <div className=" h-[100vh]">
+    <div className="h-[100vh]">
       <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full">
-        <a className="mb-[45px] block " href="">
+        <a className="mb-[45px] block" href="">
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />
         </a>
         <div className="side-bar w-max flex flex-col gap-[6px]">
-          <a className="profile-link active" href="">
-            <HomeIcon />
-            Home
-          </a>
-          <a className="profile-link" href="">
-            <SearchIcon />
-            Find a space
-          </a>
-          <a className="profile-link" href="">
-            <AccountIcon />
-            Account
-          </a>
-          <a className="profile-link" href="">
-            <BookingIcon />
-            Bookings
-          </a>
-          <a className="profile-link" href="">
-            <MessageIcon />
-            Messages
-          </a>
-          <a className="profile-link" href="">
-            <ReviewIcon />
-            Reviews <i className="notify-dot"></i>
-          </a>
+          {RenterRoutes.map((item, index) => (
+            <Link
+              className={`profile-link ${
+                item.path != "" && location.pathname.startsWith(item.path)
+                  ? "active"
+                  : ""
+              }`}
+              to={item.path}
+              key={index}
+            >
+              {item.icon}
+              {item.name}
+              {item.notify ? <i className="notify-dot"></i> : ""}
+            </Link>
+          ))}
         </div>
         {/* profile pic */}
         <div className="flex items-center justify-between mt-auto">

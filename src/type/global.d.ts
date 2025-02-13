@@ -52,3 +52,19 @@ type RenterProfileFormType = {
   email: string;
   phone: string;
 };
+
+type VerifyPopUp = {
+  title: string;
+  placeholder: string;
+  type: string;
+};
+
+type BookingCard = {
+  type: "future" | "current" | "past" | "dispute";
+};
+
+type CommonListing = {
+  type: "RenterHome" | "HostHome" | "Review";
+  btnTxt: string;
+  path: string;
+};

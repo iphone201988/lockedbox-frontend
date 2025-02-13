@@ -1,10 +1,14 @@
 import CardLogo from "../../../../../assets/visa-logo.png";
 import AddIcon from "../../../../../assets/icons/add-icn.png";
 import PaymentHistory from "./components/payment-history";
+import { useState } from "react";
+import AddCardPopup from "../../../../../components/Popups/Card";
 
 const RenterPayment = () => {
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   return (
     <div className="flex flex-col">
+      {showPopup && <AddCardPopup setShowPopup={setShowPopup} />}
       {/* Your passowrd */}
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
@@ -30,7 +34,10 @@ const RenterPayment = () => {
             </div>
 
             {/* add card */}
-            <button className=" cursor-pointer flex max-w-[150px] flex-col justify-center items-center border border-[#235370] border-dashed rounded-[16px] p-[20px] hover:bg-[#EEEEEE]">
+            <button
+              className=" cursor-pointer flex max-w-[150px] flex-col justify-center items-center border border-[#235370] border-dashed rounded-[16px] p-[20px] hover:bg-[#EEEEEE]"
+              onClick={() => setShowPopup(!showPopup)}
+            >
               <img src={AddIcon} alt="" />
               <p className="text-[14px] text-[#235370] text-center">
                 Add new <br />

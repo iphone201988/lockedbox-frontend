@@ -51,6 +51,17 @@ export const UpdatePasswordSchema = yup.object({
   newPassword: yup.string().required("New Password is required"),
 });
 
+export const BasicInfoSchema = yup.object({
+  firstName: yup.string(),
+  lastName: yup.string(),
+  email: yup.string().email("Must be a valid email"),
+  phone: yup.string(),
+});
+
+export const VerifyPhonechema = yup.object({
+  phone: yup.string().required("Phone is required"),
+});
+
 export const validateForm = async (
   schema: yup.ObjectSchema<any>,
   data: any

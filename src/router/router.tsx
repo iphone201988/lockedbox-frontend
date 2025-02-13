@@ -19,6 +19,11 @@ import RenterProfile from "../pages/Dashboard/Renter/Account/Profile";
 import RenterSecurity from "../pages/Dashboard/Renter/Account/Security";
 import RenterNotification from "../pages/Dashboard/Renter/Account/Notification";
 import RenterPayment from "../pages/Dashboard/Renter/Account/Payment";
+import RenterHome from "../pages/Dashboard/Renter/Home";
+import RenterBooking from "../pages/Dashboard/Renter/Booking";
+import RenterMessage from "../pages/Dashboard/Renter/Message";
+import RenterReviews from "../pages/Dashboard/Renter/Reviews";
+import ReviewYourHost from "../pages/Dashboard/Renter/GiveReview";
 
 const Router = createBrowserRouter([
   {
@@ -94,6 +99,10 @@ const Router = createBrowserRouter([
       //   ),
       // },
       {
+        path: "home",
+        element: <RenterHome />,
+      },
+      {
         path: "account",
         element: <RenterAccount />,
         children: [
@@ -103,6 +112,22 @@ const Router = createBrowserRouter([
           { path: "notification", element: <RenterNotification /> },
           { path: "payment", element: <RenterPayment /> },
         ],
+      },
+      {
+        path: "booking",
+        element: <RenterBooking />,
+      },
+      {
+        path: "message",
+        element: <RenterMessage />,
+      },
+      {
+        path: "reviews",
+        element: <RenterReviews />,
+      },
+      {
+        path: "reviews/give-review",
+        element: <ReviewYourHost />,
       },
     ],
   },

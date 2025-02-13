@@ -78,7 +78,7 @@ const Signup = () => {
             {signupMethod.phone && (
               <div className="input-with-icon relative w-full max-w-[540px]">
                 <Phone
-                  error={errors?.email}
+                  error={errors?.phone}
                   value={formData?.phone}
                   onChange={(phone) => setFormData({ ...formData, phone })}
                 />

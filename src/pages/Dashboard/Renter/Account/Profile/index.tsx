@@ -1,8 +1,11 @@
 import ProfilPic from "../../../../../assets/rent-profile-pic.png";
 import LocationImage from "../../../../../assets/icons/location-icn-grey.png";
 import { LocationIcon } from "../../../../../icons";
+import { useRef, useState } from "react";
 
 const RenterProfile = () => {
+  const imageRef = useRef<any>(null);
+  const [profilePic, setProfilePic] = useState(ProfilPic);
   return (
     <div className="flex flex-col">
       <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
@@ -27,13 +30,33 @@ const RenterProfile = () => {
             </div>
             <div className="p-[20px] flex flex-col">
               <div className="flex gap-[16px] pb-[16px]">
-                <div className="w-[130px] h-[130px] p-[5px] bg-white rounded-full mt-[-80px] ">
-                  <img className=" object-cover" src={ProfilPic} alt="" />
+                <div className="w-[130px] h-[130px] p-[5px] bg-white rounded-full mt-[-80px] overflow-hidden">
+                  <img
+                    className="cursor-pointer w-full h-full rounded-full object-contain"
+                    src={profilePic}
+                    alt="profile-pic"
+                    onClick={() => {
+                      if (imageRef?.current) imageRef.current.click();
+                    }}
+                  />
+                  <input
+                    type="file"
+                    ref={imageRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const imageUrl = URL.createObjectURL(e.target.files[0]);
+                        setProfilePic(imageUrl);
+                      }
+                    }}
+                  />
                 </div>
                 <div className="">
                   <h5 className="text-[24px] font-semibold">Xander</h5>
                   <p className="flex items-center gap-[6px]">
-                    <img src={LocationImage} alt="" /> Vancouver, Canada
+                    <img src={LocationImage} alt="" />
+                    Vancouver, Canada
                   </p>
                 </div>
               </div>
