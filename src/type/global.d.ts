@@ -11,6 +11,15 @@ type InputProps = {
   error: string | undefined;
 };
 
+type PasswordProps = {
+  value: string;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  error: string;
+  name: string;
+  classes: string;
+  placeholder: string;
+};
+
 type PhoneProps = {
   value: string | undefined;
   onChange: (phone: string) => void;
@@ -67,4 +76,12 @@ type CommonListing = {
   type: "RenterHome" | "HostHome" | "Review";
   btnTxt: string;
   path: string;
+  checkout?: boolean;
+};
+
+type UserState = {
+  id: string;
+  email: string;
+  phone: string;
+  countryCode: string;
 };

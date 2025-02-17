@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "../../assets/logo.png";
 import RenterProfilePic from "../../assets/rent-profile-pic.png";
 import { HelpIcon, LogoutIcon, SwitchIcon } from "../../icons";
-import { RenterRoutes } from "../../constants";
+import { HostRoutes, RenterRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
 
 const ProfilePopup = () => {
@@ -29,14 +29,16 @@ const ProfilePopup = () => {
 const SideBar = () => {
   const location = useLocation();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const host = true;
+  const routes = host ? HostRoutes : RenterRoutes;
   return (
     <div className="h-[100vh]">
-      <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full">
+      <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full w-[250px] min-w-[220px] max-w-[220px]">
         <a className="mb-[45px] block" href="">
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />
         </a>
-        <div className="side-bar w-max flex flex-col gap-[6px]">
-          {RenterRoutes.map((item, index) => (
+        <div className="side-bar w-full flex flex-col gap-[6px]">
+          {routes.map((item, index) => (
             <Link
               className={`profile-link ${
                 item.path != "" && location.pathname.startsWith(item.path)

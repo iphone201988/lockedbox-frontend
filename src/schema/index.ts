@@ -43,7 +43,10 @@ export const SignInSchema = yup
 
 export const CreatePasswordSchema = yup.object({
   password: yup.string().required("Password is required"),
-  confirmPassword: yup.string().required("Confirm Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
 export const UpdatePasswordSchema = yup.object({

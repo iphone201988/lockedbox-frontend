@@ -24,6 +24,11 @@ import RenterBooking from "../pages/Dashboard/Renter/Booking";
 import RenterMessage from "../pages/Dashboard/Renter/Message";
 import RenterReviews from "../pages/Dashboard/Renter/Reviews";
 import ReviewYourHost from "../pages/Dashboard/Renter/GiveReview";
+import HostHome from "../pages/Dashboard/Host/Home";
+import HostListings from "../pages/Dashboard/Host/Listing";
+import CreateListing from "../pages/Dashboard/Host/CreateListing";
+
+const host = true;
 
 const Router = createBrowserRouter([
   {
@@ -100,7 +105,7 @@ const Router = createBrowserRouter([
       // },
       {
         path: "home",
-        element: <RenterHome />,
+        element: host ? <HostHome /> : <RenterHome />,
       },
       {
         path: "account",
@@ -116,6 +121,14 @@ const Router = createBrowserRouter([
       {
         path: "booking",
         element: <RenterBooking />,
+      },
+      {
+        path: "listing",
+        element: <HostListings />,
+      },
+      {
+        path: "listing/create-listing",
+        element: <CreateListing />,
       },
       {
         path: "message",

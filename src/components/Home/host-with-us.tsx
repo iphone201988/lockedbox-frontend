@@ -92,9 +92,7 @@ const HostWithUs = () => {
               Renters
             </h5>
             <p className="text-[20px] max-lg:text-[16px]">
-              We ensure that all renters are thoroughly vetted through
-              background checks, providing hosts with peace of mind and a secure
-              experience.
+            Renters on Neighbor are identity-verified through phone and email, giving you added security and confidence when sharing your space
             </p>
           </div>
         </div>

@@ -5,14 +5,6 @@ const App = () => {
   return (
     <>
       <RouterProvider router={router} />
-      {/* <Login/> */}
-      {/* <Signup/> */}
-      {/* <Verify/> */}
-      {/* <CreatePassword/> */}
-      {/* <HostOrRent/> */}
-      {/* <ForgotPassword/> */}
-      {/* <ResetPassword/> */}
-      {/* <PasswordSuccess/> */}
     </>
   );
 };

@@ -5,32 +5,29 @@ import { validateForm } from "../schema";
 
 export const useForm = <T extends yup.AnyObject>(
   schema: yup.ObjectSchema<T>,
-  initialState: T,
-  successRedirectPath: string = "/" // Default redirect path
+  initialState: T
 ) => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState<T>(initialState);
   const [errors, setErrors] = useState<T>(initialState);
 
-  const handleSubmit = async () => {
+  const validate = async () => {
     const validationErrors: any = await validateForm(schema, formData);
 
     console.log("validationErrors:::", validationErrors);
 
     if (validationErrors) {
       setErrors(validationErrors);
-      return false;
-    } else {
-      setErrors(initialState);
+      return true;
     }
 
-    // navigate(successRedirectPath);
+    setErrors(initialState);
+    return false;
   };
 
   return {
     formData,
     setFormData,
-    handleSubmit,
+    validate,
     errors,
   };
 };

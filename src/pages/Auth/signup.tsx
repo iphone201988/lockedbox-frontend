@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
-import { SignUpSchema, validateForm } from "../../schema";
+import { SignUpSchema } from "../../schema";
 import Input from "../../components/Input";
-import { handleInputChange } from "../../utils/helper";
+import { getNextAuthUrl, handleInputChange } from "../../utils/helper";
 import SignUpMethod from "../../components/SignUpMethod";
 import Phone from "../../components/Phone";
 import Logo from "../../components/Logo";
+import { useSignUpUserMutation } from "../../redux/api";
+import { useForm } from "../../hooks/useForm";
+import Loader from "../../components/Loader";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../redux/reducer/auth";
+import { toast } from "react-toastify";
+import { ResponseMessages } from "../../constants/api-responses";
 
 const initialState: SignUpFormType = {
   email: "",
@@ -15,9 +22,14 @@ const initialState: SignUpFormType = {
 };
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const [signUpUser, { isLoading, data }] = useSignUpUserMutation();
+  const { formData, setFormData, validate, errors } = useForm(
+    SignUpSchema,
+    initialState
+  );
+
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<SignUpFormType>(initialState);
-  const [errors, setErrors] = useState<SignUpFormType>(initialState);
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");
 
@@ -27,13 +39,9 @@ const Signup = () => {
   });
 
   const handleSubmit = async () => {
-    const errors: any = await validateForm(SignUpSchema, formData);
-    if (errors) {
-      setErrors(errors);
-      return;
-    } else {
-      setErrors(initialState);
-    }
+    const hasErrors: boolean = await validate();
+
+    if (hasErrors) return;
 
     if (!isChecked) {
       setCheckboxError("You must agree to the Privacy Policy.");
@@ -41,18 +49,38 @@ const Signup = () => {
     }
 
     setCheckboxError("");
-    navigate("/verify");
+    try {
+      await signUpUser(formData).unwrap();
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success(ResponseMessages.OTP_SENT);
+      const { _id, email, phone, countryCode, step } = data.userExists;
+      dispatch(setUserData({ email, phone, countryCode, id: _id }));
+      const url = getNextAuthUrl(step);
+      navigate(url);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (signupMethod.email) setFormData({ ...formData, phone: undefined });
+    if (signupMethod.phone) setFormData({ ...formData, email: undefined });
+  }, [signupMethod]);
 
   return (
     <div className="flex items-center justify-center h-[100vh]">
+      {isLoading && <Loader />}
       <div className="max-w-[1440px] w-full px-[40px] py-[40px] mx-auto flex gap-10 max-lg:px-[20px] max-md:flex-col">
         <div className="relative w-full">
           <img className="rounded-4xl max-md:hidden" src={SignupBgImg} alt="" />
           <BackButton />
         </div>
         <div className="w-full relative h-full flex items-center justify-center flex-col">
-          <Logo className="max-w-[158px] max-lg:max-w-[120px] mb-[8rem] max-mlg:mb-[2rem]"/>
+          <Logo className="max-w-[158px] max-lg:max-w-[120px] mb-[8rem] max-mlg:mb-[2rem]" />
           <h1 className="text-[52px] font-bold max-lg:text-[36px] text-center">
             Create an account
           </h1>

@@ -1,8 +1,14 @@
 import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../components/Logo";
+import { useSelector } from "react-redux";
+import { useVerifyOTPMutation } from "../../redux/api";
+import { toast } from "react-toastify";
+import { ResponseMessages } from "../../constants/api-responses";
+import Loader from "../../components/Loader";
+import { getNextAuthUrl } from "../../utils/helper";
 
 const Verify = () => {
   const navigate = useNavigate();
@@ -13,6 +19,9 @@ const Verify = () => {
     fourth: "",
   });
   const [error, setError] = useState("");
+  const [verifyOTP, { isLoading, data }] = useVerifyOTPMutation();
+  const { id } = useSelector((state: any) => state.userAuth);
+  console.log("id:::", id);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,10 +35,12 @@ const Verify = () => {
 
     if (value && e.target.nextSibling) {
       (e.target.nextSibling as HTMLInputElement).focus();
+    } else if (!value && e.target.previousSibling) {
+      (e.target.previousSibling as HTMLInputElement).focus();
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const otpCode = Object.values(otp).join("");
@@ -38,14 +49,29 @@ const Verify = () => {
       return;
     }
 
-    console.log("Entered OTP:", otpCode);
     setError("");
 
-    navigate("/create-password");
+    try {
+      const finalOtp = otp.first + otp.second + otp.third + otp.fourth;
+      await verifyOTP({ id, otp: finalOtp, type: 1, typeFor: 1 }).unwrap();
+    } catch (error: any) {
+      console.log("error:::", error);
+      toast.error(error.data.message);
+    }
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success(ResponseMessages.VERIFIED);
+      const { step } = data.userExists;
+      const url = getNextAuthUrl(step);
+      navigate(url);
+    }
+  }, [data]);
 
   return (
     <div className="flex items-center justify-center h-[100vh]">
+      {isLoading && <Loader />}
       <div className="max-w-[1440px] w-full px-[40px] py-[40px] mx-auto flex  gap-10 max-lg:px-[20px] max-md:flex-col">
         <div className="relative w-full">
           <img className="rounded-4xl max-md:hidden" src={SignupBgImg} alt="" />

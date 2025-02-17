@@ -32,9 +32,9 @@ const ListingInfoDetails = () => {
                   <path
                     d="M5.99995 1.23802L4.6273 4.60759L1 4.87669L3.78034 7.22836L2.91003 10.7617L5.99995 8.84295M5.99995 1.23802L7.37259 4.60759L10.9999 4.87669L8.21955 7.22836L9.08987 10.7617L5.99995 8.84295"
                     stroke="#235370"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </g>
                 <defs>

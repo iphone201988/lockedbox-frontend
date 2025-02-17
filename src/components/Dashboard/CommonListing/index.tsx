@@ -1,7 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import BoxImage from "../../../assets/box-detail-image.png";
 
-const CommonListing = ({ type, btnTxt, path }: CommonListing) => {
+const CommonListing = ({
+  type,
+  btnTxt,
+  path,
+  checkout = false,
+}: CommonListing) => {
   const navigate = useNavigate();
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
@@ -30,9 +35,15 @@ const CommonListing = ({ type, btnTxt, path }: CommonListing) => {
         </div>
       </div>
       <div className="flex flex-col gap-[6px] items-end max-md:ml-auto">
-        <button className="btn-pri" onClick={() => navigate(path)}>
-          {btnTxt}
-        </button>
+        {checkout ? (
+          <div className="flex flex-col gap-[6px] items-end max-md:ml-auto">
+            <button className="btn-sec">Check-out in 4 days</button>
+          </div>
+        ) : (
+          <button className="btn-pri" onClick={() => navigate(path)}>
+            {btnTxt}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -21,9 +21,9 @@ const BookingListingBox = () => {
             <path
               d="M10 2.5L8.04167 7.3L2.86667 7.68333L6.83334 11.0333L5.59167 16.0667L10 13.3333M10 2.5L11.9583 7.3L17.1333 7.68333L13.1667 11.0333L14.4083 16.0667L10 13.3333"
               stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>{" "}
           <b>4.5</b>
