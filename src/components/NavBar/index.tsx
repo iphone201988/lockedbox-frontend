@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo";
+import { getToken } from "../../utils/helper";
 
 const NavBar = () => {
+  const token = getToken();
   return (
     <div className=" border-b border-[#EEEEEE]">
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
@@ -21,12 +23,21 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex gap-x-4">
-          <Link to="/signin" className="btn-sec">
-            Login
-          </Link>
-          <Link to="/signup" className="btn-pri">
-            Sign Up
-          </Link>
+          {!token && (
+            <>
+              <Link to="/signin" className="btn-sec">
+                Login
+              </Link>
+              <Link to="/signup" className="btn-pri">
+                Sign Up
+              </Link>
+            </>
+          )}
+          {token && (
+            <Link to="/logout" className="btn-sec">
+              Logout
+            </Link>
+          )}
         </div>
       </div>
     </div>

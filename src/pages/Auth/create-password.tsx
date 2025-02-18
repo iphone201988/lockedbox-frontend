@@ -1,6 +1,6 @@
 import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CreatePasswordSchema } from "../../schema";
 import * as yup from "yup";
@@ -8,11 +8,9 @@ import Logo from "../../components/Logo";
 import Password from "../../components/Password";
 import { useForm } from "../../hooks/useForm";
 import { useCreatePasswordMutation } from "../../redux/api";
-import { useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
 import Loader from "../../components/Loader";
 import { ResponseMessages } from "../../constants/api-responses";
-import { getNextAuthUrl } from "../../utils/helper";
+import { getNextAuthUrl, handleError } from "../../utils/helper";
 import { toast } from "react-toastify";
 
 const initialState: CreatePasswordFormType = {
@@ -24,6 +22,12 @@ type CreatePasswordFormType = yup.InferType<typeof CreatePasswordSchema>;
 
 const CreatePassword = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if (!location.state || !location.state.id) {
+    return <Navigate to="/" />;
+  }
+
   const { formData, setFormData, validate, errors } = useForm(
     CreatePasswordSchema,
     initialState
@@ -31,7 +35,7 @@ const CreatePassword = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");
   const [createPassword, { data, isLoading }] = useCreatePasswordMutation();
-  const { id } = useSelector((state: any) => state.userAuth);
+  const id = location.state.id;
 
   const handleSubmit = async () => {
     const hasErrors: boolean = await validate();
@@ -48,21 +52,21 @@ const CreatePassword = () => {
     try {
       await createPassword({ id, password: formData.password }).unwrap();
     } catch (error: any) {
-      console.log("error:::", error);
-      toast.error(error.data.message);
+      handleError(error, navigate);
     }
   };
 
   useEffect(() => {
-    if (!data?.success) {
-      toast.error(data.message);
-    }
+    // if (!data?.success) {
+    //   toast.error(data.message);
+    // }
 
     if (data?.success) {
+      console.log("data:::", data);
       toast.success(ResponseMessages.ACCOUNT_CREATED);
-      const { step } = data.userExists;
+      const { _id: id, step } = data.userExists;
       const url = getNextAuthUrl(step);
-      navigate(url);
+      navigate(url, { replace: true, state: { id } });
     }
   }, [data]);
 

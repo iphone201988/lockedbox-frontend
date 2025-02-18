@@ -1,17 +1,24 @@
 import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Logo from "../../components/Logo";
-import { useSelector } from "react-redux";
 import { useVerifyOTPMutation } from "../../redux/api";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../constants/api-responses";
 import Loader from "../../components/Loader";
-import { getNextAuthUrl } from "../../utils/helper";
+import { getNextAuthUrl, handleError } from "../../utils/helper";
+import { OtpType } from "../../constants";
+import ResendOTP from "../../components/ResendOTP";
 
 const Verify = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if (!location.state || !location.state.id || !location.state.formData) {
+    return <Navigate to="/" />;
+  }
+
   const [otp, setOtp] = useState<VerifyFormType>({
     first: "",
     second: "",
@@ -20,8 +27,7 @@ const Verify = () => {
   });
   const [error, setError] = useState("");
   const [verifyOTP, { isLoading, data }] = useVerifyOTPMutation();
-  const { id } = useSelector((state: any) => state.userAuth);
-  console.log("id:::", id);
+  const { id, forgot, formData } = location.state;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,10 +59,14 @@ const Verify = () => {
 
     try {
       const finalOtp = otp.first + otp.second + otp.third + otp.fourth;
-      await verifyOTP({ id, otp: finalOtp, type: 1, typeFor: 1 }).unwrap();
+      await verifyOTP({
+        id,
+        otp: finalOtp,
+        type: OtpType.REGISTER,
+        typeFor: 1,
+      }).unwrap();
     } catch (error: any) {
-      console.log("error:::", error);
-      toast.error(error.data.message);
+      handleError(error, navigate);
     }
   };
 
@@ -64,8 +74,12 @@ const Verify = () => {
     if (data?.success) {
       toast.success(ResponseMessages.VERIFIED);
       const { step } = data.userExists;
-      const url = getNextAuthUrl(step);
-      navigate(url);
+      if (forgot) {
+        navigate("/reset-password", { replace: true, state: { id } });
+      } else {
+        const url = getNextAuthUrl(step);
+        navigate(url, { replace: true, state: { id } });
+      }
     }
   }, [data]);
 
@@ -117,12 +131,10 @@ const Verify = () => {
             </button>
           </form>
 
-          <p className="mt-[40px]">
-            Resend code in{" "}
-            <a className="text-[#235370] font-semibold" href="#">
-              60s
-            </a>
-          </p>
+          <ResendOTP
+            formData={formData}
+            type={forgot ? OtpType.RESEND_FORGET : OtpType.RESEND_REGISTER}
+          />
         </div>
       </div>
     </div>

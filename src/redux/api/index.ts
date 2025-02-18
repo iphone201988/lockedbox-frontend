@@ -12,10 +12,11 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
-
+const tag = "USER";
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
+  tagTypes: [tag],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
       query: (body) => ({
@@ -38,10 +39,35 @@ export const lockedBoxApi = createApi({
         body,
       }),
     }),
-    getUser: builder.query({
-      query: () => ({
-        url: `user/signup`,
+    loginUser: builder.mutation({
+      query: (body) => ({
+        url: `user/log_in`,
+        method: "POST",
+        body,
       }),
+    }),
+    addRole: builder.mutation({
+      query: (body) => ({
+        url: `user/add_dashboard_role`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [tag],
+    }),
+    sendOTP: builder.mutation({
+      query: (body) => ({
+        url: `user/send_otp`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [tag],
+    }),
+    getUser: builder.query<any, void>({
+      query: () => ({
+        url: `user/me`,
+        method: "GET",
+      }),
+      providesTags: [tag],
     }),
   }),
 });
@@ -50,4 +76,8 @@ export const {
   useSignUpUserMutation,
   useVerifyOTPMutation,
   useCreatePasswordMutation,
+  useLoginUserMutation,
+  useAddRoleMutation,
+  useGetUserQuery,
+  useSendOTPMutation,
 } = lockedBoxApi;

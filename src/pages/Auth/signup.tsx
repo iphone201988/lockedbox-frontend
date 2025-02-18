@@ -4,25 +4,27 @@ import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
 import { SignUpSchema } from "../../schema";
 import Input from "../../components/Input";
-import { getNextAuthUrl, handleInputChange } from "../../utils/helper";
+import {
+  getNextAuthUrl,
+  handleError,
+  handleInputChange,
+} from "../../utils/helper";
 import SignUpMethod from "../../components/SignUpMethod";
 import Phone from "../../components/Phone";
 import Logo from "../../components/Logo";
 import { useSignUpUserMutation } from "../../redux/api";
 import { useForm } from "../../hooks/useForm";
 import Loader from "../../components/Loader";
-import { useDispatch } from "react-redux";
-import { setUserData } from "../../redux/reducer/auth";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../constants/api-responses";
 
 const initialState: SignUpFormType = {
   email: "",
   phone: "",
+  countryCode: "",
 };
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const [signUpUser, { isLoading, data }] = useSignUpUserMutation();
   const { formData, setFormData, validate, errors } = useForm(
     SignUpSchema,
@@ -52,22 +54,22 @@ const Signup = () => {
     try {
       await signUpUser(formData).unwrap();
     } catch (error: any) {
-      toast.error(error.data.message);
+      handleError(error, navigate);
     }
   };
 
   useEffect(() => {
     if (data?.success) {
       toast.success(ResponseMessages.OTP_SENT);
-      const { _id, email, phone, countryCode, step } = data.userExists;
-      dispatch(setUserData({ email, phone, countryCode, id: _id }));
+      const { _id: id, step } = data.userExists;
       const url = getNextAuthUrl(step);
-      navigate(url);
+      navigate(url, { state: { id, formData } });
     }
   }, [data]);
 
   useEffect(() => {
-    if (signupMethod.email) setFormData({ ...formData, phone: undefined });
+    if (signupMethod.email)
+      setFormData({ ...formData, phone: undefined, countryCode: undefined });
     if (signupMethod.phone) setFormData({ ...formData, email: undefined });
   }, [signupMethod]);
 
@@ -108,7 +110,13 @@ const Signup = () => {
                 <Phone
                   error={errors?.phone}
                   value={formData?.phone}
-                  onChange={(phone) => setFormData({ ...formData, phone })}
+                  onChange={(phone: any, data: any) =>
+                    setFormData({
+                      ...formData,
+                      phone,
+                      countryCode: `+${data.dialCode}`,
+                    })
+                  }
                 />
               </div>
             )}

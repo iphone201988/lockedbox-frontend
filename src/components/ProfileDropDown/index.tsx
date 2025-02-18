@@ -1,14 +1,5 @@
-import {
-  AccountIcon,
-  BookingIcon,
-  HelpIcon,
-  HomeIcon,
-  LogoutIcon,
-  MessageIcon,
-  ReviewIcon,
-  SearchIcon,
-  SwitchIcon,
-} from "../../icons";
+import { Link } from "react-router-dom";
+import { profileMenu, profileSubMenu } from "../../constants";
 
 const ProfileDropDown = ({ showDropDown }: { showDropDown: boolean }) => {
   return (
@@ -18,44 +9,22 @@ const ProfileDropDown = ({ showDropDown }: { showDropDown: boolean }) => {
       }`}
     >
       <div className="p-[12px] w-max flex flex-col gap-[16px] max-md:gap-[8px]">
-        <a className="profile-link" href="">
-          <HomeIcon />
-          Home
-        </a>
-        <a className="profile-link" href="">
-          <SearchIcon />
-          Find a space
-        </a>
-        <a className="profile-link" href="">
-          <AccountIcon />
-          Account
-        </a>
-        <a className="profile-link" href="">
-          <BookingIcon />
-          Bookings
-        </a>
-        <a className="profile-link" href="">
-          <MessageIcon />
-          Messages
-        </a>
-        <a className="profile-link" href="">
-          <ReviewIcon />
-          Reviews <i className="notify-dot"></i>
-        </a>
+        {profileMenu.map((item: any) => (
+          <Link className="profile-link" to={item.url}>
+            {item.icon}
+            {item.label}
+            {item.hasNotification && <i className="notify-dot"></i>}
+          </Link>
+        ))}
       </div>
       <div className="p-[12px] border-t border-[#EEEEEE] w-max flex flex-col gap-[16px] max-md:gap-[8px]">
-        <a className="profile-link" href="">
-          <SwitchIcon />
-          Switch to hosting
-        </a>
-        <a className="profile-link" href="">
-          <HelpIcon />
-          Help
-        </a>
-        <a className="profile-link" href="">
-          <LogoutIcon />
-          Log-out
-        </a>
+        {profileSubMenu.map((item: any) => (
+          <Link className="profile-link" to={item.url}>
+            {item.icon}
+            {item.label}
+            {item.hasNotification && <i className="notify-dot"></i>}
+          </Link>
+        ))}
       </div>
     </div>
   );

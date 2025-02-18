@@ -22,13 +22,14 @@ type PasswordProps = {
 
 type PhoneProps = {
   value: string | undefined;
-  onChange: (phone: string) => void;
+  onChange: (phone: string, data: any) => void;
   error: string | undefined;
 };
 
 type SignUpFormType = {
   email: string;
   phone: string;
+  countryCode: string;
 };
 
 type AuthType = {

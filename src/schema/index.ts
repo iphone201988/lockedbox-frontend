@@ -4,6 +4,7 @@ export const SignUpSchema = yup
   .object({
     email: yup.string().email("Must be a valid email"),
     phone: yup.string(),
+    countryCode: yup.string(),
   })
   .test(
     "email-or-phone",
@@ -24,6 +25,7 @@ export const SignInSchema = yup
   .object({
     email: yup.string().email("Must be a valid email"),
     phone: yup.string(),
+    countryCode: yup.string(),
     password: yup.string().required("Password is required"),
   })
   .test(

@@ -27,6 +27,8 @@ import ReviewYourHost from "../pages/Dashboard/Renter/GiveReview";
 import HostHome from "../pages/Dashboard/Host/Home";
 import HostListings from "../pages/Dashboard/Host/Listing";
 import CreateListing from "../pages/Dashboard/Host/CreateListing";
+import PublicRoute from "../components/Route/public-route";
+import Logout from "../pages/Logout";
 
 const host = true;
 
@@ -36,16 +38,32 @@ const Router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/logout",
+    element: <Logout />,
+  },
+  {
     path: "/signup",
-    element: <Signup />,
+    element: (
+      <PublicRoute>
+        <Signup />
+      </PublicRoute>
+    ),
   },
   {
     path: "/verify",
-    element: <Verify />,
+    element: (
+      <PublicRoute>
+        <Verify />
+      </PublicRoute>
+    ),
   },
   {
     path: "/create-password",
-    element: <CreatePassword />,
+    element: (
+      <PublicRoute>
+        <CreatePassword />
+      </PublicRoute>
+    ),
   },
   {
     path: "/host-or-rent",
@@ -53,19 +71,35 @@ const Router = createBrowserRouter([
   },
   {
     path: "/signin",
-    element: <SignIn />,
+    element: (
+      <PublicRoute>
+        <SignIn />
+      </PublicRoute>
+    ),
   },
   {
     path: "/forgot-password",
-    element: <ForgotPassword />,
+    element: (
+      <PublicRoute>
+        <ForgotPassword />
+      </PublicRoute>
+    ),
   },
   {
     path: "/reset-password",
-    element: <ResetPassword />,
+    element: (
+      <PublicRoute>
+        <ResetPassword />
+      </PublicRoute>
+    ),
   },
   {
     path: "/password-success",
-    element: <PasswordSuccess />,
+    element: (
+      <PublicRoute>
+        <PasswordSuccess />
+      </PublicRoute>
+    ),
   },
   {
     path: "/search",

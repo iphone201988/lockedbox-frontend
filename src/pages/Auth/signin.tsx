@@ -1,28 +1,40 @@
 import { Link, useNavigate } from "react-router-dom";
 import LoginBgImg from "../../assets/login-img.png";
 import BackButton from "../../components/BackButton";
-import { EyeOpen } from "../../icons";
 import Phone from "../../components/Phone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../components/Input";
-import { handleInputChange } from "../../utils/helper";
+import {
+  getNextAuthUrl,
+  handleError,
+  handleInputChange,
+  setToken,
+} from "../../utils/helper";
 import SignUpMethod from "../../components/SignUpMethod";
-import { SignInSchema, validateForm } from "../../schema";
+import { SignInSchema } from "../../schema";
 import * as yup from "yup";
 import Logo from "../../components/Logo";
+import { useForm } from "../../hooks/useForm";
+import { useLoginUserMutation } from "../../redux/api";
+import Loader from "../../components/Loader";
+import Password from "../../components/Password";
 
 type SignUpFormType = yup.InferType<typeof SignInSchema>;
 
 const initialState: SignUpFormType = {
   email: "",
   phone: "",
+  countryCode: "",
   password: "",
 };
 
 const SignIn = () => {
+  const { formData, setFormData, validate, errors } = useForm(
+    SignInSchema,
+    initialState
+  );
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<SignUpFormType>(initialState);
-  const [errors, setErrors] = useState<SignUpFormType>(initialState);
+  const [loginUser, { isLoading, data }] = useLoginUserMutation();
 
   const [signupMethod, setSignupMethod] = useState<AuthType>({
     email: true,
@@ -30,27 +42,40 @@ const SignIn = () => {
   });
 
   const handleSubmit = async () => {
-    const errors: any = await validateForm(SignInSchema, formData);
-
-    if (errors) {
-      setErrors(errors);
-      return;
-    } else {
-      setErrors(initialState);
+    const hasErrors: boolean = await validate();
+    if (hasErrors) return;
+    try {
+      await loginUser(formData).unwrap();
+    } catch (error) {
+      handleError(error, navigate);
     }
-
-    navigate("/");
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      const { _id: id, step, accessToken } = data.userExists;
+      if (accessToken && step == 4) setToken(accessToken);
+      const url = getNextAuthUrl(step);
+      navigate(url, { replace: true, state: { id } });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (signupMethod.email)
+      setFormData({ ...formData, phone: undefined, countryCode: undefined });
+    if (signupMethod.phone) setFormData({ ...formData, email: undefined });
+  }, [signupMethod]);
 
   return (
     <div className="flex items-center justify-center h-[100vh]">
+      {isLoading && <Loader />}
       <div className="max-w-[1440px] w-full px-[40px] py-[40px] mx-auto flex  gap-10 max-lg:px-[20px] max-md:flex-col">
         <div className=" relative w-full">
           <img className="rounded-4xl max-md:hidden" src={LoginBgImg} alt="" />
           <BackButton />
         </div>
         <div className="w-full relative h-full flex items-center justify-center flex-col">
-          <Logo className="max-w-[158px] max-lg:max-w-[120px] mb-[8rem] max-mlg:mb-[2rem]"/>
+          <Logo className="max-w-[158px] max-lg:max-w-[120px] mb-[8rem] max-mlg:mb-[2rem]" />
           <h1 className="text-[52px] font-bold max-lg:text-[36px] text-center">
             Log-In
           </h1>
@@ -78,24 +103,26 @@ const SignIn = () => {
                 <Phone
                   error={errors?.email}
                   value={formData?.phone}
-                  onChange={(phone) => setFormData({ ...formData, phone })}
+                  onChange={(phone: any, data: any) =>
+                    setFormData({
+                      ...formData,
+                      phone,
+                      countryCode: `+${data.dialCode}`,
+                    })
+                  }
                 />
               </div>
             )}
 
             <div className="input-with-icon relative  w-full max-w-[540px]">
-              <Input
-                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                type="password"
+              <Password
+                classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
                 name="password"
                 value={formData?.password}
-                onChange={(e) => handleInputChange(e, setFormData)}
-                placeholder="Password"
                 error={errors?.password}
+                placeholder="Password"
+                setFormData={setFormData}
               />
-              <span className=" absolute right-[16px] top-[20px] cursor-pointer">
-                <EyeOpen />
-              </span>
               <Link
                 className="text-right block mt-[4px] text-[#235370] "
                 to="/forgot-password"
