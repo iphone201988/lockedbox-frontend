@@ -4,4 +4,9 @@ export const ResponseMessages = {
   ACCOUNT_CREATED: "Your account has been created successfully",
   LOGGED_IN: "Login successfully",
   PASSWORD_UPDATED: "Password updated successfully",
+  PROFILE_UPDATED: "Profile updated successfully",
+  PAYMENT_METHOD_REMOVED: "Payment method removed successfully",
+  PAYMENT_METHOD_ADDED: "Payment method added successfully",
+  PHONE_VERIFIED: "Phone number verified successfully",
+  EMAIL_VERIFIED: "Email verified successfully",
 };

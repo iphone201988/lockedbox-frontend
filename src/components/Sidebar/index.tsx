@@ -1,26 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../assets/logo.png";
 import RenterProfilePic from "../../assets/rent-profile-pic.png";
-import { HelpIcon, LogoutIcon, SwitchIcon } from "../../icons";
-import { HostRoutes, RenterRoutes } from "../../constants";
-import { Link, useLocation } from "react-router-dom";
+import { HostRoutes, RenterRoutes, profileSubMenu } from "../../constants";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useGetUserQuery, useUpdateUserMutation } from "../../redux/api";
+import Loader from "../Loader";
+import { handleError } from "../../utils/helper";
+import ProfileSubMenu from "../ProfileSubMenu";
 
-const ProfilePopup = () => {
+const ProfilePopup = ({
+  role,
+  handleRoleChange,
+}: {
+  role: string;
+  handleRoleChange: (role: string) => void;
+}) => {
+  console.log("role:::", role);
+  const isHost = role == "host";
   return (
     <div className="shadow rounded-[16px] border border-[#EEEEEE] absolute right-[-8px] bottom-[48px] bg-white z-[999]">
       <div className="p-[12px] w-max flex flex-col gap-[12px] max-md:gap-[8px]">
-        <a className="profile-link !text-[16px] !gap-[8px]" href="">
-          <SwitchIcon />
-          Switch to hosting
-        </a>
-        <a className="profile-link !text-[16px] !gap-[8px]" href="">
-          <HelpIcon />
-          Help
-        </a>
-        <a className="profile-link !text-[16px] !gap-[8px]" href="">
-          <LogoutIcon />
-          Log-out
-        </a>
+        {profileSubMenu.map((item: any) => {
+          return item?.url ? (
+            <Link
+              className="profile-link !text-[16px] !gap-[8px]"
+              to={item.url}
+            >
+              {item.icon}
+              {item.label}
+              {item.hasNotification && <i className="notify-dot"></i>}
+            </Link>
+          ) : (
+            <button
+              className="profile-link !text-[16px] !gap-[8px]"
+              onClick={() => handleRoleChange(isHost ? "rent" : "host")}
+            >
+              {item.icon}
+              {isHost ? "Switch to renting" : "Switch to hosting"}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -28,17 +47,55 @@ const ProfilePopup = () => {
 
 const SideBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const host = true;
-  const routes = host ? HostRoutes : RenterRoutes;
+  const [role, setRole] = useState<any>("rent");
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    isError,
+    refetch,
+  } = useGetUserQuery();
+  const [updateUserData, { data, isLoading }] = useUpdateUserMutation();
+
+  const routesMap: any = {
+    host: HostRoutes,
+    rent: RenterRoutes,
+  };
+
+  if (isUserLoading) return <Loader />;
+  if (isError) return <Navigate to="/logout" />;
+
+  const handleRoleChange = async (role: string) => {
+    try {
+      await updateUserData({ dashboardRole: role }).unwrap();
+    } catch (error) {
+      handleError(error, navigate);
+    }
+  };
+
+  useEffect(() => {
+    if (userData?.success) {
+      const { dashboardRole } = userData?.userExists;
+      setRole(dashboardRole);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (data?.success) {
+      refetch();
+    }
+  }, [data]);
+
   return (
     <div className="h-[100vh]">
+      {isLoading && <Loader />}
       <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full w-[250px] min-w-[220px] max-w-[220px]">
         <a className="mb-[45px] block" href="">
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />
         </a>
         <div className="side-bar w-full flex flex-col gap-[6px]">
-          {routes.map((item, index) => (
+          {routesMap[role].map((item: any, index: any) => (
             <Link
               className={`profile-link ${
                 item.path != "" && location.pathname.startsWith(item.path)
@@ -81,7 +138,12 @@ const SideBar = () => {
                   fill="#1E1E1E"
                 />
               </svg>
-              {showProfilePopup && <ProfilePopup />}
+              <div className="shadow rounded-[16px] border border-[#EEEEEE] absolute right-[-8px] bottom-[48px] bg-white z-[999]">
+                {showProfilePopup && (
+                  // <ProfilePopup role={role} handleRoleChange={handleRoleChange} />
+                  <ProfileSubMenu setShowDropDown={setShowProfilePopup} />
+                )}
+              </div>
             </button>
           </div>
         </div>

@@ -6,6 +6,7 @@ const Input = ({
   name,
   onChange,
   error,
+  disable = false,
 }: InputProps) => {
   return (
     <>
@@ -16,6 +17,7 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        disabled={disable}
       />
       {error && <span className="mx-2 text-red-500">{error}</span>}
     </>

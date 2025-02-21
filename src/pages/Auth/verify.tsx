@@ -62,8 +62,8 @@ const Verify = () => {
       await verifyOTP({
         id,
         otp: finalOtp,
-        type: OtpType.REGISTER,
-        typeFor: 1,
+        typeFor: forgot ? 2 : 1,
+        type: formData?.email ? 1 : 2,
       }).unwrap();
     } catch (error: any) {
       handleError(error, navigate);

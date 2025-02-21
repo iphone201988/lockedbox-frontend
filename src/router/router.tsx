@@ -29,6 +29,8 @@ import HostListings from "../pages/Dashboard/Host/Listing";
 import CreateListing from "../pages/Dashboard/Host/CreateListing";
 import PublicRoute from "../components/Route/public-route";
 import Logout from "../pages/Logout";
+import CheckIn from "../pages/Dashboard/CheckIn";
+import HostAccess from "../components/Route/host-access";
 
 const host = true;
 
@@ -157,12 +159,24 @@ const Router = createBrowserRouter([
         element: <RenterBooking />,
       },
       {
+        path: "booking/check-in",
+        element: <CheckIn />,
+      },
+      {
         path: "listing",
-        element: <HostListings />,
+        element: (
+          <HostAccess>
+            <HostListings />
+          </HostAccess>
+        ),
       },
       {
         path: "listing/create-listing",
-        element: <CreateListing />,
+        element: (
+          <HostAccess>
+            <CreateListing />
+          </HostAccess>
+        ),
       },
       {
         path: "message",

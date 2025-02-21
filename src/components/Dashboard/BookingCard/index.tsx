@@ -58,12 +58,20 @@ const BookingCard = ({ type }: BookingCard) => {
         <button className="btn-green">Confirmed</button>
       </div>
       {showReceipt && (
-        <a
-          className="text-[14px] text-[#235370] underline ml-[8px] font-semibold absolute bottom-[10px] right-[10px] cursor-pointer max-md:left-0"
-          href="#"
-        >
-          View Receipt
-        </a>
+        <div className="flex gap-[12px] items-end absolute bottom-[10px] right-[10px] max-md:left-[10px] max-sm:flex-col max-sm:items-start max-sm:gap-[6px]">
+          <a
+            className=" inline-block text-[14px] text-[#235370] underline font-semibold  cursor-pointer"
+            href="#"
+          >
+            View Receipt
+          </a>
+          <a
+            className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
+            href="#"
+          >
+            Check in
+          </a>
+        </div>
       )}
     </div>
   );

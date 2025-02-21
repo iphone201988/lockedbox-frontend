@@ -12,9 +12,16 @@ import {
   SwitchIcon,
 } from "../icons";
 
+export const routes = [
+  { name: "Find a Space", path: "/search" },
+  { name: "How it Works", path: "/" },
+  { name: "Contact Us", path: "/" },
+  { name: "Host your Space", path: "/dashboard/home" },
+];
+
 export const RenterRoutes = [
   { name: "Home", icon: <HomeIcon />, path: "/dashboard/home" },
-  { name: "Find a space", icon: <SearchIcon />, path: "" },
+  { name: "Find a space", icon: <SearchIcon />, path: "/search" },
   {
     name: "Account",
     icon: <AccountIcon />,
@@ -63,7 +70,7 @@ export const profileMenu = [
 ];
 
 export const profileSubMenu = [
-  { icon: <SwitchIcon />, label: "Switch to hosting", url: "/hosting" },
+  { icon: <SwitchIcon />, label: "Switch to hosting" },
   { icon: <HelpIcon />, label: "Help", url: "/help" },
   { icon: <LogoutIcon />, label: "Log-out", url: "/logout" },
 ];

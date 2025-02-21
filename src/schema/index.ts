@@ -57,14 +57,35 @@ export const UpdatePasswordSchema = yup.object({
 });
 
 export const BasicInfoSchema = yup.object({
-  firstName: yup.string(),
-  lastName: yup.string(),
-  email: yup.string().email("Must be a valid email"),
-  phone: yup.string(),
+  firstName: yup.string().optional(),
+  lastName: yup.string().optional(),
+  email: yup.string().email("Must be a valid email").optional(),
+  phone: yup.string().optional(),
+  countryCode: yup.string().optional(),
+});
+
+export const ProfileSchema = yup.object({
+  bio: yup.string().optional(),
+  address: yup.string().optional(),
+  work: yup.string().optional(),
 });
 
 export const VerifyPhonechema = yup.object({
   phone: yup.string().required("Phone is required"),
+  countryCode: yup.string().required("Country Code is required"),
+});
+export const VerifyEmailSchema = yup.object({
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .required("Email is required"),
+});
+
+export const AddCardSchema = yup.object({
+  name: yup.string().required("Cardholder name is required"),
+});
+export const VerificationCodeSchema = yup.object({
+  otp: yup.number().required("OTP is required"),
 });
 
 export const validateForm = async (

@@ -106,7 +106,7 @@ const SignIn = () => {
                   onChange={(phone: any, data: any) =>
                     setFormData({
                       ...formData,
-                      phone,
+                      phone: phone == data.dialCode ? "" : phone,
                       countryCode: `+${data.dialCode}`,
                     })
                   }

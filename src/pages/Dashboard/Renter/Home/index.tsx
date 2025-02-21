@@ -1,6 +1,7 @@
 import CommonListing from "../../../../components/Dashboard/CommonListing";
 
 const RenterHome = () => {
+  
   return (
     <div className="px-[30px] max-lg:px-[20px] ">
       <div className=" py-[10px]  border-b border-[#EEEEEE]">

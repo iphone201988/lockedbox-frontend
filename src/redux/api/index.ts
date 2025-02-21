@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const BASE_URL = "http://192.168.1.12:9999/api/v1/";
-
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + "/api/v1/";
+console.log("import.meta.env.BACKEND_URL:::", import.meta.env.BACKEND_URL);
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
@@ -12,11 +12,12 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
-const tag = "USER";
+const USER_TAG = "USER";
+const PAYMENT_TAG = "PAYMENT";
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
-  tagTypes: [tag],
+  tagTypes: [USER_TAG, PAYMENT_TAG],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
       query: (body) => ({
@@ -52,7 +53,7 @@ export const lockedBoxApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [tag],
+      invalidatesTags: [USER_TAG],
     }),
     sendOTP: builder.mutation({
       query: (body) => ({
@@ -60,14 +61,61 @@ export const lockedBoxApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [tag],
+    }),
+    updateUser: builder.mutation({
+      query: (body) => ({
+        url: `user/me`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [USER_TAG],
+    }),
+    updateUserProfileImage: builder.mutation({
+      query: (body) => ({
+        url: `user/me/profile_update`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [USER_TAG],
     }),
     getUser: builder.query<any, void>({
       query: () => ({
         url: `user/me`,
         method: "GET",
       }),
-      providesTags: [tag],
+      providesTags: [USER_TAG],
+    }),
+    changeUserAuth: builder.mutation({
+      query: (body) => ({
+        url: `user/change_email_phone`,
+        method: "POST",
+        body,
+        invalidateTags: [USER_TAG],
+      }),
+    }),
+
+    // Payment apis
+    addPaymentMethod: builder.mutation({
+      query: (body) => ({
+        url: `user/payment_method`,
+        method: "POST",
+        body,
+        invalidateTags: [PAYMENT_TAG],
+      }),
+    }),
+    getPaymentMethods: builder.query<any, void>({
+      query: () => ({
+        url: `user/payment_method`,
+        method: "GET",
+      }),
+      providesTags: [PAYMENT_TAG],
+    }),
+    removePaymentMethod: builder.mutation({
+      query: (paymentMethodId) => ({
+        url: `user/payment_method/${paymentMethodId}`,
+        method: "DELETE",
+        invalidateTags: [PAYMENT_TAG],
+      }),
     }),
   }),
 });
@@ -79,5 +127,11 @@ export const {
   useLoginUserMutation,
   useAddRoleMutation,
   useGetUserQuery,
+  useChangeUserAuthMutation,
   useSendOTPMutation,
+  useUpdateUserMutation,
+  useUpdateUserProfileImageMutation,
+  useAddPaymentMethodMutation,
+  useGetPaymentMethodsQuery,
+  useRemovePaymentMethodMutation,
 } = lockedBoxApi;

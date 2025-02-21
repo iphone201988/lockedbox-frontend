@@ -3,10 +3,11 @@ import { RotatingLines } from "react-loader-spinner";
 const Loader = () => {
   return (
     <>
+      {/* Background overlay */}
       <div className="fixed inset-0 z-10 bg-white opacity-70"></div>
-      <div className="absolute left-[50%] top-[50%] z-20">
-        {/* Loader with white blurred background */}
-        {/* <div className="absolute left-[50%] top-[50%] z-20"></div> */}
+
+      {/* Centered Loader */}
+      <div className="fixed inset-0 z-20 flex items-center justify-center">
         <RotatingLines
           visible={true}
           height="96"

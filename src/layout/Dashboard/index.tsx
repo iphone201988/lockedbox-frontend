@@ -1,10 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar";
 import SideBar from "../../components/Sidebar";
 import "./style.css";
+import { getToken } from "../../utils/helper";
 
 const RenterDashboard = () => {
-  console.log("dashboard rendering");
+  const token = getToken();
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   return (
     <div>
       <SideBar />

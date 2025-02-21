@@ -1,25 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../../assets/icons/close-icn.png";
 import { useForm } from "../../../hooks/useForm";
-import { VerifyPhonechema } from "../../../schema";
-import { handleError } from "../../../utils/helper";
-import Phone from "../../Phone";
+import { VerifyEmailSchema } from "../../../schema";
+import { handleError, handleInputChange } from "../../../utils/helper";
 import * as yup from "yup";
 import { useChangeUserAuthMutation, useGetUserQuery } from "../../../redux/api";
 import Loader from "../../Loader";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../../constants/api-responses";
+import Input from "../../Input";
 
-type VerifyPopupFormType = yup.InferType<typeof VerifyPhonechema>;
+type VerifyPopupFormType = yup.InferType<typeof VerifyEmailSchema>;
 const initialState: VerifyPopupFormType = {
-  phone: "",
-  countryCode: "",
+  email: "",
 };
-const VerifyPhonePopup = ({ setShowPopup }: VerificationPopupProps) => {
+const VerifEmailPopup = ({ setShowPopup }: VerificationPopupProps) => {
   const navigate = useNavigate();
   const { formData, errors, setFormData, validate } =
-    useForm<VerifyPopupFormType>(VerifyPhonechema, initialState);
+    useForm<VerifyPopupFormType>(VerifyEmailSchema, initialState);
   const [changeUserAuth, { data, isLoading }] = useChangeUserAuthMutation();
   const { data: userData } = useGetUserQuery();
 
@@ -29,13 +28,14 @@ const VerifyPhonePopup = ({ setShowPopup }: VerificationPopupProps) => {
 
     if (!userData) toast.error("Something went wrong!");
 
-    const { phone, countryCode } = userData?.userExists;
-    if (phone == formData.phone || countryCode == formData.countryCode) {
-      toast.error("Phone number can't be same with the existing phone number");
+    const { email } = userData?.userExists;
+    if (email == formData.email) {
+      toast.error("Email can't be same with the existing email");
       return;
     }
+
     try {
-      await changeUserAuth({ ...formData, type: 2, typeFor: 1 }).unwrap();
+      await changeUserAuth({ ...formData, type: 1, typeFor: 1 }).unwrap();
     } catch (error) {
       handleError(error, navigate);
     }
@@ -69,23 +69,21 @@ const VerifyPhonePopup = ({ setShowPopup }: VerificationPopupProps) => {
         </button>
         <header className="text-center pb-[20px]">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Verify phone number
+            Verify Email
           </p>
         </header>
         <body className="max-w-[400px] mx-auto">
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">Phone number</p>
+            <p className=" font-semibold mb-[6px]">Email</p>
             <div className="w-full max-w-[100%]">
-              <Phone
-                error={errors?.phone}
-                value={formData?.phone}
-                onChange={(phone: any, data: any) => {
-                  console.log(phone, data);
-                  setFormData({
-                    phone: phone == data.dialCode ? "" : phone,
-                    countryCode: `+${data.dialCode}`,
-                  });
-                }}
+              <Input
+                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                type="email"
+                name="email"
+                value={formData?.email}
+                onChange={(e) => handleInputChange(e, setFormData)}
+                placeholder="Email"
+                error={errors?.email}
               />
             </div>
           </div>
@@ -101,4 +99,4 @@ const VerifyPhonePopup = ({ setShowPopup }: VerificationPopupProps) => {
   );
 };
 
-export default VerifyPhonePopup;
+export default VerifEmailPopup;

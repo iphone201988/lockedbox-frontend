@@ -32,14 +32,16 @@ export const getNextAuthUrl = (step: number) => {
 };
 
 export const handleError = (error: any, navigate: NavigateFunction) => {
-  console.log("Error:", error);
+  console.log("Error:", error,error.status);
   toast.error(error.data.message);
   if (error.status == 401) {
     removeToken();
-    // navigate("/logout");
+    navigate("/logout");
   }
 };
 
 export const setToken = (token: string) => localStorage.setItem("token", token);
 export const removeToken = () => localStorage.removeItem("token");
 export const getToken = () => localStorage.getItem("token");
+
+

@@ -1,7 +1,7 @@
 type InputProps = {
   type: string;
   name: string;
-  value: string | undefined;
+  value: string | number | undefined;
   className: string;
   placeholder: string;
   onChange: (
@@ -9,6 +9,7 @@ type InputProps = {
     setFormData: React.Dispatch<React.SetStateAction<any>>
   ) => void;
   error: string | undefined;
+  disable?: boolean;
 };
 
 type PasswordProps = {
@@ -22,8 +23,18 @@ type PasswordProps = {
 
 type PhoneProps = {
   value: string | undefined;
-  onChange: (phone: string, data: any) => void;
+  onChange?: (phone: string, data: any) => void;
   error: string | undefined;
+  disable?: boolean;
+};
+
+type VerificationPopupProps = {
+  setShowPopup: React.Dispatch<React.SetStateAction<any>>;
+};
+type VerificationCodePopupProps = {
+  setShowPopup: React.Dispatch<React.SetStateAction<any>>;
+  showPopup: any;
+  refetch: () => void;
 };
 
 type SignUpFormType = {
@@ -61,6 +72,13 @@ type RenterProfileFormType = {
   lastName: string;
   email: string;
   phone: string;
+};
+
+type PaymentMethodProps = {
+  brand: string;
+  last4: string;
+  paymentMethodId: string;
+  refetch: () => void;
 };
 
 type VerifyPopUp = {

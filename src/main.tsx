@@ -21,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
         draggable
         pauseOnHover
         theme="light"
+        className="!z-[99999]"
       />
       <App />
     </Provider>

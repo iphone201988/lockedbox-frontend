@@ -11,7 +11,7 @@ const DisputePopup = () => {
         </button>
         <header className="text-center pb-[20px]">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Dispute Storage
+          Dispute Booking
           </p>
         </header>
         <body className="max-w-full mx-auto">
@@ -40,6 +40,7 @@ const DisputePopup = () => {
               </textarea>
             </div>
           </div>
+          <p className=" font-semibold mb-[6px]">Entering into a dispute will cancel the booking. Are you sure you  wish to continue with the dispute?</p>
           <div className="flex flex-col gap-[8px]">
             <div className="border w-full border-[#EEEEEE] p-[8px] flex rounded-[16px] items-center gap-[8px] ">
               <img
@@ -56,16 +57,17 @@ const DisputePopup = () => {
                 src={BoxImage}
                 alt=""
               />
-              <p>Dispute image1.png</p>
+              <p>Dispute image2.png</p>
               <img className="ml-auto" src={DeleteIcon} alt="" />
             </div>
           </div>
 
           <div className="flex gap-[10px]">
-            <button className="btn-sec ml-auto !block mt-[16px]">
-              Add pic
+            <button className="btn-sec mr-auto !block mt-[16px]">
+            Upload Pic
             </button>
-            <button className="btn-pri !block mt-[16px]">Submit</button>
+            <button className="btn-sec !block mt-[16px]">No</button>
+            <button className="btn-pri !block mt-[16px]">Yes</button>
           </div>
         </body>
       </div>

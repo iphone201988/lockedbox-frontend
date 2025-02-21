@@ -1,7 +1,12 @@
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-const Phone = ({ error, value, onChange }: PhoneProps) => {
+const Phone = ({
+  error,
+  value,
+  onChange = () => {},
+  disable = false,
+}: PhoneProps) => {
   return (
     <>
       <PhoneInput
@@ -14,6 +19,7 @@ const Phone = ({ error, value, onChange }: PhoneProps) => {
         placeholder="Phone Number"
         value={value}
         onChange={onChange}
+        disabled={disable}
       ></PhoneInput>
       {error && <span className="mx-2 text-red-500">{error}</span>}
     </>
