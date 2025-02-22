@@ -99,7 +99,7 @@ const Signup = () => {
                   type="email"
                   name="email"
                   value={formData?.email}
-                  onChange={(e) => handleInputChange(e, setFormData)}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   placeholder="Email"
                   error={errors?.email}
                 />

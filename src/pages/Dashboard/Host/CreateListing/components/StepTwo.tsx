@@ -1,7 +1,18 @@
-import AddPicIcon from "../../../../../assets/icons/add-pic-icn.png";
+import { ListingStepProp, StepTwoFormType } from "..";
+import CustomOptions from "../../../../../components/CustomOptions";
+import Input from "../../../../../components/Input";
+import Select from "../../../../../components/Select";
+import { accessPolicyType } from "../../../../../constants";
 import { DropDownIcon } from "../../../../../icons";
+import { handleInputChange } from "../../../../../utils/helper";
+import MultiImageSelect from "../../../../../components/MultipleImages";
 
-const StepTwo = () => {
+const StepTwo = ({
+  handleComplete,
+  formData,
+  setFormData,
+  errors,
+}: ListingStepProp<StepTwoFormType>) => {
   return (
     <div className="flex flex-col">
       {/* --- */}
@@ -11,7 +22,8 @@ const StepTwo = () => {
             Room for storage in Surrey
           </p>
         </div>
-        <div className=" max-w-[400px] w-full max-md:max-w-full">
+        <MultiImageSelect setFormData={setFormData} />
+        {/* <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="py-[30px] px-[20px] border border-dashed border-[#EEEEEE] rounded-[8px] cursor-pointer">
             <div className=" flex items-center justify-center flex-col gap-[4px]">
               <img src={AddPicIcon} alt="" />
@@ -21,7 +33,7 @@ const StepTwo = () => {
               <p className="text-[14px]">2 minimum photos</p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* --- */}
@@ -36,10 +48,14 @@ const StepTwo = () => {
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Create a tagline</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <input
+                <Input
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                   type="text"
+                  name="tagline"
+                  value={formData?.tagline}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   placeholder="Enter here"
+                  error={errors?.tagline}
                 />
                 <p className="text-[#959595] text-[14px]">
                   (eg. “safe, secure, garage available!”) 20 word max.
@@ -64,12 +80,16 @@ const StepTwo = () => {
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <textarea
                   className="border w-full h-[180px] border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                  name=""
-                  id=""
-                >
-                  Enter here
-                </textarea>
+                  name="description"
+                  value={formData?.description}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                ></textarea>
                 <p className="text-[#959595] text-[14px]">1000 words max</p>
+                {errors?.description && (
+                  <span className="mx-2 text-red-500">
+                    {errors.description}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -94,12 +114,14 @@ const StepTwo = () => {
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <textarea
                   className="border w-full h-[180px] border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                  name=""
-                  id=""
-                >
-                  Enter here
-                </textarea>
+                  name="policies"
+                  value={formData?.policies}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                ></textarea>
                 <p className="text-[#959595] text-[14px]">1000 words max</p>
+                {errors?.policies && (
+                  <span className="mx-2 text-red-500">{errors.policies}</span>
+                )}
               </div>
             </div>
           </div>
@@ -117,29 +139,29 @@ const StepTwo = () => {
         <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="">
             <div className="flex gap-[16px] mb-[16px] max-md:flex-wrap">
-              <div className=" rounded-[16px] border border-[#EEEEEE] min-w-[220px] flex items-center justify-center p-[30px] hover:bg-[#235370] hover:text-white cursor-pointer">
-                <p className="text-center">
-                  Access requires <br />
-                  appointment.
-                </p>
-              </div>
-              <div className=" rounded-[16px] border border-[#EEEEEE] min-w-[220px] flex items-center justify-center p-[30px] hover:bg-[#235370] hover:text-white cursor-pointer">
-                <p className="text-center">
-                  No appointment <br />
-                  required for access.
-                </p>
-              </div>
+              <CustomOptions
+                options={accessPolicyType}
+                handleChange={(e: any) => handleInputChange(e, setFormData)}
+                name="accessPolicy"
+                className="stored-hover rounded-[16px] border border-[#EEEEEE] min-w-[220px] flex items-center justify-center p-[30px] hover:bg-[#235370] hover:text-white cursor-pointer"
+                multiple={false}
+                value={formData?.accessPolicy}
+              />
             </div>
+            {errors.accessPolicy && (
+              <span className="mx-2 text-red-500">{errors.accessPolicy}</span>
+            )}
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Select type</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <select
+                <Select
+                  options={["Weekly"]}
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer dropdown-container"
-                  name=""
-                  id=""
-                >
-                  <option value="">Weekly</option>
-                </select>
+                  name="frequency"
+                  value={formData?.frequency}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  error={errors?.frequency}
+                />
                 <span className=" absolute right-[16px] top-[20px]">
                   <DropDownIcon />
                 </span>
@@ -150,8 +172,10 @@ const StepTwo = () => {
       </div>
 
       <div className="flex gap-[12px] justify-end">
-        <button className="btn-sec mt-[24px]  ">Back</button>
-        <button className="btn-pri mt-[24px] ">Next</button>
+        <button className="btn-sec mt-[24px]">Back</button>
+        <button className="btn-pri mt-[24px]" onClick={handleComplete}>
+          Next
+        </button>
       </div>
     </div>
   );

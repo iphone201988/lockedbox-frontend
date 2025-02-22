@@ -4,12 +4,18 @@ type InputProps = {
   value: string | number | undefined;
   className: string;
   placeholder: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setFormData: React.Dispatch<React.SetStateAction<any>>
-  ) => void;
+  onChange: any;
   error: string | undefined;
   disable?: boolean;
+};
+
+type SelectProps = {
+  options: string[];
+  className: string;
+  value: string;
+  name: string;
+  onChange: any;
+  error: string | undefined;
 };
 
 type PasswordProps = {
@@ -103,4 +109,9 @@ type UserState = {
   email: string;
   phone: string;
   countryCode: string;
+};
+
+type CustomOptionProps = {
+  name: string;
+  icon?: JSX.Element;
 };

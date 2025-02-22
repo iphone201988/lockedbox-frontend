@@ -144,12 +144,8 @@ const RenterProfile = () => {
   return (
     <div className="flex flex-col">
       {isLoading && <Loader />}
-      {showPopup.phone && (
-        <VerifyPhonePopup setShowPopup={setShowPopup} />
-      )}
-      {showPopup.email && (
-        <VerifEmailPopup setShowPopup={setShowPopup} />
-      )}
+      {showPopup.phone && <VerifyPhonePopup setShowPopup={setShowPopup} />}
+      {showPopup.email && <VerifEmailPopup setShowPopup={setShowPopup} />}
       {showPopup.verification && (
         <VerificationCodePopup
           showPopup={showPopup}
@@ -262,7 +258,7 @@ const RenterProfile = () => {
                   name="address"
                   placeholder="Location"
                   value={formData.address}
-                  onChange={(e) => handleInputChange(e, setFormData)}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   error={errors.address}
                 />
                 <span className=" absolute right-[16px] top-[20px]">
@@ -359,7 +355,7 @@ const RenterProfile = () => {
                   name="work"
                   placeholder="Work"
                   value={formData.work}
-                  onChange={(e) => handleInputChange(e, setFormData)}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   error={errors.work}
                 />
               </div>

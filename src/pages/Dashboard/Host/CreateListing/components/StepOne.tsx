@@ -1,19 +1,28 @@
+import { ListingStepProp, StepOneFormType } from "..";
+import CustomOptions from "../../../../../components/CustomOptions";
+import Input from "../../../../../components/Input";
+import Select from "../../../../../components/Select";
 import {
-  AutoPartsIcon,
-  BusinessIcon,
-  DropDownIcon,
-  ElectronicsIcon,
-  FurnitureIcon,
-  LocationIcon,
-  PriceIcon,
-  RecreationIcon,
-  VehicleIcon,
-} from "../../../../../icons";
+  spaceFeatures,
+  allowedStorage,
+  spaceType,
+} from "../../../../../constants";
+import { DropDownIcon, LocationIcon, PriceIcon } from "../../../../../icons";
+import { handleInputChange } from "../../../../../utils/helper";
+import MultiSelect from "../../../../../components/MultiSelect";
+import MapInput from "../../../../../components/MapInput";
 
-const StepOne = () => {
+const StepOne = ({
+  handleComplete,
+  formData,
+  setFormData,
+  errors,
+  isChecked,
+  setIsChecked,
+  checkboxError,
+}: ListingStepProp<StepOneFormType>) => {
   return (
     <div className="flex flex-col">
-      {/* --- */}
       <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
@@ -23,30 +32,45 @@ const StepOne = () => {
         <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="mb-[16px]">
             <div className="w-full max-w-[100%]">
-              <p className=" font-semibold mb-[6px]">Enter Address</p>
+              <MapInput setFormData={setFormData} />
+              {/* <p className=" font-semibold mb-[6px]">Enter Address</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <input
+                <Input
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                   type="text"
+                  name="address"
+                  value={formData?.address}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   placeholder="Enter address"
+                  error={errors?.address}
                 />
+
+                <MapInput label="Enter address"/>
+
                 <span className=" absolute right-[16px] top-[20px]">
                   <LocationIcon />
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className=" mt-[8px]">
               <label className="flex  items-start gap-[8px]" htmlFor="">
                 <input
                   className="w-[24px] h-[24px] min-w-[24px] rounded-[5px] accent-[#235370]"
                   type="checkbox"
-                  name=""
-                  id=""
+                  checked={isChecked}
+                  onChange={() => {
+                    if (setIsChecked) {
+                      setIsChecked(!isChecked);
+                    }
+                  }}
                 />
                 By continuing, you certify you inhabit the address or have legal
                 right to use it for hosting. Exact address is not shown until
                 you confirm a request to book
               </label>
+              {checkboxError && (
+                <p className="text-red-500 mt-2">{checkboxError}</p>
+              )}
             </div>
           </div>
         </div>
@@ -64,13 +88,14 @@ const StepOne = () => {
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Select type</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <select
+                <Select
+                  options={spaceType}
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer dropdown-container"
-                  name=""
-                  id=""
-                >
-                  <option value="">Basements</option>
-                </select>
+                  name="spaceType"
+                  value={formData?.spaceType}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  error={errors?.spaceType}
+                />
                 <span className=" absolute right-[16px] top-[20px]">
                   <DropDownIcon />
                 </span>
@@ -92,16 +117,12 @@ const StepOne = () => {
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Select feature</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <select
-                  className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer dropdown-container"
-                  name=""
-                  id=""
-                >
-                  <option value="">Height accommodation (10’)</option>
-                </select>
-                <span className=" absolute right-[16px] top-[20px]">
-                  <DropDownIcon />
-                </span>
+                <MultiSelect
+                  options={spaceFeatures}
+                  setFormData={setFormData}
+                  error={errors?.features as any}
+                  value={formData?.features}
+                />
               </div>
             </div>
           </div>
@@ -117,42 +138,14 @@ const StepOne = () => {
         </div>
         <div className=" max-w-[55%] w-full max-md:max-w-full">
           <div className="mb-[16px] flex flex-wrap gap-[16px]">
-            <div className="stored-hover ">
-              <span>
-                <FurnitureIcon />
-              </span>
-              <p>Furniture & Household</p>
-            </div>
-            <div className="stored-hover active">
-              <span>
-                <AutoPartsIcon />
-              </span>
-              <p>Auto Parts & Accessories</p>
-            </div>
-            <div className="stored-hover ">
-              <span>
-                <RecreationIcon />
-              </span>
-              <p>Seasonal & Recreation</p>
-            </div>
-            <div className="stored-hover ">
-              <span>
-                <ElectronicsIcon />
-              </span>
-              <p>Appliances & Electronics</p>
-            </div>
-            <div className="stored-hover ">
-              <span>
-                <BusinessIcon />
-              </span>
-              <p>Office, School & Business</p>
-            </div>
-            <div className="stored-hover ">
-              <span>
-                <VehicleIcon />
-              </span>
-              <p>Vehicles</p>
-            </div>
+            <CustomOptions
+              options={allowedStorage}
+              value={formData?.allowedStorage}
+              handleChange={(e: any) => handleInputChange(e, setFormData)}
+              error={errors.allowedStorage as any}
+              className="stored-hover"
+              name="allowedStorage"
+            />
           </div>
         </div>
       </div>
@@ -170,10 +163,14 @@ const StepOne = () => {
               <p className=" font-semibold mb-[6px]">Enter size</p>
               <div className=" flex items-center">
                 <div className="input-with-icon relative w-full max-w-[100%]">
-                  <input
+                  <Input
                     className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                     type="text"
+                    name="length"
+                    value={formData?.length}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
                     placeholder="10ft"
+                    error={errors?.length}
                   />
                   <span className=" absolute right-[16px] top-[20px]">
                     <LocationIcon />
@@ -181,10 +178,14 @@ const StepOne = () => {
                 </div>
                 <p className="text-[26px] font-semibold px-[20px]">X</p>
                 <div className="input-with-icon relative w-full max-w-[100%]">
-                  <input
+                  <Input
                     className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                     type="text"
+                    name="width"
+                    value={formData?.width}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
                     placeholder="10ft"
+                    error={errors?.width}
                   />
                   <span className=" absolute right-[16px] top-[20px]">
                     <LocationIcon />
@@ -208,10 +209,14 @@ const StepOne = () => {
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Enter price</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <input
+                <Input
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                   type="text"
+                  name="price"
+                  value={formData?.price}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   placeholder="Enter price"
+                  error={errors?.price}
                 />
                 <span className=" absolute right-[16px] top-[20px]">
                   <PriceIcon />
@@ -221,8 +226,9 @@ const StepOne = () => {
           </div>
         </div>
       </div>
-
-      <button className="btn-pri mt-[24px] ml-auto ">Next</button>
+      <button className="btn-pri mt-[24px] ml-auto" onClick={handleComplete}>
+        Next
+      </button>
     </div>
   );
 };

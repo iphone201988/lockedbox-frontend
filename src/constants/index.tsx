@@ -1,15 +1,21 @@
 import {
   AccountIcon,
+  AutoPartsIcon,
   BookingIcon,
+  BusinessIcon,
+  ElectronicsIcon,
+  FurnitureIcon,
   HelpIcon,
   HomeIcon,
   ListingIcon,
   LogoutIcon,
   MessageIcon,
   PerformanceIcon,
+  RecreationIcon,
   ReviewIcon,
   SearchIcon,
   SwitchIcon,
+  VehicleIcon,
 } from "../icons";
 
 export const routes = [
@@ -87,3 +93,34 @@ export const OtpType = {
   FORGET: 3,
   RESEND_FORGET: 4,
 };
+
+export const allowedStorage = [
+  { name: "Furniture & Household", icon: <FurnitureIcon /> },
+  { name: "Auto Parts & Accessories", icon: <AutoPartsIcon /> },
+  { name: "Seasonal & Recreation", icon: <RecreationIcon /> },
+  { name: "Appliances & Electronics", icon: <ElectronicsIcon /> },
+  { name: "Office, School & Business", icon: <BusinessIcon /> },
+  { name: "Vehicles", icon: <VehicleIcon /> },
+];
+
+export const spaceType = ["Basement", "Warehouse"];
+
+export const accessPolicyType = [
+  { name: "Access requires \n appointment." },
+  { name: " No appointment \n required for access." },
+];
+
+export const spaceFeatures = [
+  {
+    name: "Height accommodation (10’)",
+    id: "10",
+  },
+  {
+    name: "Height accommodation (11’)",
+    id: "11",
+  },
+  {
+    name: "Height accommodation (12’)",
+    id: "12",
+  },
+];

@@ -1,194 +1,306 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
-import SignIn from "../pages/Auth/signin";
-import Signup from "../pages/Auth/signup";
-import Verify from "../pages/Auth/verify";
-import CreatePassword from "../pages/Auth/create-password";
-import ForgotPassword from "../pages/Auth/forgot-password";
-import ResetPassword from "../pages/Auth/reset-password";
-import HostOrRent from "../pages/Auth/host-or-rent";
-import PasswordSuccess from "../pages/Auth/password-success";
-import Search from "../pages/Search";
-import ListingDetail from "../pages/ListingDetail";
-import SearchResult from "../pages/SearchResult";
-import BookingReview from "../pages/BookingReview";
+import { lazy, Suspense } from "react";
 import DashboardLayout from "../layout/Dashboard";
-import RenterAccount from "../pages/Dashboard/Renter/Account";
-import RenterBasicInfo from "../pages/Dashboard/Renter/Account/BasicInfo";
-import RenterProfile from "../pages/Dashboard/Renter/Account/Profile";
-import RenterSecurity from "../pages/Dashboard/Renter/Account/Security";
-import RenterNotification from "../pages/Dashboard/Renter/Account/Notification";
-import RenterPayment from "../pages/Dashboard/Renter/Account/Payment";
-import RenterHome from "../pages/Dashboard/Renter/Home";
-import RenterBooking from "../pages/Dashboard/Renter/Booking";
-import RenterMessage from "../pages/Dashboard/Renter/Message";
-import RenterReviews from "../pages/Dashboard/Renter/Reviews";
-import ReviewYourHost from "../pages/Dashboard/Renter/GiveReview";
-import HostHome from "../pages/Dashboard/Host/Home";
-import HostListings from "../pages/Dashboard/Host/Listing";
-import CreateListing from "../pages/Dashboard/Host/CreateListing";
 import PublicRoute from "../components/Route/public-route";
-import Logout from "../pages/Logout";
-import CheckIn from "../pages/Dashboard/CheckIn";
 import HostAccess from "../components/Route/host-access";
+import Loader from "../components/Loader";
 
-const host = true;
+// Lazy load pages
+const Home = lazy(() => import("../pages/Home"));
+const SignIn = lazy(() => import("../pages/Auth/signin"));
+const Signup = lazy(() => import("../pages/Auth/signup"));
+const Verify = lazy(() => import("../pages/Auth/verify"));
+const CreatePassword = lazy(() => import("../pages/Auth/create-password"));
+const ForgotPassword = lazy(() => import("../pages/Auth/forgot-password"));
+const ResetPassword = lazy(() => import("../pages/Auth/reset-password"));
+const HostOrRent = lazy(() => import("../pages/Auth/host-or-rent"));
+const PasswordSuccess = lazy(() => import("../pages/Auth/password-success"));
+const Search = lazy(() => import("../pages/Search"));
+const ListingDetail = lazy(() => import("../pages/ListingDetail"));
+const SearchResult = lazy(() => import("../pages/SearchResult"));
+const BookingReview = lazy(() => import("../pages/BookingReview"));
+const Logout = lazy(() => import("../pages/Logout"));
+const CheckIn = lazy(() => import("../pages/Dashboard/CheckIn"));
+
+// Renter Dashboard Pages
+const RenterHome = lazy(() => import("../pages/Dashboard/Renter/Home"));
+const RenterAccount = lazy(() => import("../pages/Dashboard/Renter/Account"));
+const RenterBasicInfo = lazy(
+  () => import("../pages/Dashboard/Renter/Account/BasicInfo")
+);
+const RenterProfile = lazy(
+  () => import("../pages/Dashboard/Renter/Account/Profile")
+);
+const RenterSecurity = lazy(
+  () => import("../pages/Dashboard/Renter/Account/Security")
+);
+const RenterNotification = lazy(
+  () => import("../pages/Dashboard/Renter/Account/Notification")
+);
+const RenterPayment = lazy(
+  () => import("../pages/Dashboard/Renter/Account/Payment")
+);
+const RenterBooking = lazy(() => import("../pages/Dashboard/Renter/Booking"));
+const RenterMessage = lazy(() => import("../pages/Dashboard/Renter/Message"));
+const RenterReviews = lazy(() => import("../pages/Dashboard/Renter/Reviews"));
+const ReviewYourHost = lazy(
+  () => import("../pages/Dashboard/Renter/GiveReview")
+);
+
+// Host Dashboard Pages
+const HostListings = lazy(() => import("../pages/Dashboard/Host/Listing"));
+const CreateListing = lazy(
+  () => import("../pages/Dashboard/Host/CreateListing")
+);
 
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Home />
+      </Suspense>
+    ),
   },
   {
     path: "/logout",
-    element: <Logout />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Logout />
+      </Suspense>
+    ),
   },
   {
     path: "/signup",
     element: (
-      <PublicRoute>
-        <Signup />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <Signup />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/verify",
     element: (
-      <PublicRoute>
-        <Verify />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <Verify />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/create-password",
     element: (
-      <PublicRoute>
-        <CreatePassword />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <CreatePassword />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/host-or-rent",
-    element: <HostOrRent />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <HostOrRent />
+      </Suspense>
+    ),
   },
   {
     path: "/signin",
     element: (
-      <PublicRoute>
-        <SignIn />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <SignIn />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/forgot-password",
     element: (
-      <PublicRoute>
-        <ForgotPassword />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <ForgotPassword />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/reset-password",
     element: (
-      <PublicRoute>
-        <ResetPassword />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <ResetPassword />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/password-success",
     element: (
-      <PublicRoute>
-        <PasswordSuccess />
-      </PublicRoute>
+      <Suspense fallback={<Loader />}>
+        <PublicRoute>
+          <PasswordSuccess />
+        </PublicRoute>
+      </Suspense>
     ),
   },
   {
     path: "/search",
-    element: <Search />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Search />
+      </Suspense>
+    ),
   },
   {
     path: "/listing-details",
-    element: <ListingDetail />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ListingDetail />
+      </Suspense>
+    ),
   },
   {
     path: "/search-results",
-    element: <SearchResult />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <SearchResult />
+      </Suspense>
+    ),
   },
   {
     path: "/booking-review",
-    element: <BookingReview />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <BookingReview />
+      </Suspense>
+    ),
   },
-  //   {
-  //     path: "/",
-  //     element: (
-  //       <PublicRoute>
-  //         <Auth />
-  //       </PublicRoute>
-  //     ),
-  //   },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
-      // {
-      //   path: "",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Home />
-      //     </ProtectedRoute>
-      //   ),
-      // },
       {
         path: "home",
-        element: host ? <HostHome /> : <RenterHome />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RenterHome />
+          </Suspense>
+        ),
       },
       {
         path: "account",
-        element: <RenterAccount />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RenterAccount />
+          </Suspense>
+        ),
         children: [
-          { path: "basic-info", element: <RenterBasicInfo /> },
-          { path: "profile", element: <RenterProfile /> },
-          { path: "security", element: <RenterSecurity /> },
-          { path: "notification", element: <RenterNotification /> },
-          { path: "payment", element: <RenterPayment /> },
+          {
+            path: "basic-info",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RenterBasicInfo />
+              </Suspense>
+            ),
+          },
+          {
+            path: "profile",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RenterProfile />
+              </Suspense>
+            ),
+          },
+          {
+            path: "security",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RenterSecurity />
+              </Suspense>
+            ),
+          },
+          {
+            path: "notification",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RenterNotification />
+              </Suspense>
+            ),
+          },
+          {
+            path: "payment",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RenterPayment />
+              </Suspense>
+            ),
+          },
         ],
       },
       {
         path: "booking",
-        element: <RenterBooking />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RenterBooking />
+          </Suspense>
+        ),
       },
       {
         path: "booking/check-in",
-        element: <CheckIn />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CheckIn />
+          </Suspense>
+        ),
       },
       {
         path: "listing",
         element: (
-          <HostAccess>
-            <HostListings />
-          </HostAccess>
+          <Suspense fallback={<Loader />}>
+            <HostAccess>
+              <HostListings />
+            </HostAccess>
+          </Suspense>
         ),
       },
       {
         path: "listing/create-listing",
         element: (
-          <HostAccess>
-            <CreateListing />
-          </HostAccess>
+          <Suspense fallback={<Loader />}>
+            <HostAccess>
+              <CreateListing />
+            </HostAccess>
+          </Suspense>
         ),
       },
       {
         path: "message",
-        element: <RenterMessage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RenterMessage />
+          </Suspense>
+        ),
       },
       {
         path: "reviews",
-        element: <RenterReviews />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RenterReviews />
+          </Suspense>
+        ),
       },
       {
         path: "reviews/give-review",
-        element: <ReviewYourHost />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ReviewYourHost />
+          </Suspense>
+        ),
       },
     ],
   },

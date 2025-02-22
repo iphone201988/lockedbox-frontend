@@ -37,6 +37,7 @@ const ProfileSubMenu = ({
     }
   }, [userData]);
 
+
   return (
     <div
       className="p-[12px] border-t border-[#EEEEEE] w-max flex flex-col gap-[16px] max-md:gap-[8px]"
@@ -53,7 +54,10 @@ const ProfileSubMenu = ({
         ) : (
           <button
             className="profile-link !text-[16px] !gap-[8px]"
-            onClick={() => handleRoleChange(role == "host" ? "rent" : "host")}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRoleChange(role == "host" ? "rent" : "host");
+            }}
           >
             {item.icon}
             {role == "host" ? "Switch to renting" : "Switch to hosting"}

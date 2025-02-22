@@ -1,20 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import PropertyListingCard from "../../../../components/Dashboard/PropertyListingCard";
-import { useGetUserQuery } from "../../../../redux/api";
-import Loader from "../../../../components/Loader";
-import { useEffect } from "react";
 
 const HostListings = () => {
   const navigate = useNavigate();
-  
-  const { data: userData, isLoading } = useGetUserQuery();
-  if (isLoading) return <Loader />;
 
-  useEffect(() => {
-    if (userData?.success) {
-      const { dashboardRole } = userData?.userExists;
-    }
-  }, [userData]);
   return (
     <div className="px-[30px] max-lg:px-[20px]">
       <div className=" flex pb-[12px] pt-[32px] border-b border-[#EEEEEE] max-md:hidden">

@@ -14,6 +14,23 @@ const initialState = {
   sort: false,
   main: false,
 };
+const properties: any = [
+  {
+    id: "1",
+    lat: 37.7749,
+    lng: -122.4194,
+    title: "Downtown Luxury Apartment",
+    price: "$500,000",
+  },
+  {
+    id: "2",
+    lat: 37.7859,
+    lng: -122.4014,
+    title: "Golden Gate View Home",
+    price: "$1,200,000",
+  },
+];
+
 const SearchResult = () => {
   const [filters, setFilters] = useState<SearchFilters>(initialState);
   const [showGrid, setShowGrid] = useState<boolean>(true);
@@ -32,7 +49,10 @@ const SearchResult = () => {
       <div className="flex h-[90vh] max-lg:flex-col">
         {showGrid && (
           <div className="w-max-[50%] w-[50%] max-lg:w-max-[100%] max-lg:w-[100%] max-lg:h-[50%]">
-            <Map />
+            <Map
+              properties={properties}
+              // initialCenter={{ lat: 37.7749, lng: -122.4194 }}
+            />
           </div>
         )}
         <div

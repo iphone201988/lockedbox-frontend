@@ -92,7 +92,7 @@ const RenterBasicInfo = () => {
                 type="text"
                 name="firstName"
                 value={formData?.firstName}
-                onChange={(e) => handleInputChange(e, setFormData)}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
                 placeholder="First Name"
                 error={errors?.firstName}
               />
@@ -106,7 +106,7 @@ const RenterBasicInfo = () => {
                 type="text"
                 name="lastName"
                 value={formData?.lastName}
-                onChange={(e) => handleInputChange(e, setFormData)}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
                 placeholder="Last Name"
                 error={errors?.lastName}
               />
@@ -148,7 +148,11 @@ const RenterBasicInfo = () => {
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                 name="phone"
                 placeholder="Phone"
-                value={"+" + (formData?.phone ? formData?.phone : "")}
+                value={
+                  formData?.phone
+                    ? "+" + (formData?.phone ? formData?.phone : "")
+                    : ""
+                }
                 disabled={true}
               />
             </div>

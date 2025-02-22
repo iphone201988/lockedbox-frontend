@@ -14,10 +14,11 @@ const baseQuery = fetchBaseQuery({
 });
 const USER_TAG = "USER";
 const PAYMENT_TAG = "PAYMENT";
+const LISTING_TAG = "LISTING";
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
-  tagTypes: [USER_TAG, PAYMENT_TAG],
+  tagTypes: [USER_TAG, PAYMENT_TAG, LISTING_TAG],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
       query: (body) => ({
@@ -117,6 +118,15 @@ export const lockedBoxApi = createApi({
         invalidateTags: [PAYMENT_TAG],
       }),
     }),
+
+    // Host listing page
+    createListing: builder.mutation({
+      query: () => ({
+        url: `listing/create`,
+        method: "POST",
+        invalidateTags: [LISTING_TAG],
+      }),
+    }),
   }),
 });
 
@@ -134,4 +144,5 @@ export const {
   useAddPaymentMethodMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
+  useCreateListingMutation,
 } = lockedBoxApi;

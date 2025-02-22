@@ -88,6 +88,39 @@ export const VerificationCodeSchema = yup.object({
   otp: yup.number().required("OTP is required"),
 });
 
+export const StepOneSchema = yup.object({
+  address: yup.string().required("Address is required"),
+  latitude: yup.string().required("Latitude is required"),
+  longitude: yup.string().required("Longitude is required"),
+  spaceType: yup.string().required("Space type is required"),
+  features: yup
+    .array()
+    .of(
+      yup.object().shape({
+        id: yup.string().required("Feature ID is required"),
+        name: yup.string().required("Feature name is required"),
+      })
+    )
+    .required("Features are required")
+    .min(1, "At least one feature is required"),
+  allowedStorage: yup
+    .array()
+    .of(yup.string())
+    .required("Allowed storage is required")
+    .min(1, "At least one allowed storage is required"),
+  length: yup.string().required("Length is required"),
+  width: yup.string().required("Width is required"),
+  price: yup.string().required("Price is required"),
+});
+
+export const StepTwoSchema = yup.object({
+  tagline: yup.string().required("Tagline is required"),
+  description: yup.string().required("Description is required"),
+  policies: yup.string().required("Policies are required"),
+  accessPolicy: yup.string().required("Access policy is required"),
+  frequency: yup.string().required("Frequency is required"),
+});
+
 export const validateForm = async (
   schema: yup.ObjectSchema<any>,
   data: any
