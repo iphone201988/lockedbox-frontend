@@ -118,13 +118,13 @@ const CreatePassword = () => {
               />
               <p>
                 {" "}
-                I agree to the{" "}
+                You must agree to{" "}
                 <a className="text-[#235370] underline" href="">
-                  terms of service
+                the Privacy Policy
                 </a>{" "}
-                and{" "}
+                &{" "}
                 <a className="text-[#235370] underline" href="">
-                  privacy policy
+                Terms of Service
                 </a>
                 .{" "}
               </p>

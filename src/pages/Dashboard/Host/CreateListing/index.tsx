@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import StepOne from "./components/StepOne";
@@ -7,6 +7,16 @@ import StepThree from "./components/StepThree";
 import { useForm } from "../../../../hooks/useForm";
 import { StepOneSchema, StepTwoSchema } from "../../../../schema";
 import * as yup from "yup";
+import {
+  useCreateListingMutation,
+  useGetListingByIdQuery,
+} from "../../../../redux/api";
+import { handleError } from "../../../../utils/helper";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ResponseMessages } from "../../../../constants/api-responses";
+import Loader from "../../../../components/Loader";
+import { spaceFeatures } from "../../../../constants";
 
 export type StepOneFormType = yup.InferType<typeof StepOneSchema>;
 export type StepTwoFormType = yup.InferType<typeof StepTwoSchema>;
@@ -39,9 +49,17 @@ const StepTwoInitialState: StepTwoFormType = {
   policies: "",
   accessPolicy: "",
   frequency: "",
+  storageImages: [],
+  images: [],
 };
 
 const CreateListing = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const { data: listingData, isLoading: listingDataLoading } =
+    useGetListingByIdQuery(id || "", { skip: !id });
+
   const {
     formData: stepOne,
     setFormData: setStepOne,
@@ -58,9 +76,11 @@ const CreateListing = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");
+  const [createListing, { data, isLoading }] = useCreateListingMutation();
+  const [isDataLoaded, setIsDataLoaded] = useState(id ? false : true);
 
   const handleNextStep = async (step: number) => {
-    // console.log("stepOne::::", stepOne);
+    console.log("stepOne::::", stepTwo);
     // if (step === 1) {
     //   const hasErrors: boolean = await stepOneValidate();
     //   if (!isChecked || hasErrors) {
@@ -81,8 +101,94 @@ const CreateListing = () => {
     setCurrentStep(step);
   };
 
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    Object.entries(stepOne).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        if (key == "features") {
+          formData.append(
+            "features",
+            JSON.stringify(stepOne.features.map((item: any) => item.id))
+          );
+        } else {
+          formData.append(key, JSON.stringify(value));
+        }
+      } else {
+        formData.append(key, value as string);
+      }
+    });
+
+    Object.entries(stepTwo).forEach(([key, value]) => {
+      if (key === "storageImages" && Array.isArray(value)) {
+        value.forEach((file: any) => formData.append("storageImages", file));
+      } else if (typeof value === "object") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value as string);
+      }
+    });
+
+    await createListing(formData)
+      .unwrap()
+      .catch((error) => handleError(error, navigate));
+  };
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success(ResponseMessages.LISTING_CREATED);
+      navigate("/dashboard/listing", { replace: true });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (listingData?.success) {
+      console.log("listingData::::", listingData);
+      const { listing } = listingData;
+
+      const features = listing.features.map((item: any) => {
+        return spaceFeatures.find((feature) => feature.id === item);
+      });
+
+      const stepOne = {
+        address: listing.address,
+        latitude: listing.latitude,
+        longitude: listing.longitude,
+        spaceType: listing.spaceType,
+        features: features,
+        allowedStorage: listing.allowedStorage,
+        length: listing.length,
+        width: listing.width,
+        price: listing.price,
+      };
+
+      const stepTwo = {
+        tagline: listing.tagline,
+        description: listing.description,
+        policies: listing.policies,
+        accessPolicy: listing.accessPolicy,
+        frequency: listing.frequency,
+        // storageImages: listing.storageImages.map(
+        //   (url: string) => import.meta.env.VITE_BACKEND_URL + url
+        // ),
+        storageImages: [],
+        images: listing.storageImages,
+      };
+
+      setStepOne(stepOne);
+      setStepTwo(stepTwo);
+      setIsChecked(true);
+      setIsDataLoaded(true);
+    }
+  }, [listingData]);
+
+  if (listingDataLoading || !isDataLoaded) {
+    return <Loader />;
+  }
+
   return (
     <div className="px-[30px] py-[32px] max-lg:px-[20px]">
+      {isLoading && <Loader />}
       <Tabs
         selectedIndex={currentStep}
         onSelect={handleNextStep as any}
@@ -144,7 +250,7 @@ const CreateListing = () => {
           />
         </TabPanel>
         <TabPanel>
-          <StepThree />
+          <StepThree handleSubmit={handleSubmit} />
         </TabPanel>
       </Tabs>
     </div>

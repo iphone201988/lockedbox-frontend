@@ -119,6 +119,20 @@ export const StepTwoSchema = yup.object({
   policies: yup.string().required("Policies are required"),
   accessPolicy: yup.string().required("Access policy is required"),
   frequency: yup.string().required("Frequency is required"),
+  storageImages: yup
+    .array()
+    .of(yup.mixed())
+    .min(2)
+    .required("Storage images are required"),
+  images: yup.array().optional(),
+});
+
+export const SearchPropertySchema = yup.object({
+  address: yup.string().required("Address is required"),
+  latitude: yup.string().required("Latitude is required"),
+  longitude: yup.string().required("Longitude is required"),
+  length: yup.string().optional(),
+  width: yup.string().optional(),
 });
 
 export const validateForm = async (

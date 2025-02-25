@@ -32,7 +32,7 @@ export const getNextAuthUrl = (step: number) => {
 };
 
 export const handleError = (error: any, navigate: NavigateFunction) => {
-  console.log("Error:", error,error.status);
+  console.log("Error:", error, error.status);
   toast.error(error.data.message);
   if (error.status == 401) {
     removeToken();
@@ -44,4 +44,13 @@ export const setToken = (token: string) => localStorage.setItem("token", token);
 export const removeToken = () => localStorage.removeItem("token");
 export const getToken = () => localStorage.getItem("token");
 
+export const urlToFile = async (url: string) => {
+  const fileName = url.split("/").pop();
+  const mimeType = url.split(".").pop()?.toLowerCase();
 
+  console.timeLog("urlToFile::::",fileName,mimeType)
+
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new File([blob], fileName ?? "", { type: mimeType });
+};

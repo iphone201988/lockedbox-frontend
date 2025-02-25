@@ -115,3 +115,25 @@ type CustomOptionProps = {
   name: string;
   icon?: JSX.Element;
 };
+
+type ListingType = {
+  id: string;
+  address: string;
+  tagline: string;
+  status: string;
+  length: number;
+  width: number;
+  price: number;
+  storageImages: string[];
+  allowedStorage: string[];
+};
+
+type CustomOptions = {
+  options: CustomOptionProps[];
+  handleChange: any;
+  className: string;
+  value: any;
+  name: string;
+  error?: string | undefined;
+  multiple?: boolean;
+};

@@ -9,4 +9,5 @@ export const ResponseMessages = {
   PAYMENT_METHOD_ADDED: "Payment method added successfully",
   PHONE_VERIFIED: "Phone number verified successfully",
   EMAIL_VERIFIED: "Email verified successfully",
+  LISTING_CREATED: "Listing created successfully",
 };

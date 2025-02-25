@@ -8,15 +8,7 @@ const CustomOptions = ({
   name,
   value,
   multiple = true,
-}: {
-  options: CustomOptionProps[];
-  handleChange: any;
-  className: string;
-  value: any;
-  name: string;
-  error?: string | undefined;
-  multiple?: boolean; // New optional prop
-}) => {
+}: CustomOptions) => {
   const [activeOptions, setActiveOptions] = useState<string[]>(value);
 
   const handleSelect = (option: string) => {

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL + "/api/v1/";
-console.log("import.meta.env.BACKEND_URL:::", import.meta.env.BACKEND_URL);
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
@@ -118,13 +117,39 @@ export const lockedBoxApi = createApi({
         invalidateTags: [PAYMENT_TAG],
       }),
     }),
+    addStripeConnect: builder.mutation({
+      query: () => ({
+        url: `user/create_stripe_account`,
+        method: "POST",
+      }),
+    }),
 
     // Host listing page
     createListing: builder.mutation({
-      query: () => ({
+      query: (body) => ({
         url: `listing/create`,
         method: "POST",
+        body,
         invalidateTags: [LISTING_TAG],
+      }),
+    }),
+    getAllListings: builder.query<any, void>({
+      query: () => ({
+        url: `listing/me`,
+        method: "GET",
+      }),
+      providesTags: [LISTING_TAG],
+    }),
+    getListingById: builder.query<any, string>({
+      query: (listingId) => ({
+        url: `listing/${listingId}`,
+        method: "GET",
+      }),
+    }),
+    findListing: builder.query<any, any>({
+      query: ({ latitude, longitude }) => ({
+        url: `listing/find_listing?latitude=${latitude}&longitude=${longitude}`,
+        method: "GET",
       }),
     }),
   }),
@@ -137,12 +162,18 @@ export const {
   useLoginUserMutation,
   useAddRoleMutation,
   useGetUserQuery,
+  useLazyGetUserQuery,
   useChangeUserAuthMutation,
   useSendOTPMutation,
   useUpdateUserMutation,
   useUpdateUserProfileImageMutation,
   useAddPaymentMethodMutation,
+  useAddStripeConnectMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
   useCreateListingMutation,
+  useGetAllListingsQuery,
+  useGetListingByIdQuery,
+  useFindListingQuery,
+  useLazyFindListingQuery,
 } = lockedBoxApi;

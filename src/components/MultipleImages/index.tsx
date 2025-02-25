@@ -1,10 +1,19 @@
 import { useRef, useState, useEffect } from "react";
 
-const MultiImageSelect = ({ setFormData }: { setFormData: any }) => {
+const MultiImageSelect = ({
+  formData,
+  setFormData,
+  images = [],
+}: {
+  formData: any;
+  setFormData: any;
+  images?: any;
+}) => {
   const imageRef = useRef<HTMLInputElement>(null);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<File[]>(formData);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const maxImages = 10;
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  let maxImages = 10;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -24,8 +33,22 @@ const MultiImageSelect = ({ setFormData }: { setFormData: any }) => {
     return () => urls.forEach((url) => URL.revokeObjectURL(url));
   }, [selectedImages]);
 
+  useEffect(() => {
+    //Update case
+    if (!formData.length && images.length) {
+      const urls = images.map(
+        (image: any) => import.meta.env.VITE_BACKEND_URL + image
+      );
+      setExistingImages(urls);
+      maxImages -= images.length;
+    }
+  }, []);
+
   const removeImage = (index: number) => {
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+  const removeExistingImage = (index: number) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -91,6 +114,30 @@ const MultiImageSelect = ({ setFormData }: { setFormData: any }) => {
                 <span className="text-sm text-gray-600 mt-1">Add More</span>
               </div>
             )}
+          </div>
+        )}
+
+        {existingImages.length > 0 && (
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {existingImages.map((url, index) => (
+              <div key={url} className="relative group">
+                <img
+                  src={url}
+                  alt={`Preview ${index + 1}`}
+                  className="w-full h-32 object-contain rounded-lg border border-gray-200"
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeExistingImage(index);
+                  }}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors shadow-sm"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
           </div>
         )}
 

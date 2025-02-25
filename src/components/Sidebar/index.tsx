@@ -63,9 +63,6 @@ const SideBar = () => {
     rent: RenterRoutes,
   };
 
-  if (isUserLoading) return <Loader />;
-  if (isError) return <Navigate to="/logout" />;
-
   const handleRoleChange = async (role: string) => {
     try {
       await updateUserData({ dashboardRole: role }).unwrap();
@@ -86,6 +83,9 @@ const SideBar = () => {
       refetch();
     }
   }, [data]);
+
+  if (isUserLoading) return <Loader />;
+  if (isError) return <Navigate to="/logout" />;
 
   return (
     <div className="h-[100vh]">

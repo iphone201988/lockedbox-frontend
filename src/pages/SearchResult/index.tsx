@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import SearchListing from "./components/search-listing";
 import ItemsFilter from "./components/items-filter";
 import SortFilter from "./components/sort-filter";
@@ -5,8 +6,11 @@ import PriceFilter from "./components/price-filter";
 import MainFilter from "./components/main-filter";
 import ProfileNavbar from "../../components/ProfileNavbar";
 import Map from "../../components/Map";
-import { useState } from "react";
 import { FiltersIcon } from "../../icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
+import { useLazyFindListingQuery } from "../../redux/api";
+import { handleError } from "../../utils/helper";
 
 const initialState = {
   items: false,
@@ -14,6 +18,7 @@ const initialState = {
   sort: false,
   main: false,
 };
+
 const properties: any = [
   {
     id: "1",
@@ -32,27 +37,97 @@ const properties: any = [
 ];
 
 const SearchResult = () => {
-  const [filters, setFilters] = useState<SearchFilters>(initialState);
-  const [showGrid, setShowGrid] = useState<boolean>(true);
+  const [filters, setFilters] = useState(initialState);
+  const [showGrid, setShowGrid] = useState(true);
+  const [locationPermissionGranted, setLocationPermissionGranted] =
+    useState(false);
 
-  const handleFilterChange = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const filterName = e.currentTarget.name as keyof SearchFilters;
-    setFilters((prevFilters) => ({
+  const [userLocation, setUserLocation] = useState<any>({
+    latitude: "",
+    longitude: "",
+  });
+  const [findListing, { data, isLoading }] = useLazyFindListingQuery();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  if (location?.state?.formData) {
+    setUserLocation({
+      latitude: location.state.formData.latitude,
+      longitude: location.state.formData.longitude,
+    });
+  }
+
+  useEffect(() => {
+    if (
+      navigator.geolocation &&
+      (!userLocation.longitude || !userLocation.latitude)
+    ) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          setUserLocation({
+            latitude,
+            longitude,
+          });
+          setLocationPermissionGranted(true);
+        },
+        (error) => {
+          setLocationPermissionGranted(false);
+        }
+      );
+    } else {
+      setLocationPermissionGranted(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!userLocation.latitude || !userLocation.longitude) return;
+    (async () => {
+      await findListing({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+      })
+        .unwrap()
+        .catch((error) => handleError(error, navigate));
+    })();
+  }, [userLocation]);
+
+  useEffect(() => {
+    console.log("listings data :::", data);
+  }, [data]);
+
+  const handleFilterChange = (e: any) => {
+    const filterName = e.currentTarget.name;
+    setFilters((prevFilters: any) => ({
       ...initialState,
       [filterName]: !prevFilters[filterName],
     }));
   };
 
+  if (!locationPermissionGranted) {
+    return (
+      <div>
+        <ProfileNavbar />
+        <div className="flex items-center justify-center h-[90vh]">
+          <p className="text-2xl font-semibold">
+            Location permission is required to view this page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!userLocation.latitude || !userLocation.longitude) return <Loader />;
+
   return (
     <div>
+      {isLoading && <Loader />}
       <ProfileNavbar />
       <div className="flex h-[90vh] max-lg:flex-col">
         {showGrid && (
           <div className="w-max-[50%] w-[50%] max-lg:w-max-[100%] max-lg:w-[100%] max-lg:h-[50%]">
-            <Map
-              properties={properties}
-              // initialCenter={{ lat: 37.7749, lng: -122.4194 }}
-            />
+            <Map properties={properties} />
           </div>
         )}
         <div

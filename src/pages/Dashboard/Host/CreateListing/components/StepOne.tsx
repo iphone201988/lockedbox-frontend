@@ -32,7 +32,10 @@ const StepOne = ({
         <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="mb-[16px]">
             <div className="w-full max-w-[100%]">
-              <MapInput setFormData={setFormData} />
+              <MapInput setFormData={setFormData} value={formData?.address} />
+              {errors?.address && (
+                <span className="mx-2 text-red-500">{errors?.address}</span>
+              )}
               {/* <p className=" font-semibold mb-[6px]">Enter Address</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <Input

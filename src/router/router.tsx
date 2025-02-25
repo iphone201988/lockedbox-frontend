@@ -279,6 +279,16 @@ const Router = createBrowserRouter([
         ),
       },
       {
+        path: "listing/edit-listing/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <HostAccess>
+              <CreateListing />
+            </HostAccess>
+          </Suspense>
+        ),
+      },
+      {
         path: "message",
         element: (
           <Suspense fallback={<Loader />}>

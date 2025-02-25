@@ -22,7 +22,11 @@ const StepTwo = ({
             Room for storage in Surrey
           </p>
         </div>
-        <MultiImageSelect setFormData={setFormData} />
+        <MultiImageSelect
+          formData={formData?.storageImages}
+          setFormData={setFormData}
+          images={formData?.images}
+        />
         {/* <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="py-[30px] px-[20px] border border-dashed border-[#EEEEEE] rounded-[8px] cursor-pointer">
             <div className=" flex items-center justify-center flex-col gap-[4px]">

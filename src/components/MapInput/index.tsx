@@ -7,7 +7,13 @@ import {
 } from "@react-google-maps/api";
 import { LocationIcon } from "../../icons";
 
-const MapInput = ({ setFormData }: { setFormData: any }) => {
+const MapInput = ({
+  value,
+  setFormData,
+}: {
+  value: string;
+  setFormData: any;
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
     libraries: ["places"], // Ensure the places library is loaded
@@ -15,10 +21,10 @@ const MapInput = ({ setFormData }: { setFormData: any }) => {
 
   const [location, setLocation] = useState<any>({});
   const [showMap, setShowMap] = useState(false);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(value);
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-  const mapRef = useRef<google.maps.Map | null>(null); // <-- Define mapRef here
+  const mapRef = useRef<google.maps.Map | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // Function to get the address from lat/lng
@@ -26,7 +32,7 @@ const MapInput = ({ setFormData }: { setFormData: any }) => {
     if (!geocoderRef.current) return;
     const geocoder = geocoderRef.current;
     const location = { lat, lng };
-
+    
     geocoder.geocode({ location }, async (results, status) => {
       if (status === "OK" && results && results[0]) {
         setAddress(results[0].formatted_address);

@@ -1,7 +1,7 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { profileSubMenu } from "../../constants";
 import { useGetUserQuery, useUpdateUserMutation } from "../../redux/api";
-import { handleError } from "../../utils/helper";
+import { getToken, handleError } from "../../utils/helper";
 import Loader from "../Loader";
 import { useEffect, useState } from "react";
 
@@ -11,6 +11,7 @@ const ProfileSubMenu = ({
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
+  const token = getToken();
   const {
     data: userData,
     isLoading: isUserLoading,
@@ -19,8 +20,12 @@ const ProfileSubMenu = ({
   const [role, setRole] = useState();
   const [updateUserData, { isLoading }] = useUpdateUserMutation();
 
-  if (isUserLoading) return <Loader />;
-  if (isError) return <Navigate to="/logout" />;
+  useEffect(() => {
+    if (userData?.success) {
+      const { dashboardRole } = userData?.userExists;
+      setRole(dashboardRole);
+    }
+  }, [userData]);
 
   const handleRoleChange = async (role: string) => {
     try {
@@ -30,14 +35,8 @@ const ProfileSubMenu = ({
     }
   };
 
-  useEffect(() => {
-    if (userData?.success) {
-      const { dashboardRole } = userData?.userExists;
-      setRole(dashboardRole);
-    }
-  }, [userData]);
-
-
+  if (isUserLoading) return <Loader />;
+  if (isError && token) return <Navigate to="/logout" />;
   return (
     <div
       className="p-[12px] border-t border-[#EEEEEE] w-max flex flex-col gap-[16px] max-md:gap-[8px]"

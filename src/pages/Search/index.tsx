@@ -1,9 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import ProfileNavbar from "../../components/ProfileNavbar";
-import { LocationIcon, SizeIcon } from "../../icons";
+import { SizeIcon } from "../../icons";
+import * as yup from "yup";
+import { SearchPropertySchema } from "../../schema";
+import { useForm } from "../../hooks/useForm";
+import MapInput from "../../components/MapInput";
+import Input from "../../components/Input";
+import { handleInputChange } from "../../utils/helper";
+
+type SearchPropertyFormType = yup.InferType<typeof SearchPropertySchema>;
+
+const initialState: SearchPropertyFormType = {
+  address: "",
+  latitude: "",
+  longitude: "",
+  length: "",
+  width: "",
+};
 
 const Search = () => {
   const navigate = useNavigate();
+  const { formData, setFormData, errors, validate } = useForm(
+    SearchPropertySchema,
+    initialState
+  );
+
+  const handleSubmit = async () => {
+    const hasErrors: boolean = await validate();
+    if (hasErrors) return;
+
+    navigate("/search-result", { state: { formData } });
+  };  
 
   return (
     <div>
@@ -14,24 +41,24 @@ const Search = () => {
             Where are you located?
           </h2>
           <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
-            <input
-              className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl "
-              type="text"
-              placeholder="Enter address"
-            />
-            <span className=" absolute right-[16px] top-[20px]">
-              <LocationIcon />
-            </span>
+            <MapInput value={formData?.address} setFormData={setFormData} />
+            {errors?.address && (
+              <span className="mx-2 text-red-500">{errors?.address}</span>
+            )}
           </div>
           <h2 className="text-[42px] text-center font-bold max-lg:text-[36px]">
             What size do require?
           </h2>
           <div className="flex items-center">
             <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
-              <input
-                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl "
+              <Input
+                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
                 type="text"
-                placeholder="size"
+                name="length"
+                value={formData?.length}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
+                placeholder="Size"
+                error={errors?.length}
               />
               <span className=" absolute right-[16px] top-[20px]">
                 <SizeIcon />
@@ -41,20 +68,21 @@ const Search = () => {
               X
             </p>
             <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
-              <input
-                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl "
+              <Input
+                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
                 type="text"
-                placeholder="size"
+                name="width"
+                value={formData?.width}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
+                placeholder="Size"
+                error={errors?.width}
               />
               <span className=" absolute right-[16px] top-[20px]">
                 <SizeIcon />
               </span>
             </div>
           </div>
-          <button
-            className="btn-pri cursor-pointer"
-            onClick={() => navigate("/search-results")}
-          >
+          <button className="btn-pri cursor-pointer" onClick={handleSubmit}>
             Start Search
           </button>
         </div>
