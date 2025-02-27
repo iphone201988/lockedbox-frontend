@@ -1,21 +1,23 @@
 import HostProfilePic from "../../assets/host-profile-pic.png";
-import AppliancesIcon from "../../assets/icons/appliances-icn.png";
-import AutoPartIcon from "../../assets/icons/autoPart-icn.png";
-import FurnitureIcon from "../../assets/icons/furniture-icn.png";
-import OfficeIcon from "../../assets/icons/office-icn.png";
-import SeasonalIcon from "../../assets/icons/seasonal-icn.png";
-import VehicleIcon from "../../assets/icons/vehicles-icn.png";
+import { allowedStorage as allowedStorageType } from "../../constants/index";
 
-const ListingInfoDetails = () => {
+const ListingInfoDetails = ({ listing }: { listing: any }) => {
+  const icons = listing.allowedStorage.map((storage: string) => {
+    return allowedStorageType.find((allowedStorage: any) => {
+      if (allowedStorage.name == storage) return allowedStorage;
+    });
+  });
   return (
     <div className="">
-      <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
-        <div className="">
-          <p className="text-[26px] font-semibold">Room for storage</p>
-          <p className="location text-[18px] text-[#959595]">Surrey</p>
+      <div className="flex justify-between items-center py-[16px] border-b border-[#EEEEEE]">
+        <div className="w-[80%]">
+          <p className="text-[26px] font-semibold">{listing?.tagline}</p>
+          <p className="location text-[18px] text-[#959595]">
+            {listing?.address}
+          </p>
         </div>
         <div className="">
-          <div className="flex justify-center items-center ">
+          <div className="flex justify-center items-center w-full">
             <span className="flex gap-[4px] items-center">
               <svg
                 width="12"
@@ -72,41 +74,19 @@ const ListingInfoDetails = () => {
       {/* About this place */}
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <p className="text-[18px] font-semibold mb-[6px]">About this place</p>
-        <p>
-          Secure and clean storage room available for rent! This spacious, empty
-          room is perfect for storing furniture, seasonal items, or business
-          inventory. Located in a safe and accessible area, it offers easy
-          access and flexible rental terms to meet your needs. Ideal for both
-          short- and long-term storage solutions!
-        </p>
+        <p>{listing?.description}</p>
       </div>
       {/* storage info */}
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <div className=" flex flex-wrap gap-x-[40px] gap-y-[16px]">
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={FurnitureIcon} alt="" />
-            <p>Furniture & Household</p>
-          </div>
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={AutoPartIcon} alt="" />
-            <p>Auto Parts & Accessories</p>
-          </div>
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={SeasonalIcon} alt="" />
-            <p>Seasonal & Recreation</p>
-          </div>
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={AppliancesIcon} alt="" />
-            <p>Appliances & Electronics</p>
-          </div>
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={OfficeIcon} alt="" />
-            <p>Office, School & Business</p>
-          </div>
-          <div className="w-[40%] flex items-center gap-[8px]">
-            <img src={VehicleIcon} alt="" />
-            <p>Vehicles</p>
-          </div>
+          {icons.map((item: any) => (
+            <div className="w-[40%] flex items-center gap-[8px]">
+              <span className="flex gap-[5px] w-[24px] h-[24px] items-center">
+                {item.icon}
+              </span>
+              <p>{item.name}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

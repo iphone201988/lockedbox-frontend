@@ -1,6 +1,12 @@
 import HostProfilePic from "../../assets/host-profile-pic.png";
 
-const MessageHost = () => {
+const MessageHost = ({
+  handleRequestBooking,
+  setContent,
+}: {
+  handleRequestBooking: any;
+  setContent: any;
+}) => {
   return (
     <div className="py-[16px]">
       <p className="text-[20px] font-semibold mb-[6px]">Message Host</p>
@@ -22,11 +28,10 @@ const MessageHost = () => {
 
       <div className="mt-[20px] mb-[16px]">
         <div className=" border border-[#EEEEEE] p-[16px] rounded-[16px] relative">
-          <textarea className="w-full h-[180px] " name="" id="">
-            Hello I am looking to rent your space to store some of my skis and
-            school supplies. I have a bunch of textbooks, monitors that I need
-            to put away for the year.
-          </textarea>
+          <textarea
+            className="w-full h-[180px] "
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
           <div className="flex items-center gap-[12px]">
             <input
               className="border border-[#EEEEEE] rounded-[8px] py-[12px] px-[16px] w-full "
@@ -39,7 +44,9 @@ const MessageHost = () => {
           </div>
         </div>
       </div>
-      <button className="btn-pri ml-auto !block">Request Booking</button>
+      <button className="btn-pri ml-auto !block" onClick={handleRequestBooking}>
+        Request Booking
+      </button>
     </div>
   );
 };

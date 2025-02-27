@@ -90,8 +90,8 @@ export const lockedBoxApi = createApi({
         url: `user/change_email_phone`,
         method: "POST",
         body,
-        invalidateTags: [USER_TAG],
       }),
+      invalidatesTags: [USER_TAG],
     }),
 
     // Payment apis
@@ -100,8 +100,8 @@ export const lockedBoxApi = createApi({
         url: `user/payment_method`,
         method: "POST",
         body,
-        invalidateTags: [PAYMENT_TAG],
       }),
+      invalidatesTags: [PAYMENT_TAG],
     }),
     getPaymentMethods: builder.query<any, void>({
       query: () => ({
@@ -114,8 +114,8 @@ export const lockedBoxApi = createApi({
       query: (paymentMethodId) => ({
         url: `user/payment_method/${paymentMethodId}`,
         method: "DELETE",
-        invalidateTags: [PAYMENT_TAG],
       }),
+      invalidatesTags: [PAYMENT_TAG],
     }),
     addStripeConnect: builder.mutation({
       query: () => ({
@@ -130,8 +130,16 @@ export const lockedBoxApi = createApi({
         url: `listing/create`,
         method: "POST",
         body,
-        invalidateTags: [LISTING_TAG],
       }),
+      invalidatesTags: [LISTING_TAG],
+    }),
+    updateListing: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `listing/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [LISTING_TAG],
     }),
     getAllListings: builder.query<any, void>({
       query: () => ({
@@ -145,11 +153,21 @@ export const lockedBoxApi = createApi({
         url: `listing/${listingId}`,
         method: "GET",
       }),
+      providesTags: [LISTING_TAG],
     }),
     findListing: builder.query<any, any>({
       query: ({ latitude, longitude }) => ({
         url: `listing/find_listing?latitude=${latitude}&longitude=${longitude}`,
         method: "GET",
+      }),
+    }),
+
+    // Booking apis
+    requestBooking: builder.mutation({
+      query: (body) => ({
+        url: `booking/request`,
+        method: "POST",
+        body,
       }),
     }),
   }),
@@ -176,4 +194,6 @@ export const {
   useGetListingByIdQuery,
   useFindListingQuery,
   useLazyFindListingQuery,
+  useUpdateListingMutation,
+  useRequestBookingMutation,
 } = lockedBoxApi;

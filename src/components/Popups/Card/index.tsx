@@ -84,7 +84,9 @@ const AddCardPopup = ({
   useEffect(() => {
     if (userData?.success) {
       const { firstName, lastName } = userData.userExists;
-      setFormData({ name: firstName + " " + lastName });
+      if (firstName || lastName) {
+        setFormData({ name: firstName + " " + lastName });
+      }
     }
   }, [userData]);
 
@@ -143,7 +145,7 @@ const AddCardPopup = ({
                 type="text"
                 name="name"
                 value={formData?.name}
-                onChange={(e) => handleInputChange(e, setFormData)}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
                 placeholder="Account Holder Name"
                 error={errors?.name}
                 // disable={formData?.name != "" ? true : false}

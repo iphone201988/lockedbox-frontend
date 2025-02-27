@@ -157,7 +157,7 @@ const Router = createBrowserRouter([
     ),
   },
   {
-    path: "/listing-details",
+    path: "/listing-details/:id",
     element: (
       <Suspense fallback={<Loader />}>
         <ListingDetail />
@@ -173,7 +173,7 @@ const Router = createBrowserRouter([
     ),
   },
   {
-    path: "/booking-review",
+    path: "/booking-review/:id",
     element: (
       <Suspense fallback={<Loader />}>
         <BookingReview />

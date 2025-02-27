@@ -10,9 +10,9 @@ import {
   faCcVisa,
   faCcMastercard,
   faCcAmex,
-  faCcDiscover
+  faCcDiscover,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCreditCard } from "@fortawesome/free-solid-svg-icons"; 
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 
 const brandIcons: any = {
   visa: faCcVisa,
@@ -26,8 +26,9 @@ const PaymentMethod = ({
   last4,
   paymentMethodId,
   refetch,
+  remove = true,
 }: PaymentMethodProps) => {
-    console.log("brand::",brandIcons[brand],brand)
+  console.log("brand::", brandIcons[brand], brand);
   const navigate = useNavigate();
   const [removePaymentMethod, { isLoading, data }] =
     useRemovePaymentMethodMutation();
@@ -56,12 +57,20 @@ const PaymentMethod = ({
           <p className=" font-semibold mt-[8px]">XXXX XXXX XXXX {last4}</p>
         </div>
       </div>
-      <button
-        className="btn-sec mt-[20px] ml-auto"
-        onClick={() => handleRemoveCard(paymentMethodId)}
-      >
-        Remove
-      </button>
+      {remove ? (
+        <button
+          className="btn-sec mt-[20px] ml-auto"
+          onClick={() => handleRemoveCard(paymentMethodId)}
+        >
+          Remove
+        </button>
+      ) : (
+        <button
+          className="btn-sec mt-[20px] ml-auto"
+        >
+          Select
+        </button>
+      )}
     </div>
   );
 };

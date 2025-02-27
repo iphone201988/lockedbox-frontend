@@ -1,13 +1,17 @@
-const PoliciesInfo = () => {
+const PoliciesInfo = ({ listing }: { listing: any }) => {
+  console.log("listing here", listing);
   return (
     <div>
       {/* Policies */}
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <p className="text-[18px] font-semibold mb-[6px]">Policies</p>
         <ul className="list-disc list-inside flex flex-col gap-[6px]">
-          <li>Hazardous materials, explosives, or flammables are prohibited</li>
+          {listing.policies.split(".").map((policy: string) => (
+            <li>{policy}</li>
+          ))}
+          {/* <li>Hazardous materials, explosives, or flammables are prohibited</li>
           <li>No perishable goods or live animals</li>
-          <li>No illegal items or contrabands</li>
+          <li>No illegal items or contrabands</li> */}
         </ul>
       </div>
 
@@ -31,8 +35,8 @@ const PoliciesInfo = () => {
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <p className="text-[18px] font-semibold mb-[6px]">Access</p>
         <ul className="list-disc list-inside flex flex-col gap-[6px]">
-          <li>Access requires appointment.</li>
-          <li>Frequency is weekly.</li>
+          <li>{listing.accessPolicy}</li>
+          <li>Frequency is {listing.frequency}.</li>
         </ul>
       </div>
     </div>

@@ -1,60 +1,100 @@
 import { useRef, useState, useEffect } from "react";
 
+interface ImageItem {
+  id: string; // Unique identifier (URL for existing, temp URL for new)
+  url: string; // Display URL
+  isNew: boolean; // True for new images, false for existing
+  file?: File; // File object for new images, undefined for existing
+}
+
 const MultiImageSelect = ({
   formData,
   setFormData,
-  images = [],
 }: {
   formData: any;
-  setFormData: any;
-  images?: any;
+  setFormData: (data: any) => void;
 }) => {
   const imageRef = useRef<HTMLInputElement>(null);
-  const [selectedImages, setSelectedImages] = useState<File[]>(formData);
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
-  let maxImages = 10;
+  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
+  const [removedImages, setRemovedImages] = useState<string[]>([]);
+  const maxImages = 5;
 
+  // Initialize with existing images from the `images` prop
+  useEffect(() => {
+    console.log("formData::::",formData)
+    const initialItems = formData.map((url:string) => ({
+      id: url,
+      url: import.meta.env.VITE_BACKEND_URL + url,
+      isNew: false,
+    }));
+    setImageItems(initialItems);
+  }, []);
+
+  // Handle new image uploads
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+    const totalImages = imageItems.length + files.length;
 
-    if (selectedImages.length + files.length > maxImages) {
+    if (totalImages > maxImages) {
       alert(`Maximum ${maxImages} images allowed`);
       return;
     }
+
     const validImages = files.filter((file) => file.type.startsWith("image/"));
-    setSelectedImages((prev) => [...prev, ...validImages]);
+    const newItems = validImages.map((file) => {
+      const url = URL.createObjectURL(file);
+      return {
+        id: url, // Using temp URL as ID; could use a UUID if preferred
+        url,
+        isNew: true,
+        file,
+      };
+    });
+    setImageItems((prev) => [...prev, ...newItems]);
   };
 
-  useEffect(() => {
-    const urls = selectedImages.map((image) => URL.createObjectURL(image));
-    setPreviewUrls(urls);
-    setFormData((prev: any) => ({ ...prev, storageImages: selectedImages }));
-    return () => urls.forEach((url) => URL.revokeObjectURL(url));
-  }, [selectedImages]);
-
-  useEffect(() => {
-    //Update case
-    if (!formData.length && images.length) {
-      const urls = images.map(
-        (image: any) => import.meta.env.VITE_BACKEND_URL + image
-      );
-      setExistingImages(urls);
-      maxImages -= images.length;
-    }
-  }, []);
-
+  // Remove an image (existing or new)
   const removeImage = (index: number) => {
-    setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+    const item = imageItems[index];
+    if (!item.isNew) {
+      // Existing image: track it as removed
+      setRemovedImages((prev) => [...prev, item.id]);
+    } else {
+      // New image: revoke temporary URL
+      URL.revokeObjectURL(item.url);
+    }
+    setImageItems((prev) => prev.filter((_, i) => i !== index));
   };
-  const removeExistingImage = (index: number) => {
-    setExistingImages((prev) => prev.filter((_, i) => i !== index));
-  };
+
+  // Update formData with kept existing URLs and new Files
+  useEffect(() => {
+    const keptExisting = imageItems
+      .filter((item) => !item.isNew)
+      .map((item) => item.id);
+    const newFiles = imageItems
+      .filter((item) => item.isNew)
+      .map((item) => item.file!);
+    setFormData((prev: any) => ({
+      ...prev,
+      storageImages: [...keptExisting, ...newFiles],
+    }));
+  }, [imageItems, setFormData]);
+
+  // Cleanup temporary URLs on unmount
+  useEffect(() => {
+    return () => {
+      imageItems.forEach((item) => {
+        if (item.isNew) {
+          URL.revokeObjectURL(item.url);
+        }
+      });
+    };
+  }, []); // Runs only on unmount
 
   return (
     <div
-      className={`w-full max-md:max-w-full  ${
-        previewUrls.length != 0 ? "" : "max-w-[400px]"
+      className={`w-full max-md:max-w-full ${
+        imageItems.length !== 0 ? "" : "max-w-[400px]"
       }`}
     >
       <input
@@ -69,12 +109,12 @@ const MultiImageSelect = ({
 
       <div className="space-y-4">
         {/* Image Grid */}
-        {previewUrls.length > 0 && (
+        {imageItems.length > 0 && (
           <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {previewUrls.map((url, index) => (
-              <div key={url} className="relative group">
+            {imageItems.map((item, index) => (
+              <div key={item.id} className="relative group">
                 <img
-                  src={url}
+                  src={item.url}
                   alt={`Preview ${index + 1}`}
                   className="w-full h-32 object-contain rounded-lg border border-gray-200"
                 />
@@ -92,7 +132,7 @@ const MultiImageSelect = ({
             ))}
 
             {/* Add More Button */}
-            {selectedImages.length > 0 && selectedImages.length < maxImages && (
+            {imageItems.length < maxImages && (
               <div
                 className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer h-32 bg-gray-50 hover:bg-gray-100 transition-colors"
                 onClick={() => imageRef.current?.click()}
@@ -117,32 +157,8 @@ const MultiImageSelect = ({
           </div>
         )}
 
-        {existingImages.length > 0 && (
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {existingImages.map((url, index) => (
-              <div key={url} className="relative group">
-                <img
-                  src={url}
-                  alt={`Preview ${index + 1}`}
-                  className="w-full h-32 object-contain rounded-lg border border-gray-200"
-                />
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeExistingImage(index);
-                  }}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors shadow-sm"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* Initial Upload Area */}
-        {previewUrls.length === 0 && (
+        {imageItems.length === 0 && (
           <div
             className="py-8 px-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
             onClick={() => imageRef.current?.click()}
@@ -175,13 +191,13 @@ const MultiImageSelect = ({
         )}
 
         {/* Validation Messages */}
-        {/* {selectedImages.length < 2 && (
+        {/* {imageItems.length < 2 && (
           <p className="text-sm text-red-500">
             Please upload at least 2 images
           </p>
         )} */}
         <p className="text-sm text-gray-500">
-          {selectedImages.length}/{maxImages} images uploaded
+          {imageItems.length}/{maxImages} images uploaded
         </p>
       </div>
     </div>

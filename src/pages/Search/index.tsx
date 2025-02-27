@@ -29,7 +29,7 @@ const Search = () => {
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
 
-    navigate("/search-result", { state: { formData } });
+    navigate("/search-results", { state: { formData } });
   };  
 
   return (

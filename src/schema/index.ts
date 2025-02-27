@@ -124,7 +124,6 @@ export const StepTwoSchema = yup.object({
     .of(yup.mixed())
     .min(2)
     .required("Storage images are required"),
-  images: yup.array().optional(),
 });
 
 export const SearchPropertySchema = yup.object({
@@ -133,6 +132,13 @@ export const SearchPropertySchema = yup.object({
   longitude: yup.string().required("Longitude is required"),
   length: yup.string().optional(),
   width: yup.string().optional(),
+});
+
+export const BillingAddressSchema = yup.object({
+  street: yup.string().required("Address is required"),
+  country: yup.string().required("City is required"),
+  province: yup.string().required("State is required"),
+  postalCode: yup.string().required("Zip is required"),
 });
 
 export const validateForm = async (

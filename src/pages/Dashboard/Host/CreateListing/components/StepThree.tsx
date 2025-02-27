@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  useAddStripeConnectMutation,
-} from "../../../../../redux/api";
+import { useAddStripeConnectMutation } from "../../../../../redux/api";
 import Loader from "../../../../../components/Loader";
 import { handleError } from "../../../../../utils/helper";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const StepThree = ({ handleSubmit }: { handleSubmit: any }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [addStripeConnect, { isLoading, data }] = useAddStripeConnectMutation();
 
@@ -73,7 +72,7 @@ const StepThree = ({ handleSubmit }: { handleSubmit: any }) => {
               className="btn-pri mr-auto mt-[16px]"
               onClick={handleSubmit}
             >
-              Create Listing
+              {id ? "Update Listing" : "Create Listing"}
             </button>
           )}
         </div>

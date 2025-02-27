@@ -85,6 +85,7 @@ type PaymentMethodProps = {
   last4: string;
   paymentMethodId: string;
   refetch: () => void;
+  remove?: boolean;
 };
 
 type VerifyPopUp = {
@@ -136,4 +137,14 @@ type CustomOptions = {
   name: string;
   error?: string | undefined;
   multiple?: boolean;
+};
+
+type Properties = {
+  id: string;
+  image: string;
+  title: string;
+  lat: number;
+  lng: number;
+  distance: number;
+  price: number;
 };

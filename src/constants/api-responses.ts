@@ -10,4 +10,6 @@ export const ResponseMessages = {
   PHONE_VERIFIED: "Phone number verified successfully",
   EMAIL_VERIFIED: "Email verified successfully",
   LISTING_CREATED: "Listing created successfully",
+  LISTING_UPDATED: "Listing updated successfully",
+  BOOKING_REQUESTED: "Booking request sent successfully",
 };

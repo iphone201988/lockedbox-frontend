@@ -10,6 +10,7 @@ import * as yup from "yup";
 import {
   useCreateListingMutation,
   useGetListingByIdQuery,
+  useUpdateListingMutation,
 } from "../../../../redux/api";
 import { handleError } from "../../../../utils/helper";
 import { useNavigate, useParams } from "react-router-dom";
@@ -50,7 +51,6 @@ const StepTwoInitialState: StepTwoFormType = {
   accessPolicy: "",
   frequency: "",
   storageImages: [],
-  images: [],
 };
 
 const CreateListing = () => {
@@ -77,27 +77,29 @@ const CreateListing = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");
   const [createListing, { data, isLoading }] = useCreateListingMutation();
+  const [updateListing, { data: updatedData, isLoading: isUpating }] =
+    useUpdateListingMutation();
   const [isDataLoaded, setIsDataLoaded] = useState(id ? false : true);
 
   const handleNextStep = async (step: number) => {
     console.log("stepOne::::", stepTwo);
-    // if (step === 1) {
-    //   const hasErrors: boolean = await stepOneValidate();
-    //   if (!isChecked || hasErrors) {
-    //     if (!isChecked) {
-    //       setCheckboxError("You must certify your location.");
-    //     } else {
-    //       setCheckboxError("");
-    //     }
-    //     return;
-    //   }
+    if (step === 1) {
+      const hasErrors: boolean = await stepOneValidate();
+      if (!isChecked || hasErrors) {
+        if (!isChecked) {
+          setCheckboxError("You must certify your location.");
+        } else {
+          setCheckboxError("");
+        }
+        return;
+      }
 
-    //   setCheckboxError("");
-    // }
-    // if (step === 2) {
-    //   const hasErrors: boolean = await stepTwoValidate();
-    //   if (hasErrors) return;
-    // }
+      setCheckboxError("");
+    }
+    if (step === 2) {
+      const hasErrors: boolean = await stepTwoValidate();
+      if (hasErrors) return;
+    }
     setCurrentStep(step);
   };
 
@@ -121,7 +123,15 @@ const CreateListing = () => {
 
     Object.entries(stepTwo).forEach(([key, value]) => {
       if (key === "storageImages" && Array.isArray(value)) {
-        value.forEach((file: any) => formData.append("storageImages", file));
+        let images: any = [];
+        value.forEach((file: any) => {
+          if (file instanceof File) {
+            formData.append("storageImages", file);
+          } else {
+            images.push(file);
+          }
+        });
+        if (images.length) formData.append("images", JSON.stringify(images));
       } else if (typeof value === "object") {
         formData.append(key, JSON.stringify(value));
       } else {
@@ -129,9 +139,16 @@ const CreateListing = () => {
       }
     });
 
-    await createListing(formData)
-      .unwrap()
-      .catch((error) => handleError(error, navigate));
+    console.log("data::::", stepOne, stepTwo, formData);
+    if (id) {
+      await updateListing({ id, body: formData })
+        .unwrap()
+        .catch((error) => handleError(error, navigate));
+    } else {
+      await createListing(formData)
+        .unwrap()
+        .catch((error) => handleError(error, navigate));
+    }
   };
 
   useEffect(() => {
@@ -140,6 +157,13 @@ const CreateListing = () => {
       navigate("/dashboard/listing", { replace: true });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (updatedData?.success) {
+      toast.success(ResponseMessages.LISTING_UPDATED);
+      navigate("/dashboard/listing", { replace: true });
+    }
+  }, [updatedData]);
 
   useEffect(() => {
     if (listingData?.success) {
@@ -168,11 +192,7 @@ const CreateListing = () => {
         policies: listing.policies,
         accessPolicy: listing.accessPolicy,
         frequency: listing.frequency,
-        // storageImages: listing.storageImages.map(
-        //   (url: string) => import.meta.env.VITE_BACKEND_URL + url
-        // ),
-        storageImages: [],
-        images: listing.storageImages,
+        storageImages: listing.storageImages,
       };
 
       setStepOne(stepOne);
@@ -188,7 +208,7 @@ const CreateListing = () => {
 
   return (
     <div className="px-[30px] py-[32px] max-lg:px-[20px]">
-      {isLoading && <Loader />}
+      {(isLoading || isUpating) && <Loader />}
       <Tabs
         selectedIndex={currentStep}
         onSelect={handleNextStep as any}

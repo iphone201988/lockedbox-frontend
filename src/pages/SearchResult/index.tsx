@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SearchListing from "./components/search-listing";
 import ItemsFilter from "./components/items-filter";
 import SortFilter from "./components/sort-filter";
@@ -37,7 +37,9 @@ const properties: any = [
 ];
 
 const SearchResult = () => {
-  const [filters, setFilters] = useState(initialState);
+  const [showFilters, setShowFilters] = useState(initialState);
+  const [filters, setFilters] = useState();
+  const [properties, setProperties] = useState<Properties[]>([]);
   const [showGrid, setShowGrid] = useState(true);
   const [locationPermissionGranted, setLocationPermissionGranted] =
     useState(false);
@@ -49,19 +51,21 @@ const SearchResult = () => {
   const [findListing, { data, isLoading }] = useLazyFindListingQuery();
   const location = useLocation();
   const navigate = useNavigate();
-
-  if (location?.state?.formData) {
-    setUserLocation({
-      latitude: location.state.formData.latitude,
-      longitude: location.state.formData.longitude,
-    });
-  }
+  const customLocation =
+    !location.state?.formData?.longitude || !location.state?.formData?.latitude;
 
   useEffect(() => {
-    if (
-      navigator.geolocation &&
-      (!userLocation.longitude || !userLocation.latitude)
-    ) {
+    if (location.state?.formData) {
+      setUserLocation({
+        latitude: location.state.formData.latitude,
+        longitude: location.state.formData.longitude,
+      });
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    if (navigator.geolocation && customLocation) {
+      console.log("not enetered");
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const latitude = position.coords.latitude;
@@ -83,7 +87,9 @@ const SearchResult = () => {
 
   useEffect(() => {
     if (!userLocation.latitude || !userLocation.longitude) return;
+
     (async () => {
+      console.log("userLocation :::", userLocation);
       await findListing({
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
@@ -95,17 +101,29 @@ const SearchResult = () => {
 
   useEffect(() => {
     console.log("listings data :::", data);
+    if (data?.success) {
+      const properties = data.listings.map((item: any) => ({
+        id: item._id,
+        title: item.spaceType,
+        distance: item.distance,
+        price: item.price,
+        lat: item.location.coordinates[1],
+        lng: item.location.coordinates[0],
+        image: item.storageImages[0],
+      }));
+      setProperties(properties);
+    }
   }, [data]);
 
   const handleFilterChange = (e: any) => {
     const filterName = e.currentTarget.name;
-    setFilters((prevFilters: any) => ({
+    setShowFilters((prevFilters: any) => ({
       ...initialState,
       [filterName]: !prevFilters[filterName],
     }));
   };
 
-  if (!locationPermissionGranted) {
+  if (!locationPermissionGranted && customLocation) {
     return (
       <div>
         <ProfileNavbar />
@@ -162,52 +180,53 @@ const SearchResult = () => {
                 {showGrid ? "Grid" : "Map"}
               </button>
               <button
-                className={`${filters.items ? "active" : ""}`}
+                className={`${showFilters.items ? "active" : ""}`}
                 name="items"
                 onClick={handleFilterChange}
               >
-                Items <ItemsFilter showFilters={filters.items} />
+                Items <ItemsFilter showFilters={showFilters.items} />
               </button>
               <button
                 name="price"
-                className={`${filters.price ? "active" : ""}`}
+                className={`${showFilters.price ? "active" : ""}`}
                 onClick={handleFilterChange}
               >
-                Price <PriceFilter showFilters={filters.price} />
+                Price <PriceFilter showFilters={showFilters.price} />
               </button>
               <button
                 name="sort"
-                className={`${filters.sort ? "active" : ""}`}
+                className={`${showFilters.sort ? "active" : ""}`}
                 onClick={handleFilterChange}
               >
-                Sort <SortFilter showFilters={filters.sort} />
+                Sort <SortFilter showFilters={showFilters.sort} />
               </button>
               <button
-                className={`${filters.main ? "active" : ""} !p-[10px]`}
+                className={`${showFilters.main ? "active" : ""} !p-[10px]`}
                 name="main"
                 onClick={handleFilterChange}
               >
                 <FiltersIcon />
-                <MainFilter showFilters={filters.main} />
+                <MainFilter showFilters={showFilters.main} />
               </button>
             </div>
           </div>
           <div className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto">
             <div className="grid grid-cols-[repeat(5,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]">
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
-              <SearchListing />
+              {properties.length ? (
+                properties.map((property: Properties) => (
+                  <SearchListing
+                    id={property.id}
+                    title={property.title}
+                    price={property.price}
+                    distance={Number((property.distance / 1000).toFixed(2))}
+                    image={property.image}
+                    lat={property.lat}
+                    lng={property.lng}
+                  />
+                ))
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>

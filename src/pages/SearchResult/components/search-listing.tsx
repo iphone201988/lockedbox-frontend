@@ -2,12 +2,20 @@ import { useNavigate } from "react-router-dom";
 import ListingImg from "../../../assets/Listing-1.png";
 import { StarIcon } from "../../../icons";
 
-const SearchListing = () => {
+const SearchListing = ({
+  id,
+  image,
+  title,
+  lat,
+  lng,
+  distance,
+  price,
+}: Properties) => {
   const navigate = useNavigate();
   return (
     <div
       className="cursor-pointer"
-      onClick={() => navigate("/listing-details")}
+      onClick={() => navigate(`/listing-details/${id}`)}
     >
       <div className="relative ">
         <img className="rounded-[16px] w-full" src={ListingImg} alt="" />
@@ -20,7 +28,7 @@ const SearchListing = () => {
           <p className="text-[13px] ml-[4px]">(7 reviews)</p>
         </div>
         <div className="bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute left-[8px] bottom-[8px]">
-          <span className="text-[13px] font-normal">1.2 km</span>
+          <span className="text-[13px] font-normal">{distance} km</span>
         </div>
       </div>
       <div className="flex justify-between items-start mt-[6px]">
@@ -28,9 +36,11 @@ const SearchListing = () => {
           className=" text-[16px] font-semibold text-[#1f1f1f] block w-[150px] leading-[normal] max-md:w-[120px]"
           href="#"
         >
-          Garage space
+          {title}
         </a>
-        <span className="text-[#235370] max-md:text-[14px]">$89/ month</span>
+        <span className="text-[#235370] max-md:text-[14px]">
+          ${price}/ month
+        </span>
       </div>
     </div>
   );
