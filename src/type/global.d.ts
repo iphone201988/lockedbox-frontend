@@ -95,7 +95,9 @@ type VerifyPopUp = {
 };
 
 type BookingCard = {
+  booking: any;
   type: "future" | "current" | "past" | "dispute";
+  role: string;
 };
 
 type CommonListing = {

@@ -41,8 +41,9 @@ const SearchResult = () => {
   const [filters, setFilters] = useState();
   const [properties, setProperties] = useState<Properties[]>([]);
   const [showGrid, setShowGrid] = useState(true);
-  const [locationPermissionGranted, setLocationPermissionGranted] =
-    useState(false);
+  const [locationPermissionGranted, setLocationPermissionGranted] = useState<
+    boolean | null
+  >(null);
 
   const [userLocation, setUserLocation] = useState<any>({
     latitude: "",
@@ -70,6 +71,7 @@ const SearchResult = () => {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
+          console.log("latitude longitude", latitude, longitude);
           setUserLocation({
             latitude,
             longitude,
@@ -123,7 +125,11 @@ const SearchResult = () => {
     }));
   };
 
-  if (!locationPermissionGranted && customLocation) {
+  if (
+    locationPermissionGranted != null &&
+    !locationPermissionGranted &&
+    customLocation
+  ) {
     return (
       <div>
         <ProfileNavbar />

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import ListingImg from "../../../assets/Listing-1.png";
 import { StarIcon } from "../../../icons";
 
 const SearchListing = ({
@@ -18,7 +17,11 @@ const SearchListing = ({
       onClick={() => navigate(`/listing-details/${id}`)}
     >
       <div className="relative ">
-        <img className="rounded-[16px] w-full" src={ListingImg} alt="" />
+        <img
+          className="rounded-[16px] w-full"
+          src={import.meta.env.VITE_BACKEND_URL + image}
+          alt=""
+        />
         <div className="flex justify-center items-center  bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute right-[8px] top-[8px]">
           <span className="flex gap-[4px] items-center">
             {" "}

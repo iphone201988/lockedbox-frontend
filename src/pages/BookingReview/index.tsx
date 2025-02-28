@@ -55,11 +55,24 @@ const BookingReview = () => {
       toast.error("Something went wrong!");
       return;
     }
+
+    if (!content) {
+      toast.error("Content is required!");
+      return;
+    }
+
     const paymentMethodId = await paymentRef.current.handleSubmit();
 
     if (!paymentMethodId) {
       return;
     }
+
+
+    const amount = listing.price * monthsDifference;
+    const tax = 99.0;
+    const serviceFee = 79.2;
+    const grandTotal =
+      amount + serviceFee + tax + (selectedPlan ? selectedPlan?.price : 0);
 
     await requestBooking({
       listingId: id,
@@ -67,6 +80,13 @@ const BookingReview = () => {
       endDate,
       hostId: listing?.userId,
       content,
+      paymentMethodId,
+      currency: "cad",
+      insuranceId: selectedPlan.id,
+      amount,
+      tax,
+      serviceFee,
+      totalAmount: grandTotal,
     })
       .unwrap()
       .catch((error) => handleError(error, navigate));
@@ -76,7 +96,7 @@ const BookingReview = () => {
     console.log("bookingData :::", bookingData);
     if (bookingData?.success) {
       toast.success(ResponseMessages.BOOKING_REQUESTED);
-      // navigate("/dashboard/booking", { replace: true });
+      navigate("/dashboard/booking", { replace: true });
     }
   }, [bookingData]);
   return (

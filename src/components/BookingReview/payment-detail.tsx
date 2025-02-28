@@ -107,7 +107,7 @@ const PaymentDetail = forwardRef((props, ref) => {
   return (
     <div className="">
       {isLoading && <Loader />}
-      {cards.length ? (
+      {/* {cards.length ? (
         <div className="mb-5">
           <p className="text-[20px] font-semibold ">Cards</p>
           {cards.map((card: any) => (
@@ -122,9 +122,9 @@ const PaymentDetail = forwardRef((props, ref) => {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
 
-      <div className="pb-[30px]">
+      <div className="pb-[30px] mt-5">
         <p className="text-[20px] font-semibold ">Payment details</p>
         <div className="my-[16px]">
           <p className=" font-semibold mb-[6px]">Card Number</p>

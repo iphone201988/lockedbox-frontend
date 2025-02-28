@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DateIcon from "../../assets/icons/date-picker-icn.png";
 import DatePickerInput from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,11 +6,18 @@ import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { addMonths } from "date-fns";
 import { toast } from "react-toastify";
+import { useLazyCheckBookingAvailabilityQuery } from "../../redux/api";
+import Loader from "../Loader";
+import { handleError } from "../../utils/helper";
+import moment from "moment";
 
 const DatePicker = ({ id, price }: { id: string; price: number }) => {
   const navigate = useNavigate();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  const [checkAvailability, { data, isLoading, isFetching }] =
+    useLazyCheckBookingAvailabilityQuery();
 
   // State for start and end dates
   const [startDate, setStartDate] = useState(today);
@@ -30,16 +37,37 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
     setEndDate(date); // Update end date based on user selection
   };
 
-  const handleRequest = () => {
+  const handleRequest = async () => {
     if (!endDate) {
       toast.error("Please select end date");
       return;
     }
-    navigate(`/booking-review/${id}`, { state: { startDate, endDate } });
+
+    await checkAvailability({
+      id,
+      startDate: moment(startDate).format("YYYY-MM-DD"),
+      endDate: moment(endDate).format("YYYY-MM-DD"),
+      _cacheBuster: Date.now(),
+    })
+      .unwrap()
+      .catch((error) => handleError(error, navigate));
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      const { available } = data;
+      if (!available) {
+        toast.error("Booking is not available in the selected time period");
+        return;
+      }
+      if (available)
+        navigate(`/booking-review/${id}`, { state: { startDate, endDate } });
+    }
+  }, [data]);
 
   return (
     <div className="select-dates">
+      {(isLoading || isFetching) && <Loader />}
       <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] max-w-[370px] w-full">
         <p className="text-[20px] font-semibold mb-[8px]">Select your dates</p>
         <p className="text-[26px] font-semibold">${price}/month</p>

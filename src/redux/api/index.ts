@@ -170,6 +170,37 @@ export const lockedBoxApi = createApi({
         body,
       }),
     }),
+    findRenterBookings: builder.query<any, any>({
+      query: ({ type }) => ({
+        url: `booking/rent_booking?type=${type}`,
+        method: "GET",
+      }),
+    }),
+    getInsurancePlans: builder.query<any, void>({
+      query: () => ({
+        url: `booking/insurance_plan`,
+        method: "GET",
+      }),
+    }),
+    checkBookingAvailability: builder.query<any, any>({
+      query: ({ id, startDate, endDate }) => ({
+        url: `booking/check_availability?listingId=${id}&startDate=${startDate}&endDate=${endDate}`,
+        method: "GET",
+      }),
+    }),
+    findHostBookings: builder.query<any, any>({
+      query: ({ type }) => ({
+        url: `booking/host_booking?type=${type}`,
+        method: "GET",
+      }),
+    }),
+    updateBookingStatus: builder.mutation({
+      query: ({ bookingId, body }) => ({
+        url: `booking/${bookingId}/status`,
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -196,4 +227,11 @@ export const {
   useLazyFindListingQuery,
   useUpdateListingMutation,
   useRequestBookingMutation,
+  useFindRenterBookingsQuery,
+  useLazyFindRenterBookingsQuery,
+  useFindHostBookingsQuery,
+  useLazyFindHostBookingsQuery,
+  useUpdateBookingStatusMutation,
+  useLazyCheckBookingAvailabilityQuery,
+  useGetInsurancePlansQuery
 } = lockedBoxApi;
