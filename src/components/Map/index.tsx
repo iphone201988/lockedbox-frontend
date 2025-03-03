@@ -23,7 +23,13 @@ const createPriceMarker = (price: string) => {
   };
 };
 
-const Map = ({ properties }: { properties: any }) => {
+const Map = ({
+  properties,
+  userLocation,
+}: {
+  properties: any;
+  userLocation: any;
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
     libraries: ["places"],
@@ -35,8 +41,10 @@ const Map = ({ properties }: { properties: any }) => {
     { lat: number; lng: number; icon: google.maps.Icon }[]
   >([]);
   const [zoom, setZoom] = useState(12); // Default zoom level
-  const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
-    null
+  const [center, setCenter] = useState<{ lat: number; lng: number }>(
+    properties.length
+      ? { lat: 37.7749, lng: -122.4194 }
+      : { lat: userLocation.latitude, lng: userLocation.longitude }
   );
 
   useEffect(() => {
@@ -87,15 +95,15 @@ const Map = ({ properties }: { properties: any }) => {
   if (!isLoaded) return <Loader />;
 
   return (
-    <div className="w-full h-[600px] rounded-lg overflow-hidden shadow-lg border border-gray-200">
+    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-gray-200">
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "100%" }}
         zoom={zoom}
-        center={center ?? { lat: 37.7749, lng: -122.4194 }}
+        center={center}
         onLoad={(map) => {
           setMapRef(map);
           if (properties.length === 0) {
-            map.setCenter({ lat: 37.7749, lng: -122.4194 });
+            map.setCenter(center);
           }
         }}
         options={{

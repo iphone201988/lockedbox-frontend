@@ -40,7 +40,7 @@ const RenterNotification = lazy(
 const RenterPayment = lazy(
   () => import("../pages/Dashboard/Renter/Account/Payment")
 );
-const RenterBooking = lazy(() => import("../pages/Dashboard/Renter/Booking"));
+const Booking = lazy(() => import("../pages/Dashboard/Booking"));
 const RenterMessage = lazy(() => import("../pages/Dashboard/Renter/Message"));
 const RenterReviews = lazy(() => import("../pages/Dashboard/Renter/Reviews"));
 const ReviewYourHost = lazy(
@@ -246,12 +246,12 @@ const Router = createBrowserRouter([
         path: "booking",
         element: (
           <Suspense fallback={<Loader />}>
-            <RenterBooking />
+            <Booking />
           </Suspense>
         ),
       },
       {
-        path: "booking/check-in",
+        path: "booking/:bookingId/check-in/:listingId",
         element: (
           <Suspense fallback={<Loader />}>
             <CheckIn />

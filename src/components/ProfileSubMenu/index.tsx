@@ -43,9 +43,13 @@ const ProfileSubMenu = ({
       onClick={() => setShowDropDown(false)}
     >
       {isLoading && <Loader />}
-      {profileSubMenu.map((item: any) => {
+      {profileSubMenu.map((item: any, index: number) => {
         return item?.url ? (
-          <Link className="profile-link !text-[16px] !gap-[8px]" to={item.url}>
+          <Link
+            className="profile-link !text-[16px] !gap-[8px]"
+            to={item.url}
+            key={index}
+          >
             {item.icon}
             {item.label}
             {item.hasNotification && <i className="notify-dot"></i>}
@@ -53,6 +57,7 @@ const ProfileSubMenu = ({
         ) : (
           <button
             className="profile-link !text-[16px] !gap-[8px]"
+            key={index}
             onClick={(e) => {
               e.stopPropagation();
               handleRoleChange(role == "host" ? "rent" : "host");

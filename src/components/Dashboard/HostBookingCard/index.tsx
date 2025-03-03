@@ -3,7 +3,7 @@ import UserIcon from "../../../assets/icons/user-icn.png";
 import DateIcon from "../../../assets/icons/date-picker-icn.png";
 import DarkDateIcon from "../../../assets/icons/date-picker-black-icn.png";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import moment from "moment";
 import {
   useGetUserQuery,
@@ -129,12 +129,14 @@ const HostBookingCard = ({
 
         <div className=" flex items-center w-full justify-end max-sm:flex-col-reverse gap-[12px] max-sm:items-start">
           {/* checkin button */}
-          <a
-            className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
-            href="#"
-          >
-            Check in
-          </a>
+          {booking.status == "approve" && !booking.isCheckIn && (
+            <Link
+              className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
+              to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
+            >
+              Check in
+            </Link>
+          )}
 
           {/* start end date */}
           <div className="before-dotted-line flex justify-between relative max-sm:gap-[20px] max-w-[350px] w-full  max-md:max-w-[300px] max-sm:max-w-full max-sm:items-start">

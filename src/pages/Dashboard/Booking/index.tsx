@@ -1,18 +1,17 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import DisputePopup from "../../../../components/Popups/DisputePopup";
-import NoBooking from "../../../../components/Dashboard/NoBooking";
+import NoBooking from "../../../components/Dashboard/NoBooking";
 import {
   useGetUserQuery,
   useLazyFindHostBookingsQuery,
   useLazyFindRenterBookingsQuery,
-} from "../../../../redux/api";
-import Loader from "../../../../components/Loader";
+} from "../../../redux/api";
+import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
-import { handleError } from "../../../../utils/helper";
+import { handleError } from "../../../utils/helper";
 import { useNavigate } from "react-router-dom";
-import BookingCard from "../../../../components/Dashboard/BookingCard";
-import HostBookingCard from "../../../../components/Dashboard/HostBookingCard";
+import BookingCard from "../../../components/Dashboard/BookingCard";
+import HostBookingCard from "../../../components/Dashboard/HostBookingCard";
 
 type BookingType = {
   future: any[];
@@ -20,7 +19,7 @@ type BookingType = {
   current: any[];
   dispute: any[];
 };
-const RenterBooking = () => {
+const Booking = () => {
   const navigate = useNavigate();
   const { data: userData, isLoading } = useGetUserQuery();
   const [
@@ -87,16 +86,14 @@ const RenterBooking = () => {
       return;
     }
 
-    console.log("dashboardRole", dashboardRole);
-
     if (dashboardRole == "rent") {
-      await findRenterBookings({ type: "future" })
+      await findRenterBookings({ type })
         .unwrap()
         .catch((error) => handleError(error, navigate));
     }
 
     if (dashboardRole == "host") {
-      await findHostBookings({ type: "future" })
+      await findHostBookings({ type })
         .unwrap()
         .catch((error) => handleError(error, navigate));
     }
@@ -207,11 +204,8 @@ const RenterBooking = () => {
           </div>
         </TabPanel>
       </Tabs>
-
-      {/* booking popus */}
-      {/* <DisputePopup/> */}
     </div>
   );
 };
 
-export default RenterBooking;
+export default Booking;

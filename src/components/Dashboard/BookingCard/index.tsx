@@ -1,4 +1,3 @@
-import BoxImage from "../../../assets/box-detail-image.png";
 import DisputeIcon from "../../../assets/icons/dispute-icn.png";
 import moment from "moment";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
@@ -94,12 +93,12 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           >
             View Receipt
           </a>
-          <a
+          <Link
             className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
-            href="#"
+            to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
           >
             Check in
-          </a>
+          </Link>
         </div>
       )}
     </div>

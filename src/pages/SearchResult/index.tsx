@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import SearchListing from "./components/search-listing";
-import ItemsFilter from "./components/items-filter";
-import SortFilter from "./components/sort-filter";
-import PriceFilter from "./components/price-filter";
-import MainFilter from "./components/main-filter";
-import ProfileNavbar from "../../components/ProfileNavbar";
-import Map from "../../components/Map";
-import { FiltersIcon } from "../../icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import ProfileNavbar from "../../components/ProfileNavbar";
 import Loader from "../../components/Loader";
+import Map from "../../components/Map";
+import SearchListing from "./components/search-listing";
 import { useLazyFindListingQuery } from "../../redux/api";
 import { handleError } from "../../utils/helper";
+import ItemsFilter from "./components/items-filter";
+import PriceFilter from "./components/price-filter";
+import SortFilter from "./components/sort-filter";
+import { FiltersIcon, PropertyIcon } from "../../icons";
+import MainFilter from "./components/main-filter";
 
 const initialState = {
   items: false,
@@ -19,36 +19,25 @@ const initialState = {
   main: false,
 };
 
-const properties: any = [
-  {
-    id: "1",
-    lat: 37.7749,
-    lng: -122.4194,
-    title: "Downtown Luxury Apartment",
-    price: "$500,000",
-  },
-  {
-    id: "2",
-    lat: 37.7859,
-    lng: -122.4014,
-    title: "Golden Gate View Home",
-    price: "$1,200,000",
-  },
-];
-
 const SearchResult = () => {
-  const [showFilters, setShowFilters] = useState(initialState);
-  const [filters, setFilters] = useState();
-  const [properties, setProperties] = useState<Properties[]>([]);
-  const [showGrid, setShowGrid] = useState(true);
   const [locationPermissionGranted, setLocationPermissionGranted] = useState<
     boolean | null
   >(null);
+  const [showFilters, setShowFilters] = useState(initialState);
 
+  const [selectedFilters, setSelectedFilters] = useState({
+    items: [],
+    price: { min: null, max: null },
+    sort: null,
+    main: null,
+  });
+
+  const [showGrid, setShowGrid] = useState(true);
   const [userLocation, setUserLocation] = useState<any>({
     latitude: "",
     longitude: "",
   });
+  const [properties, setProperties] = useState<any>([]);
   const [findListing, { data, isLoading }] = useLazyFindListingQuery();
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,7 +45,14 @@ const SearchResult = () => {
     !location.state?.formData?.longitude || !location.state?.formData?.latitude;
 
   useEffect(() => {
-    if (location.state?.formData) {
+    if (
+      location.state?.formData?.latitude &&
+      location.state?.formData?.longitude
+    ) {
+      console.log(
+        "Setting userLocation from formData:",
+        location.state.formData
+      );
       setUserLocation({
         latitude: location.state.formData.latitude,
         longitude: location.state.formData.longitude,
@@ -65,46 +61,45 @@ const SearchResult = () => {
   }, [location.state]);
 
   useEffect(() => {
-    if (navigator.geolocation && customLocation) {
-      console.log("not enetered");
+    if (!navigator.geolocation) {
+      console.log("Geolocation not supported by browser");
+      setLocationPermissionGranted(false);
+      return;
+    }
+    if (customLocation) {
+      console.log("Requesting geolocation");
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          console.log("latitude longitude", latitude, longitude);
-          setUserLocation({
-            latitude,
-            longitude,
-          });
+          const { latitude, longitude } = position.coords;
+          console.log("Position received:", { latitude, longitude });
+          setUserLocation({ latitude, longitude });
           setLocationPermissionGranted(true);
         },
         (error) => {
+          console.log("Geolocation error:", error);
           setLocationPermissionGranted(false);
         }
       );
     } else {
-      setLocationPermissionGranted(false);
+      console.log("Using custom location from formData");
+      setLocationPermissionGranted(true);
     }
   }, []);
 
   useEffect(() => {
     if (!userLocation.latitude || !userLocation.longitude) return;
-
-    (async () => {
-      console.log("userLocation :::", userLocation);
-      await findListing({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-      })
-        .unwrap()
-        .catch((error) => handleError(error, navigate));
-    })();
-  }, [userLocation]);
+    console.log("Fetching listings with userLocation:", userLocation);
+    findListing({
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
+    })
+      .unwrap()
+      .catch((error) => handleError(error, navigate));
+  }, [userLocation, findListing, navigate]);
 
   useEffect(() => {
-    console.log("listings data :::", data);
     if (data?.success) {
-      const properties = data.listings.map((item: any) => ({
+      const mappedProperties = data.listings.map((item: any) => ({
         id: item._id,
         title: item.spaceType,
         distance: item.distance,
@@ -113,16 +108,17 @@ const SearchResult = () => {
         lng: item.location.coordinates[0],
         image: item.storageImages[0],
       }));
-      setProperties(properties);
+      setProperties(mappedProperties);
     }
   }, [data]);
 
-  const handleFilterChange = (e: any) => {
-    const filterName = e.currentTarget.name;
-    setShowFilters((prevFilters: any) => ({
-      ...initialState,
-      [filterName]: !prevFilters[filterName],
-    }));
+  const handleItemsFilterChange = (itemName: string) => {
+    setSelectedFilters((prev: any) => {
+      const items = prev.items.includes(itemName)
+        ? prev.items.filter((i: any) => i !== itemName)
+        : [...prev.items, itemName];
+      return { ...prev, items };
+    });
   };
 
   if (
@@ -142,7 +138,17 @@ const SearchResult = () => {
     );
   }
 
-  if (!userLocation.latitude || !userLocation.longitude) return <Loader />;
+  const handleFilterChange = (e: any) => {
+    const filterName = e.currentTarget.name;
+    setShowFilters((prevFilters: any) => ({
+      ...initialState,
+      [filterName]: !prevFilters[filterName],
+    }));
+  };
+
+  if (!userLocation.latitude || !userLocation.longitude) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -151,7 +157,7 @@ const SearchResult = () => {
       <div className="flex h-[90vh] max-lg:flex-col">
         {showGrid && (
           <div className="w-max-[50%] w-[50%] max-lg:w-max-[100%] max-lg:w-[100%] max-lg:h-[50%]">
-            <Map properties={properties} />
+            <Map properties={properties} userLocation={userLocation} />
           </div>
         )}
         <div
@@ -161,24 +167,24 @@ const SearchResult = () => {
         >
           <div className="fliters-row flex items-center justify-between mb-[16px] flex-wrap ">
             <div className="flex items-center">
-              <div className="input-with-icon relative w-[60px]  ">
+              <div className="input-with-icon relative w-[70px]  ">
                 <input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl text-center"
-                  type="text"
-                  value="5ft"
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl  text-center"
+                  type="number"
+                  value="500"
                 />
-                <span className=" absolute right-[16px] top-[20px]"></span>
+                <span className=" absolute right-[16px] top-[21px]">ft</span>
               </div>
               <p className="text-[26px] font-semibold px-[12px] leading-[26px]">
                 X
               </p>
-              <div className="input-with-icon relative  w-[60px]  ">
+              <div className="input-with-icon relative  w-[70px]  ">
                 <input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl text-center"
-                  type="text"
-                  value="5ft"
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl  text-left"
+                  type="number"
+                  value="5"
                 />
-                <span className=" absolute right-[16px] top-[20px]"></span>
+                <span className=" absolute right-[16px] top-[21px]">ft</span>
               </div>
             </div>
             <div className="filter-btns-row">
@@ -190,7 +196,12 @@ const SearchResult = () => {
                 name="items"
                 onClick={handleFilterChange}
               >
-                Items <ItemsFilter showFilters={showFilters.items} />
+                Items{" "}
+                <ItemsFilter
+                  showFilters={showFilters.items}
+                  selectedFilters={selectedFilters.items}
+                  handleItemsFilterChange={handleItemsFilterChange}
+                />
               </button>
               <button
                 name="price"
@@ -228,10 +239,19 @@ const SearchResult = () => {
                     image={property.image}
                     lat={property.lat}
                     lng={property.lng}
+                    totalReviews={property.totalReviews}
+                    averageRating={property.averageRating}
                   />
                 ))
               ) : (
-                <></>
+                <div className="flex flex-col border border-[#EEEEEE] rounded-[16px] p-[40px] gap-[20px] justify-center items-center max-w-[360px]">
+                  <span>
+                    <PropertyIcon />
+                  </span>
+                  <p className="text-[18px] font-semibold">
+                    No Storage Room found{" "}
+                  </p>
+                </div>
               )}
             </div>
           </div>

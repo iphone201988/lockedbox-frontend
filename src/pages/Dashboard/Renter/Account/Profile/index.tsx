@@ -1,4 +1,4 @@
-import ProfilPic from "../../../../../assets/if-no-user.png";
+import ProfilPic from "../../../../../assets/icons/if-no-user.png";
 import LocationImage from "../../../../../assets/icons/location-icn-grey.png";
 import { LocationIcon } from "../../../../../icons";
 import { useEffect, useRef, useState } from "react";

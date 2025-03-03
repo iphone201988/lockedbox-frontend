@@ -1,8 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import CommonListing from "../../../../components/Dashboard/CommonListing";
+import { useGetUserQuery } from "../../../../redux/api";
+import { useEffect, useState } from "react";
 
 const HostHome = () => {
   const navigate = useNavigate();
+  const { data } = useGetUserQuery();
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (data?.success && data?.userExists) {
+      console.log("data?.userExists:::", data?.userExists);
+    }
+  }, [data]);
+
   return (
     <div className="px-[30px] max-lg:px-[20px] ">
       <div className=" py-[10px] border-b border-[#EEEEEE]">

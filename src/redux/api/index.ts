@@ -201,6 +201,28 @@ export const lockedBoxApi = createApi({
         body,
       }),
     }),
+    bookingCheckIn: builder.mutation({
+      query: (body) => ({
+        url: `booking/check_in`,
+        method: "POST",
+        body,
+      }),
+    }),
+    bookingDispute: builder.mutation({
+      query: (body) => ({
+        url: `booking/dispute_storage`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // Booking apis
+    findHostForReviews: builder.query<any, void>({
+      query: () => ({
+        url: `booking/host_review`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -233,5 +255,8 @@ export const {
   useLazyFindHostBookingsQuery,
   useUpdateBookingStatusMutation,
   useLazyCheckBookingAvailabilityQuery,
-  useGetInsurancePlansQuery
+  useGetInsurancePlansQuery,
+  useBookingCheckInMutation,
+  useBookingDisputeMutation,
+  useFindHostForReviewsQuery,
 } = lockedBoxApi;

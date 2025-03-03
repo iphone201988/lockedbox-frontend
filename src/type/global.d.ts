@@ -149,4 +149,22 @@ type Properties = {
   lng: number;
   distance: number;
   price: number;
+  totalReviews: number;
+  averageRating: number;
+};
+
+interface ImageItem {
+  id: string; // Unique identifier (URL for existing, temp URL for new)
+  url: string; // Display URL
+  isNew?: boolean; // True for new images, false for existing
+  file?: File; // File object for new images, undefined for existing
+}
+
+type CheckInPopup = {
+  listing: any;
+  handleClose: any;
+  dispute: boolean;
+  imageItems: ImageItem[];
+  setImageItems: React.Dispatch<React.SetStateAction<ImageItem[]>>;
+  role: string;
 };
