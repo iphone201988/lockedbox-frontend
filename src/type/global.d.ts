@@ -105,6 +105,7 @@ type CommonListing = {
   btnTxt: string;
   path: string;
   checkout?: boolean;
+  booking?: any;
 };
 
 type UserState = {
@@ -122,7 +123,8 @@ type CustomOptionProps = {
 type ListingType = {
   id: string;
   address: string;
-  tagline: string;
+  spaceType: string;
+  city: string;
   status: string;
   length: number;
   width: number;
@@ -167,4 +169,14 @@ type CheckInPopup = {
   imageItems: ImageItem[];
   setImageItems: React.Dispatch<React.SetStateAction<ImageItem[]>>;
   role: string;
+};
+
+type ChatProfileProps = {
+  conversationId: string;
+  lastMessage: string;
+  profile: {
+    firstName: string;
+    lastName: string;
+    profileImage: string;
+  };
 };

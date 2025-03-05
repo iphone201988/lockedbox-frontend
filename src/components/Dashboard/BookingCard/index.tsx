@@ -34,7 +34,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
         />
         <div className="storage-details flex flex-col gap-[4px]">
           <p className="text-[18px] font-semibold max-mlg:text-[16px]">
-            {listing.tagline} at {listing.address}
+            {listing.spaceType} for Storage at {listing.city}
           </p>
           <p className="text-[#959595] max-md:text-[14px]">
             <span className="font-semibold text-black">
@@ -93,12 +93,14 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           >
             View Receipt
           </a>
-          <Link
-            className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
-            to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
-          >
-            Check in
-          </Link>
+          {type == "future" && (
+            <Link
+              className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
+              to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
+            >
+              Check in
+            </Link>
+          )}
         </div>
       )}
     </div>

@@ -117,7 +117,7 @@ const CheckInPopup = ({
               alt=""
             />
             <p className="text-[18px] font-semibold mt-[10px]">
-              {listing.tagline} in {listing.address}
+            {listing.spaceType} for Storage at {listing.city}
             </p>
           </div>
           {dispute && (
@@ -191,16 +191,16 @@ const CheckInPopup = ({
             {dispute && (
               <>
                 <button
-                  className="btn-sec !block mt-[16px]"
+                  className="btn-sec !block mt-[16px] cursor-pointer"
                   onClick={handleClose}
                 >
                   No
                 </button>
                 <button
-                  className="btn-pri !block mt-[16px]"
+                  className="btn-pri !block mt-[16px] bg-red-600! cursor-pointer"
                   onClick={handleDispute}
                 >
-                  Yes
+                  Dispute & Cancel
                 </button>
               </>
             )}

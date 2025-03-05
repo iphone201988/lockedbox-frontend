@@ -69,7 +69,7 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
     <div className="select-dates">
       {(isLoading || isFetching) && <Loader />}
       <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] max-w-[370px] w-full">
-        <p className="text-[20px] font-semibold mb-[8px]">Select your dates</p>
+        {/* <p className="text-[20px] font-semibold mb-[8px]">Select your dates</p> */}
         <p className="text-[26px] font-semibold">${price}/month</p>
         <span className="text-[14px] text-[#959595]">Taxes not included</span>
 

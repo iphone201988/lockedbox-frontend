@@ -36,24 +36,7 @@ const StepOne = ({
               {errors?.address && (
                 <span className="mx-2 text-red-500">{errors?.address}</span>
               )}
-              {/* <p className=" font-semibold mb-[6px]">Enter Address</p>
-              <div className="input-with-icon relative w-full max-w-[100%]">
-                <Input
-                  className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                  type="text"
-                  name="address"
-                  value={formData?.address}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Enter address"
-                  error={errors?.address}
-                />
 
-                <MapInput label="Enter address"/>
-
-                <span className=" absolute right-[16px] top-[20px]">
-                  <LocationIcon />
-                </span>
-              </div> */}
             </div>
             <div className=" mt-[8px]">
               <label className="flex  items-start gap-[8px]" htmlFor="">

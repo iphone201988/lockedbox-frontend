@@ -94,7 +94,7 @@ const CheckIn = () => {
             />
             <div className="storage-details flex flex-col gap-[4px] w-full">
               <p className="text-[18px] font-semibold max-md:text-[16px]">
-                {listing?.tagline} in {listing?.address}
+              {listing.spaceType} for Storage at {listing.city}
               </p>
             </div>
           </div>
@@ -175,7 +175,7 @@ const CheckIn = () => {
                 <div className="flex flex-col gap-[8px]">
                   <p className=" font-semibold">
                     Please note any existing damages on the renters items. This
-                    protects you from the renter making false claims
+                    protects you from the renter making false claims (Optional)
                   </p>
                   <textarea
                     className="h-[180px] border border-[#EEEEEE] rounded-[16px] p-[16px]"

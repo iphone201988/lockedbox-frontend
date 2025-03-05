@@ -21,8 +21,8 @@ const MultiImageSelect = ({
 
   // Initialize with existing images from the `images` prop
   useEffect(() => {
-    console.log("formData::::",formData)
-    const initialItems = formData.map((url:string) => ({
+    console.log("formData::::", formData);
+    const initialItems = formData.map((url: string) => ({
       id: url,
       url: import.meta.env.VITE_BACKEND_URL + url,
       isNew: false,

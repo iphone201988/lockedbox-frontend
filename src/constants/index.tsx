@@ -112,15 +112,35 @@ export const accessPolicyType = [
 
 export const spaceFeatures = [
   {
-    name: "Height accommodation (10’)",
+    name: "Climate Control",
     id: "10",
   },
   {
-    name: "Height accommodation (11’)",
+    name: "Security",
     id: "11",
   },
   {
-    name: "Height accommodation (12’)",
+    name: "Cameras",
     id: "12",
+  },
+  {
+    name: "Outside",
+    id: "13",
+  },
+  {
+    name: "Garage access",
+    id: "14",
+  },
+  {
+    name: "Frequent access",
+    id: "15",
+  },
+  {
+    name: "Public Transit",
+    id: "16",
+  },
+  {
+    name: "RV Parking",
+    id: "17",
   },
 ];

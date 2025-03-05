@@ -90,6 +90,7 @@ export const VerificationCodeSchema = yup.object({
 
 export const StepOneSchema = yup.object({
   address: yup.string().required("Address is required"),
+  city: yup.string().required("City is required"),
   latitude: yup.string().required("Latitude is required"),
   longitude: yup.string().required("Longitude is required"),
   spaceType: yup.string().required("Space type is required"),
@@ -114,7 +115,6 @@ export const StepOneSchema = yup.object({
 });
 
 export const StepTwoSchema = yup.object({
-  tagline: yup.string().required("Tagline is required"),
   description: yup.string().required("Description is required"),
   policies: yup.string().required("Policies are required"),
   accessPolicy: yup.string().required("Access policy is required"),

@@ -77,7 +77,7 @@ const HostBookingCard = ({
           />
           <div className="storage-details flex flex-col gap-[4px]">
             <p className="text-[18px] font-semibold max-md:text-[16px]">
-              {listing.tagline} in {listing.address}
+            {listing.spaceType} for Storage at {listing.city}
             </p>
             <p className="text-[#959595] max-md:text-[14px]">
               <span className="font-semibold text-black">

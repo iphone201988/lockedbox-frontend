@@ -14,7 +14,8 @@ const HostListings = () => {
       const listings: ListingType[] = data.listings.map((listing: any) => ({
         id: listing._id,
         address: listing.address,
-        tagline: listing.tagline,
+        city: listing.city,
+        spaceType: listing.spaceType,
         status: listing.status,
         width: listing.width,
         length: listing.length,

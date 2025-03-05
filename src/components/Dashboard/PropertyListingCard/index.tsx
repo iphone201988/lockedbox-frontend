@@ -3,12 +3,13 @@ import { allowedStorage as allowedStorageType } from "../../../constants/index";
 
 const PropertyListingCard = ({
   id,
-  tagline,
+  spaceType,
+  city,
   width,
   length,
   price,
   status,
-  storageImages,  
+  storageImages,
   allowedStorage,
 }: ListingType) => {
   const icons = allowedStorage.map((storage: string) => {
@@ -26,22 +27,15 @@ const PropertyListingCard = ({
         />
         <div className="storage-details flex flex-col gap-[4px]">
           <p className="text-[18px] font-semibold max-md:text-[16px]">
-            {tagline}
+            {spaceType} for Storage
           </p>
           <p className="text-[#959595] max-md:text-[14px]">
-            <span className="font-semibold text-black">Location: </span> 132
-            Dominion Road, Surrey, VH5 3D5
+            <span className="font-semibold text-black">Location: </span> {city}
           </p>
           <div className="mt-auto flex gap-[12px] items-center flex-wrap pt-[16px]">
             <span className="flex gap-[5px] w-[52px] h-[42px] justify-center items-center">
               {...icons}
             </span>
-            {/* <img src={SeasonalIcom} alt="" />
-            <img src={OfficeIcon} alt="" />
-            <img src={AppliancesIcon} alt="" />
-            <img src={FurnitureIcon} alt="" />
-            <img src={VehiclesIcon} alt="" />
-            <img src={AutoPartIcon} alt="" /> */}
             <Link
               className="text-[14px] text-[#235370] underline ml-[8px] font-semibold"
               to={`/dashboard/listing/edit-listing/${id}`}

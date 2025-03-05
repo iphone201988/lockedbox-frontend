@@ -1,6 +1,7 @@
 import { NavigateFunction } from "react-router-dom";
 import { UserAuthSteps } from "../constants";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 export const handleInputChange = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -48,9 +49,35 @@ export const urlToFile = async (url: string) => {
   const fileName = url.split("/").pop();
   const mimeType = url.split(".").pop()?.toLowerCase();
 
-  console.timeLog("urlToFile::::",fileName,mimeType)
+  console.timeLog("urlToFile::::", fileName, mimeType);
 
   const response = await fetch(url);
   const blob = await response.blob();
   return new File([blob], fileName ?? "", { type: mimeType });
+};
+
+export const getUrl = (path: string) => import.meta.env.VITE_BACKEND_URL + path;
+
+export const groupedData = (data: any) => {
+  return data.reduce((acc: any, item: any) => {
+    const itemDate = moment(item.createdAt);
+    const today = moment();
+    const yesterday = moment().subtract(1, "days");
+
+    let key;
+    if (itemDate.isSame(today, "day")) {
+      key = "today";
+    } else if (itemDate.isSame(yesterday, "day")) {
+      key = "yesterday";
+    } else {
+      key = itemDate.format("DD MMM YYYY");
+    }
+
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+
+    acc[key].push(item);
+    return acc;
+  }, {});
 };

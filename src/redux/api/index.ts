@@ -156,10 +156,28 @@ export const lockedBoxApi = createApi({
       providesTags: [LISTING_TAG],
     }),
     findListing: builder.query<any, any>({
-      query: ({ latitude, longitude }) => ({
-        url: `listing/find_listing?latitude=${latitude}&longitude=${longitude}`,
-        method: "GET",
-      }),
+      query: ({
+        latitude,
+        longitude,
+        price,
+        sort,
+        features,
+        allowedStorage,
+      }) => {
+        const params = new URLSearchParams();
+
+        if (latitude) params.append("latitude", latitude);
+        if (longitude) params.append("longitude", longitude);
+        if (price) params.append("price", price);
+        if (sort) params.append("sort", sort);
+        if (features) params.append("features", features);
+        if (allowedStorage) params.append("allowedStorage", allowedStorage);
+
+        return {
+          url: `listing/find_listing?${params.toString()}`,
+          method: "GET",
+        };
+      },
     }),
 
     // Booking apis
@@ -217,9 +235,42 @@ export const lockedBoxApi = createApi({
     }),
 
     // Booking apis
-    findHostForReviews: builder.query<any, void>({
+    fetchPendingReviewsByRenter: builder.query<any, void>({
       query: () => ({
-        url: `booking/host_review`,
+        url: `listing/without_review`,
+        method: "GET",
+      }),
+    }),
+    giveReviewToHost: builder.mutation({
+      query: (body) => ({
+        url: `listing/write_review_and_rating`,
+        method: "POST",
+        body,
+      }),
+    }),
+    findHostReviews: builder.query<any, void>({
+      query: () => ({
+        url: `listing/host_review`,
+        method: "GET",
+      }),
+    }),
+    findMyReviews: builder.query<any, void>({
+      query: () => ({
+        url: `listing/my_review`,
+        method: "GET",
+      }),
+    }),
+
+    // Chat apis
+    findConversations: builder.query<any, void>({
+      query: () => ({
+        url: `user/conversation`,
+        method: "GET",
+      }),
+    }),
+    findMessages: builder.query<any, any>({
+      query: (conversationId) => ({
+        url: `user/conversation/${conversationId}`,
         method: "GET",
       }),
     }),
@@ -258,5 +309,10 @@ export const {
   useGetInsurancePlansQuery,
   useBookingCheckInMutation,
   useBookingDisputeMutation,
-  useFindHostForReviewsQuery,
+  useFindHostReviewsQuery,
+  useFindMyReviewsQuery,
+  useFetchPendingReviewsByRenterQuery,
+  useGiveReviewToHostMutation,
+  useFindConversationsQuery,
+  useFindMessagesQuery,
 } = lockedBoxApi;

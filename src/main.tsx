@@ -6,6 +6,7 @@ import App from "./App.tsx";
 import { store } from "./redux/store.ts";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { SocketProvider } from "./providers/socket-provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -23,7 +24,9 @@ createRoot(document.getElementById("root")!).render(
         theme="light"
         className="!z-[99999]"
       />
-      <App />
+      <SocketProvider>
+        <App />
+      </SocketProvider>
     </Provider>
   </StrictMode>
 );

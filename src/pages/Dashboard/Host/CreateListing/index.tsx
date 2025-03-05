@@ -34,6 +34,7 @@ export type ListingStepProp<T> = {
 
 const StepOneInitialState: StepOneFormType = {
   address: "",
+  city: "",
   latitude: "37.7749",
   longitude: "-122.4194",
   spaceType: "",
@@ -45,7 +46,6 @@ const StepOneInitialState: StepOneFormType = {
 };
 
 const StepTwoInitialState: StepTwoFormType = {
-  tagline: "",
   description: "",
   policies: "",
   accessPolicy: "",
@@ -176,6 +176,7 @@ const CreateListing = () => {
 
       const stepOne = {
         address: listing.address,
+        city: listing.city,
         latitude: listing.latitude,
         longitude: listing.longitude,
         spaceType: listing.spaceType,
@@ -187,7 +188,6 @@ const CreateListing = () => {
       };
 
       const stepTwo = {
-        tagline: listing.tagline,
         description: listing.description,
         policies: listing.policies,
         accessPolicy: listing.accessPolicy,

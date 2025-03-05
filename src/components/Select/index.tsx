@@ -16,8 +16,10 @@ const Select = ({
         value={value}
       >
         <option value="">Select any value</option>
-        {options.map((option: string) => (
-          <option value={option}>{option}</option>
+        {options.map((option: string, index: number) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
         ))}
       </select>
       {error && <span className="mx-2 text-red-500">{error}</span>}

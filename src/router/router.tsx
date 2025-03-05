@@ -4,6 +4,9 @@ import DashboardLayout from "../layout/Dashboard";
 import PublicRoute from "../components/Route/public-route";
 import HostAccess from "../components/Route/host-access";
 import Loader from "../components/Loader";
+import Reviews from "../pages/Dashboard/Review";
+import ChatLayout from "../layout/Chat";
+import MessageArea from "../components/Dashboard/Chat/MessageArea";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -41,7 +44,6 @@ const RenterPayment = lazy(
   () => import("../pages/Dashboard/Renter/Account/Payment")
 );
 const Booking = lazy(() => import("../pages/Dashboard/Booking"));
-const RenterMessage = lazy(() => import("../pages/Dashboard/Renter/Message"));
 const RenterReviews = lazy(() => import("../pages/Dashboard/Renter/Reviews"));
 const ReviewYourHost = lazy(
   () => import("../pages/Dashboard/Renter/GiveReview")
@@ -292,20 +294,30 @@ const Router = createBrowserRouter([
         path: "message",
         element: (
           <Suspense fallback={<Loader />}>
-            <RenterMessage />
+            <ChatLayout />
           </Suspense>
         ),
+        children: [
+          {
+            path: ":id",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <MessageArea />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
         path: "reviews",
         element: (
           <Suspense fallback={<Loader />}>
-            <RenterReviews />
+            <Reviews />
           </Suspense>
         ),
       },
       {
-        path: "reviews/give-review",
+        path: "reviews/give-review/:id",
         element: (
           <Suspense fallback={<Loader />}>
             <ReviewYourHost />

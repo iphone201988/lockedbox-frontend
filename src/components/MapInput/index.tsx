@@ -6,6 +6,7 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 import { LocationIcon } from "../../icons";
+const libraries: "places"[] = ["places"];
 
 const MapInput = ({
   value,
@@ -16,7 +17,7 @@ const MapInput = ({
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
-    libraries: ["places"], // Ensure the places library is loaded
+    libraries,
   });
 
   const [location, setLocation] = useState<any>({});
@@ -32,16 +33,34 @@ const MapInput = ({
     if (!geocoderRef.current) return;
     const geocoder = geocoderRef.current;
     const location = { lat, lng };
-    
+
     geocoder.geocode({ location }, async (results, status) => {
       if (status === "OK" && results && results[0]) {
         setAddress(results[0].formatted_address);
+
+        let city = "";
+        if (results[0].address_components) {
+          console.log(
+            "Geocode Address Components:",
+            results[0].address_components
+          );
+          for (const component of results[0].address_components) {
+            if (component.types.includes("locality")) {
+              city = component.long_name;
+              break;
+            }
+          }
+        }
+
         setFormData((prev: any) => ({
           ...prev,
           address: results[0].formatted_address,
+          city,
           latitude: lat,
           longitude: lng,
         }));
+
+        console.log("city::::", city);
       } else {
         setAddress("Address not found");
       }
@@ -68,6 +87,7 @@ const MapInput = ({
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
+      console.log("place.address_components::::", place.address_components);
       if (place?.geometry && mapRef.current) {
         const location: any = place.geometry.location;
 

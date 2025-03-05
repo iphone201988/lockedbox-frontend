@@ -13,4 +13,5 @@ export const ResponseMessages = {
   LISTING_UPDATED: "Listing updated successfully",
   BOOKING_REQUESTED: "Booking request sent successfully",
   BOOKING_STATUS_UPDATED: "Booking status updated successfully",
+  REVIEW_GIVEN: "Review submitted successfully",
 };

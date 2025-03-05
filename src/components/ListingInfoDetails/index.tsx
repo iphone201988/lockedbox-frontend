@@ -11,7 +11,9 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
     <div className="">
       <div className="flex justify-between items-center py-[16px] border-b border-[#EEEEEE]">
         <div className="w-[80%]">
-          <p className="text-[26px] font-semibold">{listing?.tagline}</p>
+          <p className="text-[26px] font-semibold">
+            {listing?.spaceType} for Storage
+          </p>
           <p className="location text-[18px] text-[#959595]">
             {listing?.address}
           </p>

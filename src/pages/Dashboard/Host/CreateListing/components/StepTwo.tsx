@@ -19,7 +19,7 @@ const StepTwo = ({
       <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Room for storage in Surrey
+            Upload photos
           </p>
         </div>
         <MultiImageSelect
@@ -40,7 +40,7 @@ const StepTwo = ({
       </div>
 
       {/* --- */}
-      <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
+      {/* <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
             Create a tagline for your listing
@@ -67,7 +67,7 @@ const StepTwo = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* --- */}
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">

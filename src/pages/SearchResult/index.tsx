@@ -19,17 +19,24 @@ const initialState = {
   main: false,
 };
 
+type FiltersType = {
+  items: string[];
+  price: number;
+  sort: string;
+  main: string[];
+};
+
 const SearchResult = () => {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState<
     boolean | null
   >(null);
   const [showFilters, setShowFilters] = useState(initialState);
 
-  const [selectedFilters, setSelectedFilters] = useState({
+  const [selectedFilters, setSelectedFilters] = useState<FiltersType>({
     items: [],
-    price: { min: null, max: null },
-    sort: null,
-    main: null,
+    price: 0,
+    sort: "",
+    main: [],
   });
 
   const [showGrid, setShowGrid] = useState(true);
@@ -38,7 +45,8 @@ const SearchResult = () => {
     longitude: "",
   });
   const [properties, setProperties] = useState<any>([]);
-  const [findListing, { data, isLoading }] = useLazyFindListingQuery();
+  const [findListing, { data, isLoading, isFetching }] =
+    useLazyFindListingQuery();
   const location = useLocation();
   const navigate = useNavigate();
   const customLocation =
@@ -86,15 +94,29 @@ const SearchResult = () => {
     }
   }, []);
 
-  useEffect(() => {
+  const fetchListings = async () => {
     if (!userLocation.latitude || !userLocation.longitude) return;
-    console.log("Fetching listings with userLocation:", userLocation);
-    findListing({
+
+    const filters: any = {
       latitude: userLocation.latitude,
       longitude: userLocation.longitude,
-    })
+      _cacheBuster: Date.now(),
+    };
+
+    if (selectedFilters?.price > 0) filters.price = selectedFilters?.price;
+    if (selectedFilters?.sort) filters.sort = selectedFilters.sort;
+    if (selectedFilters?.main)
+      filters.features = selectedFilters.main.join(",");
+    if (selectedFilters?.items)
+      filters.allowedStorage = selectedFilters.items.join(",");
+
+    findListing(filters)
       .unwrap()
       .catch((error) => handleError(error, navigate));
+  };
+
+  useEffect(() => {
+    fetchListings();
   }, [userLocation, findListing, navigate]);
 
   useEffect(() => {
@@ -111,6 +133,10 @@ const SearchResult = () => {
       setProperties(mappedProperties);
     }
   }, [data]);
+
+  useEffect(() => {
+    fetchListings();
+  }, [selectedFilters]);
 
   const handleItemsFilterChange = (itemName: string) => {
     setSelectedFilters((prev: any) => {
@@ -152,7 +178,7 @@ const SearchResult = () => {
 
   return (
     <div>
-      {isLoading && <Loader />}
+      {(isLoading || isFetching) && <Loader />}
       <ProfileNavbar />
       <div className="flex h-[90vh] max-lg:flex-col">
         {showGrid && (
@@ -166,25 +192,29 @@ const SearchResult = () => {
           } pl-[20px] pr-[40px] pt-[10px] max-lg:pr-[20px]`}
         >
           <div className="fliters-row flex items-center justify-between mb-[16px] flex-wrap ">
-            <div className="flex items-center">
-              <div className="input-with-icon relative w-[70px]  ">
+          <div className="flex items-center">
+              <div className="input-with-icon relative min-w-[60px]">
+                <div className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl">
                 <input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl  text-center"
-                  type="number"
-                  value="500"
+                  className="text-left field-sizing-content outline-none"
+                  type="text"
+                  placeholder='5'
                 />
-                <span className=" absolute right-[16px] top-[21px]">ft</span>
+                <span className=" pl-[3px]">ft</span>
+                </div>
               </div>
               <p className="text-[26px] font-semibold px-[12px] leading-[26px]">
                 X
               </p>
-              <div className="input-with-icon relative  w-[70px]  ">
+              <div className="input-with-icon relative min-w-[60px]">
+                <div className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl">
                 <input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl  text-left"
-                  type="number"
-                  value="5"
+                  className="text-left field-sizing-content outline-none"
+                  type="text"
+                  placeholder='5'
                 />
-                <span className=" absolute right-[16px] top-[21px]">ft</span>
+                <span className=" pl-[3px]">ft</span>
+                </div>
               </div>
             </div>
             <div className="filter-btns-row">
@@ -208,14 +238,36 @@ const SearchResult = () => {
                 className={`${showFilters.price ? "active" : ""}`}
                 onClick={handleFilterChange}
               >
-                Price <PriceFilter showFilters={showFilters.price} />
+                Price{" "}
+                <PriceFilter
+                  showFilters={showFilters.price}
+                  price={selectedFilters?.price}
+                  onPriceChange={(price: any) => {
+                    setSelectedFilters({
+                      ...selectedFilters,
+                      price,
+                    });
+                    setShowFilters(initialState);
+                  }}
+                />
               </button>
               <button
                 name="sort"
                 className={`${showFilters.sort ? "active" : ""}`}
                 onClick={handleFilterChange}
               >
-                Sort <SortFilter showFilters={showFilters.sort} />
+                Sort{" "}
+                <SortFilter
+                  showFilters={showFilters.sort}
+                  handleChange={(sort: string) => {
+                    setSelectedFilters({
+                      ...selectedFilters,
+                      sort,
+                    });
+                    setShowFilters(initialState);
+                  }}
+                  sort={selectedFilters.sort}
+                />
               </button>
               <button
                 className={`${showFilters.main ? "active" : ""} !p-[10px]`}
@@ -223,7 +275,17 @@ const SearchResult = () => {
                 onClick={handleFilterChange}
               >
                 <FiltersIcon />
-                <MainFilter showFilters={showFilters.main} />
+                <MainFilter
+                  showFilters={showFilters.main}
+                  selectedFilters={selectedFilters.main}
+                  onFilterChange={(tempSelectedIds: any) => {
+                    setSelectedFilters({
+                      ...selectedFilters,
+                      main: tempSelectedIds,
+                    });
+                    setShowFilters(initialState);
+                  }}
+                />
               </button>
             </div>
           </div>
@@ -249,7 +311,7 @@ const SearchResult = () => {
                     <PropertyIcon />
                   </span>
                   <p className="text-[18px] font-semibold">
-                    No Storage Room found{" "}
+                    No Storage Room found
                   </p>
                 </div>
               )}

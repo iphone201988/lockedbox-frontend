@@ -2,12 +2,16 @@
 import ReactStars from "react-rating-stars-component";
 
 const Ratings = ({
-  setShowPopup,
+  ratings,
+  setRatings,
+  handleSubmit,
 }: {
-  setShowPopup: React.Dispatch<React.SetStateAction<boolean>>;
+  ratings: any;
+  setRatings: any;
+  handleSubmit: any;
 }) => {
-  const ratingChanged = (newRating: number) => {
-    console.log(newRating);
+  const ratingChanged = (category: string, newRating: number) => {
+    setRatings((prev: any) => ({ ...prev, [category]: newRating }));
   };
 
   return (
@@ -18,16 +22,13 @@ const Ratings = ({
           <div className="flex gap-[8px]">
             <ReactStars
               count={5}
-              onChange={ratingChanged}
+              onChange={(newRating: number) =>
+                ratingChanged("communication", newRating)
+              }
               size={50}
               activeColor="#235370"
               isHalf={true}
             />
-            {/* <img src={StarFill} alt="" />
-            <img src={StarFill} alt="" />
-            <img src={StarFill} alt="" />
-            <img src={StarFill} alt="" />
-            <img src={StarEmpty} alt="" /> */}
           </div>
         </div>
         <div className="flex justify-center gap-[8px] flex-col items-center">
@@ -35,7 +36,9 @@ const Ratings = ({
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}
-              onChange={ratingChanged}
+              onChange={(newRating: number) =>
+                ratingChanged("accuracy", newRating)
+              }
               size={50}
               activeColor="#235370"
               isHalf={true}
@@ -47,7 +50,9 @@ const Ratings = ({
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}
-              onChange={ratingChanged}
+              onChange={(newRating: number) =>
+                ratingChanged("safety", newRating)
+              }
               size={50}
               activeColor="#235370"
               isHalf={true}
@@ -59,7 +64,9 @@ const Ratings = ({
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}
-              onChange={ratingChanged}
+              onChange={(newRating: number) =>
+                ratingChanged("cleanliness", newRating)
+              }
               size={50}
               activeColor="#235370"
               isHalf={true}
@@ -71,12 +78,26 @@ const Ratings = ({
             Would you likely rent from them again?
           </p>
           <div className=" flex gap-[16px]">
-            <button className="btn-sec">No</button>
-            <button className="btn-pri">Yes</button>
+            <button
+              className={`${ratings.rentAgain ? "btn-sec" : "btn-pri"}`}
+              onClick={() =>
+                setRatings((prev: any) => ({ ...prev, rentAgain: false }))
+              }
+            >
+              No
+            </button>
+            <button
+              className={`${ratings.rentAgain ? "btn-pri" : "btn-sec"}`}
+              onClick={() =>
+                setRatings((prev: any) => ({ ...prev, rentAgain: true }))
+              }
+            >
+              Yes
+            </button>
           </div>
         </div>
       </div>
-      <button className="btn-pri ml-auto" onClick={() => setShowPopup(true)}>
+      <button className="btn-pri ml-auto" onClick={handleSubmit}>
         Submit
       </button>
     </div>
