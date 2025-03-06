@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Reviews from "../pages/Dashboard/Review";
 import ChatLayout from "../layout/Chat";
 import MessageArea from "../components/Dashboard/Chat/MessageArea";
+import AdminDashboard from "../pages/Admin";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -179,6 +180,14 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loader />}>
         <BookingReview />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <AdminDashboard />
       </Suspense>
     ),
   },

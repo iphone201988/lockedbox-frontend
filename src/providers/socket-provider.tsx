@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { io as ClientIO } from "socket.io-client";
 import { getToken } from "../utils/helper";
+import { useSelector } from "react-redux";
 
 interface SocketProviderProps {
   socket: any | null;
@@ -20,15 +21,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
   const token = getToken();
+  const { isAuthenticated } = useSelector((state: any) => state.user);
 
   useEffect(() => {
-    if (!token) {
-      if (socket) {
-        socket.disconnect();
-        setSocket(null);
-      }
-      return;
-    }
+    if (!token) return;
 
     const socketInstance = new (ClientIO as any)(
       import.meta.env.VITE_BACKEND_URL,
@@ -54,7 +50,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socketInstance.disconnect();
     };
-  }, []);
+  }, [isAuthenticated]);
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
       {children}

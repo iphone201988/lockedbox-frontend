@@ -10,8 +10,8 @@ const NavBar = () => {
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
         <Logo className="max-w-[158px] max-lg:max-w-[120px]" />
         <div className="menu flex gap-x-[32px] text-[18px] text-[#1E1E1E] font-light max-lg:text-[16px] max-lg:gap-x-[16px] max-lg:hidden">
-          {routes.map((link: any) => (
-            <Link className="hover:text-[#235370]" to={link.path}>
+          {routes.map((link: any, index: number) => (
+            <Link className="hover:text-[#235370]" to={link.path} key={index}>
               {link.name}
             </Link>
           ))}

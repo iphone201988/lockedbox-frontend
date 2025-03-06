@@ -9,10 +9,13 @@ import { getNextAuthUrl, handleError, setToken } from "../../utils/helper";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../constants/api-responses";
+import { useDispatch } from "react-redux";
+import { setUserAuth } from "../../redux/reducer/auth";
 
 const HostOrRent = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   if (!location.state || !location.state.id) {
     return <Navigate to="/" />;
@@ -34,6 +37,7 @@ const HostOrRent = () => {
       toast.success(ResponseMessages.LOGGED_IN);
       const { step, accessToken } = data.userExists;
       setToken(accessToken);
+      dispatch(setUserAuth(accessToken));
       const url = getNextAuthUrl(step);
       navigate(url, { replace: true });
     }

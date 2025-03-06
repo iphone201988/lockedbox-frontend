@@ -18,6 +18,8 @@ import { useForm } from "../../hooks/useForm";
 import { useLoginUserMutation } from "../../redux/api";
 import Loader from "../../components/Loader";
 import Password from "../../components/Password";
+import { useDispatch } from "react-redux";
+import { setUserAuth } from "../../redux/reducer/auth";
 
 type SignUpFormType = yup.InferType<typeof SignInSchema>;
 
@@ -34,6 +36,7 @@ const SignIn = () => {
     initialState
   );
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loginUser, { isLoading, data }] = useLoginUserMutation();
 
   const [signupMethod, setSignupMethod] = useState<AuthType>({
@@ -56,6 +59,7 @@ const SignIn = () => {
       const { _id: id, step, accessToken } = data.userExists;
       if (accessToken && step == 4) setToken(accessToken);
       const url = getNextAuthUrl(step);
+      dispatch(setUserAuth(accessToken));
       navigate(url, { replace: true, state: { id } });
     }
   }, [data]);
@@ -92,7 +96,7 @@ const SignIn = () => {
                   type="email"
                   name="email"
                   value={formData?.email}
-                  onChange={(e) => handleInputChange(e, setFormData)}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
                   placeholder="Email"
                   error={errors?.email}
                 />
