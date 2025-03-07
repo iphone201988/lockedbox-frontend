@@ -52,6 +52,11 @@ const SearchResult = () => {
   const customLocation =
     !location.state?.formData?.longitude || !location.state?.formData?.latitude;
 
+  const [dimensions, setDimensions] = useState<any>({
+    width: location.state?.formData?.width || null,
+    length: location.state?.formData?.length || null,
+  });
+
   useEffect(() => {
     if (
       location.state?.formData?.latitude &&
@@ -109,6 +114,8 @@ const SearchResult = () => {
       filters.features = selectedFilters.main.join(",");
     if (selectedFilters?.items)
       filters.allowedStorage = selectedFilters.items.join(",");
+    if (dimensions.length) filters.length = dimensions.length;
+    if (dimensions.width) filters.width = dimensions.width;
 
     findListing(filters)
       .unwrap()
@@ -117,7 +124,7 @@ const SearchResult = () => {
 
   useEffect(() => {
     fetchListings();
-  }, [userLocation, findListing, navigate]);
+  }, [userLocation, findListing, navigate, dimensions]);
 
   useEffect(() => {
     if (data?.success) {
@@ -129,6 +136,8 @@ const SearchResult = () => {
         lat: item.location.coordinates[1],
         lng: item.location.coordinates[0],
         image: item.storageImages[0],
+        totalReviews: item.totalReviews,
+        averageRating: item.averageRating,
       }));
       setProperties(mappedProperties);
     }
@@ -192,15 +201,19 @@ const SearchResult = () => {
           } pl-[20px] pr-[40px] pt-[10px] max-lg:pr-[20px]`}
         >
           <div className="fliters-row flex items-center justify-between mb-[16px] flex-wrap ">
-          <div className="flex items-center">
+            <div className="flex items-center">
               <div className="input-with-icon relative min-w-[60px]">
                 <div className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl">
-                <input
-                  className="text-left field-sizing-content outline-none"
-                  type="text"
-                  placeholder='5'
-                />
-                <span className=" pl-[3px]">ft</span>
+                  <input
+                    className="text-left field-sizing-content outline-none"
+                    type="number"
+                    placeholder="5"
+                    value={dimensions.length}
+                    onChange={(e) =>
+                      setDimensions({ ...dimensions, length: e.target.value })
+                    }
+                  />
+                  <span className=" pl-[3px]">ft</span>
                 </div>
               </div>
               <p className="text-[26px] font-semibold px-[12px] leading-[26px]">
@@ -208,12 +221,16 @@ const SearchResult = () => {
               </p>
               <div className="input-with-icon relative min-w-[60px]">
                 <div className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl">
-                <input
-                  className="text-left field-sizing-content outline-none"
-                  type="text"
-                  placeholder='5'
-                />
-                <span className=" pl-[3px]">ft</span>
+                  <input
+                    className="text-left field-sizing-content outline-none"
+                    type="number"
+                    placeholder="5"
+                    value={dimensions.width}
+                    onChange={(e) =>
+                      setDimensions({ ...dimensions, width: e.target.value })
+                    }
+                  />
+                  <span className=" pl-[3px]">ft</span>
                 </div>
               </div>
             </div>

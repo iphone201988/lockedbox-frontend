@@ -75,7 +75,7 @@ const CheckIn = () => {
 
   useEffect(() => {
     if (data?.success) {
-      setShowPopups({ ...initialState, confirm: false });
+      setShowPopups({ ...initialState, confirm: true });
     }
   }, [data]);
 

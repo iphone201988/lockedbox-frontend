@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NoUser from "../../../../assets/icons/if-no-user.png";
 
 import AttachIcon from "../../../../assets/icons/attach-icn.png";
@@ -30,6 +30,7 @@ const MessageArea = () => {
   const [conversation, setConversation] = useState<any>([]);
   const [listingDetails, setListingDetails] = useState<ListingDetail>();
   const [receiverId, setReceiverId] = useState();
+  const messageEndRef = useRef<HTMLDivElement>(null);
 
   const appendSingleMessage = (key: string, message: any) => {
     setConversation((prev: any) => {
@@ -47,7 +48,10 @@ const MessageArea = () => {
     });
   };
 
-  const { sendMessage } = useChatSocket(appendSingleMessage);
+  const { sendMessage } = useChatSocket(
+    userData?.userExists._id,
+    appendSingleMessage
+  );
 
   useEffect(() => {
     if (data?.success) {
@@ -73,6 +77,10 @@ const MessageArea = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversation]);
+
   const handleSendMessage = (e: any) => {
     e.preventDefault();
     const data = {
@@ -85,48 +93,33 @@ const MessageArea = () => {
     console.log("data::::", data);
     sendMessage(JSON.stringify(data));
     setMessage(null);
-    // appendSingleMessage("today", {
-    //   content: message,
-    //   senderDetails: { _id: userData.userExists._id },
-    // });
-
-    // if ("today" in conversation) {
-    //   setConversation((prev: any) => ({
-    //     ...prev,
-    //     today: [
-    //       ...prev.today,
-    //       { content: message, senderDetails: { _id: userData.userExists._id } },
-    //     ],
-    //   }));
-    // } else {
-    //   setConversation((prev: any) => ({
-    //     ...prev,
-    //     today: [
-    //       { content: message, senderDetails: { _id: userData.userExists._id } },
-    //     ],
-    //   }));
-    // }
+    appendSingleMessage("today", {
+      content: message,
+      senderDetails: { _id: userData.userExists._id },
+    });
   };
 
   return (
     <div className="flex flex-col h-full">
       {(isLoading || isFetching) && <Loader />}
-      <div className="px-[30px] py-[24px]  border-b border-[#EEEEEE] flex gap-[10px] items-center max-lg:px-[20px] max-md:py-[10px]">
-        <img
-          className="w-[60px] h-[60px] object-cover rounded-[10px]"
-          src={getUrl(listingDetails?.image!)}
-          alt=""
-        />
-        <div className="">
-          <p className="text-[18px] font-semibold">
-            {listingDetails?.spaceType} for storage in {listingDetails?.city}
-          </p>
-          <p className="text-[#959595]">
-            <span className="text-[#000000] font-semibold">From: </span>
-            {listingDetails?.startDate} - {listingDetails?.endDate}
-          </p>
+      {listingDetails && (
+        <div className="px-[30px] py-[24px]  border-b border-[#EEEEEE] flex gap-[10px] items-center max-lg:px-[20px] max-md:py-[10px]">
+          <img
+            className="w-[60px] h-[60px] object-cover rounded-[10px]"
+            src={getUrl(listingDetails?.image!)}
+            alt=""
+          />
+          <div className="">
+            <p className="text-[18px] font-semibold">
+              {listingDetails?.spaceType} for storage in {listingDetails?.city}
+            </p>
+            <p className="text-[#959595]">
+              <span className="text-[#000000] font-semibold">From: </span>
+              {listingDetails?.startDate} - {listingDetails?.endDate}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="py-[24px] px-[30px] h-full overflow-auto no-scrollbar max-lg:px-[20px]">
         {Object.keys(conversation).length ? (
@@ -143,10 +136,15 @@ const MessageArea = () => {
                     if (message.senderDetails._id == userData.userExists._id) {
                       return <OutgoingMessage message={message.content} />;
                     } else {
+                      let url = null;
+                      if (message.senderDetails?.profileImage) {
+                        url = getUrl(message.senderDetails?.profileImage);
+                      }
+                      console.log("url::::", url);
                       return (
                         <IncomingMessage
                           message={message.content}
-                          image={message.senderDetails?.profileImage ?? NoUser}
+                          image={url ?? NoUser}
                         />
                       );
                     }
@@ -158,6 +156,7 @@ const MessageArea = () => {
         ) : (
           <></>
         )}
+        <div ref={messageEndRef} />
       </div>
 
       <div className="px-[30px] mt-auto pb-[24px] pt-[16px] bg-white max-lg:px-[20px] max-md:pb-[16px]">

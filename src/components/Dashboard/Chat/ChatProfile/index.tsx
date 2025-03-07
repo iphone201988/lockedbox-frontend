@@ -10,7 +10,7 @@ const ChatProfile = ({ chat }: { chat: ChatProfileProps }) => {
       onClick={() => navigate(`/dashboard/message/${chat.conversationId}`)}
     >
       <img
-        className="w-[48px] h-[48px] object-cover"
+        className="w-[48px] h-[48px] object-cover rounded-full"
         src={
           chat.profile.profileImage ? getUrl(chat.profile.profileImage) : NoUser
         }

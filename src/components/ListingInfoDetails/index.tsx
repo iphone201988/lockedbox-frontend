@@ -1,5 +1,6 @@
-import HostProfilePic from "../../assets/host-profile-pic.png";
 import { allowedStorage as allowedStorageType } from "../../constants/index";
+import NoUser from "../../assets/icons/if-no-user.png";
+import { getUrl } from "../../utils/helper";
 
 const ListingInfoDetails = ({ listing }: { listing: any }) => {
   const icons = listing.allowedStorage.map((storage: string) => {
@@ -10,16 +11,14 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
   return (
     <div className="">
       <div className="flex justify-between items-center py-[16px] border-b border-[#EEEEEE]">
-        <div className="w-[80%]">
-          <p className="text-[26px] font-semibold">
+        <div className="">
+          <p className="text-[26px] font-semibold max-md:text-[20px]">
             {listing?.spaceType} for Storage
           </p>
-          <p className="location text-[18px] text-[#959595]">
-            {listing?.address}
-          </p>
+          <p className="location text-[18px] text-[#959595]">{listing?.city}</p>
         </div>
         <div className="">
-          <div className="flex justify-center items-center w-full">
+          <div className="flex justify-center items-center">
             <span className="flex gap-[4px] items-center">
               <svg
                 width="12"
@@ -47,12 +46,21 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
                   </clipPath>
                 </defs>
               </svg>
-              <b className="text-[16px] font-normal">4.5</b>
+              {listing.averageRating ? (
+                <b className="text-[16px] font-normal">
+                  {Number(listing.averageRating).toFixed(2)}
+                </b>
+              ) : (
+                <></>
+              )}
             </span>
-            <p className="text-[16px] ml-[4px]">(7 reviews)</p>
+            <p className="text-[16px] ml-[4px]">
+              ({listing.totalReviews ? listing.totalReviews : "No"} reviews)
+            </p>
           </div>
           <p className="text-[18px] text-[#959595] mt-[6px] text-right">
-            <b className="text-[#000000]">Size:</b> 10’x15’
+            <b className="text-[#000000]">Size:</b> {listing.length}’x
+            {listing.width}’
           </p>
         </div>
       </div>
@@ -61,12 +69,16 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
       <div className=" py-[16px] border-b border-[#EEEEEE]">
         <div className=" flex gap-[8px] items-center">
           <img
-            className="w-[48px] h-[48px] object-cover"
-            src={HostProfilePic}
+            className="w-[48px] h-[48px] object-cover rounded-full"
+            src={
+              listing.userId[0]?.profileImage
+                ? getUrl(listing.userId[0]?.profileImage)
+                : NoUser
+            }
             alt=""
           />
           <div className="">
-            <p>Meet your host Frank</p>
+            <p>Meet your host {listing.userId[0]?.firstName}</p>
             <span className="text-[14px] text-[#959595]">
               5+ years of hosting experience
             </span>

@@ -2,17 +2,20 @@ import { useEffect, useCallback } from "react";
 import { useSocket } from "../providers/socket-provider";
 
 export const useChatSocket = (
+  userId: string,
   appendMessages: (key: string, message: any) => void
 ) => {
   const { socket } = useSocket();
 
   useEffect(() => {
     if (!socket) return;
-    
+
     socket.on("receive_message", (data: any) => {
-      console.log("Received message:", data);
+      console.log("Received message:", data, userId);
       // onMessageReceived(conversationId, message);
-      appendMessages("today", data.message);
+      if (data.message.senderDetails._id.toString() != userId.toString()) {
+        appendMessages("today", data.message);
+      }
     });
 
     socket.on("error", (message: string) => {

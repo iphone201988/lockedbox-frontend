@@ -67,7 +67,6 @@ const BookingReview = () => {
       return;
     }
 
-
     const amount = listing.price * monthsDifference;
     const tax = 99.0;
     const serviceFee = 79.2;
@@ -78,7 +77,7 @@ const BookingReview = () => {
       listingId: id,
       startDate,
       endDate,
-      hostId: listing?.userId,
+      hostId: listing?.userId[0]._id,
       content,
       paymentMethodId,
       currency: "cad",
@@ -93,7 +92,6 @@ const BookingReview = () => {
   };
 
   useEffect(() => {
-    console.log("bookingData :::", bookingData);
     if (bookingData?.success) {
       toast.success(ResponseMessages.BOOKING_REQUESTED);
       navigate("/dashboard/booking", { replace: true });
@@ -106,7 +104,7 @@ const BookingReview = () => {
       <div className="max-w-[1120px]  mx-auto mt-[24px] max-mlg:px-[20px]">
         <div className=" flex border border-[#EEEEEE] rounded-[16px] max-md:flex-col">
           <div className="w-[50%] max-lg:w-[40%] max-md:w-[100%]">
-            <BookingInfo />
+            {listing && <BookingInfo listing={listing} />}
             <div className="px-[20px]">
               <PriceInfo
                 monthsDifference={monthsDifference}
@@ -132,10 +130,13 @@ const BookingReview = () => {
             selectedPlan={selectedPlan}
             setSelectedPlan={setSelectedPlan}
           />
-          <MessageHost
-            handleRequestBooking={handleRequestBooking}
-            setContent={setContent}
-          />
+          {listing && (
+            <MessageHost
+              handleRequestBooking={handleRequestBooking}
+              setContent={setContent}
+              listing={listing}
+            />
+          )}
         </div>
       </div>
     </div>

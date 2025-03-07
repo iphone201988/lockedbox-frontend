@@ -28,7 +28,7 @@ const ProfilePopup = ({
             >
               {item.icon}
               {item.label}
-              {item.hasNotification && <i className="notify-dot"></i>}
+              {/* {item.hasNotification && <i className="notify-dot"></i>} */}
             </Link>
           ) : (
             <button
@@ -107,7 +107,7 @@ const SideBar = () => {
             >
               {item.icon}
               {item.name}
-              {item.notify ? <i className="notify-dot"></i> : ""}
+              {/* {item.notify ? <i className="notify-dot"></i> : ""} */}
             </Link>
           ))}
         </div>

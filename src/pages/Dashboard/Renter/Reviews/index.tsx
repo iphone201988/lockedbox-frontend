@@ -8,7 +8,7 @@ import {
 import Loader from "../../../../components/Loader";
 import { useEffect, useState } from "react";
 import ReviewCard from "./components/review-card";
-import { NoReviewIcon } from "../../../../icons";
+import NoReviews from "../../../../components/Dashboard/NoReviews";
 
 const RenterReviews = () => {
   const { data, isLoading } = useFetchPendingReviewsByRenterQuery();
@@ -48,12 +48,7 @@ const RenterReviews = () => {
                 />
               ))
             ) : (
-              <div className="flex flex-col border border-[#EEEEEE] rounded-[16px] p-[40px] gap-[20px] justify-center items-center max-w-[360px]">
-                <span>
-                  <NoReviewIcon />
-                </span>
-                <p className="text-[18px] font-semibold">No Reviews for now</p>
-              </div>
+              <NoReviews />
             )}
           </div>
         </TabPanel>
@@ -64,12 +59,7 @@ const RenterReviews = () => {
                 <YourReviews key={index} review={review} />
               ))
             ) : (
-              <div className="flex flex-col border border-[#EEEEEE] rounded-[16px] p-[40px] gap-[20px] justify-center items-center max-w-[360px]">
-                <span>
-                  <NoReviewIcon />
-                </span>
-                <p className="text-[18px] font-semibold">No Reviews for now</p>
-              </div>
+              <NoReviews />
             )}
           </div>
         </TabPanel>

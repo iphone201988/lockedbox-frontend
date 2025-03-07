@@ -1,41 +1,34 @@
-import ListingImg from "../../assets/Listing-1.png";
+import { WhiteStarIcon } from "../../icons";
+import { getUrl } from "../../utils/helper";
 
-const BookingListingBox = () => {
+const BookingListingBox = ({ listing }: { listing: any }) => {
   return (
     <div className="bg-white rounded-[16px] relative max-w-[260px] ">
-      <img className="rounded-[10px]" src={ListingImg} alt="" />
+      <img
+        className="rounded-[10px]"
+        src={getUrl(listing.storageImages[0])}
+        alt=""
+      />
       <div className="flex justify-center items-center flex-col bg-[#235370] text-[#ffffff] rounded-[8px] p-[5px] absolute right-[15px] top-[15px]">
         <span className="flex gap-[4px] items-center">
-          {" "}
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10 2.5L11.9583 7.3L17.1333 7.68333L13.1667 11.0333L14.4083 16.0667L10 13.3333L5.59167 16.0667L6.83334 11.0333L2.86667 7.68333L8.04167 7.3L10 2.5Z"
-              fill="white"
-            />
-            <path
-              d="M10 2.5L8.04167 7.3L2.86667 7.68333L6.83334 11.0333L5.59167 16.0667L10 13.3333M10 2.5L11.9583 7.3L17.1333 7.68333L13.1667 11.0333L14.4083 16.0667L10 13.3333"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>{" "}
-          <b>4.5</b>
+          <WhiteStarIcon />
+          {listing.averageRating ? (
+            <b>{Number(listing.averageRating).toFixed(2)}</b>
+          ) : (
+            <></>
+          )}
         </span>
-        <p className="text-[14px] mt-[-2px]">(7 reviews)</p>
+        <p className="text-[14px] mt-[-2px]">
+          ({listing.totalReviews ? listing.totalReviews : "No"} reviews)
+        </p>
       </div>
       <p className="text-[18px] font-semibold mt-[10px]">
-        Room for storage in Surrey
+        {listing?.spaceType} for storage in{" "}
+        <p className="location text-[18px] text-[#959595]">{listing?.city}</p>
       </p>
       <p className="text-[#959595] ">
-        {" "}
-        <span className="text-[#000]">Size:</span> 10’x15’
+        <span className="text-[#000]">Size:</span> {listing.length}’x
+        {listing.width}’
       </p>
     </div>
   );

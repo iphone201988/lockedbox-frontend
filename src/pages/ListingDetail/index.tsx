@@ -39,7 +39,7 @@ const ListingDetail = () => {
           />
         )}
         <div className="flex justify-between gap-[20px] max-lg:flex-col">
-          <div className="max-w-[700px] max-lg:max-w-[100%]">
+          <div className="max-w-[700px] max-lg:max-w-[100%] w-full">
             {listing && <ListingInfoDetails listing={listing} />}
           </div>
           <div className="py-[16px] w-full max-w-[370px]">
@@ -49,7 +49,7 @@ const ListingDetail = () => {
         <div className="">
           <div className="max-w-[520px]">
             {listing && <PoliciesInfo listing={listing} />}
-            <ListingReviews />
+            {listing && <ListingReviews listing={listing}/>}
           </div>
           <div className="for-map"></div>
         </div>

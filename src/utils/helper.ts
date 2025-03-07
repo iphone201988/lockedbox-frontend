@@ -59,7 +59,7 @@ export const urlToFile = async (url: string) => {
 export const getUrl = (path: string) => import.meta.env.VITE_BACKEND_URL + path;
 
 export const groupedData = (data: any) => {
-  return data.reduce((acc: any, item: any) => {
+  const grouped = data.reduce((acc: any, item: any) => {
     const itemDate = moment(item.createdAt);
     const today = moment();
     const yesterday = moment().subtract(1, "days");
@@ -80,4 +80,17 @@ export const groupedData = (data: any) => {
     acc[key].push(item);
     return acc;
   }, {});
+
+  // Sort the keys based on date, ensuring "today" is last
+  const sortedKeys = Object.keys(grouped).sort((a, b) => {
+    if (a === "today") return 1;
+    if (b === "today") return -1;
+    return moment(a, "DD MMM YYYY").diff(moment(b, "DD MMM YYYY"));
+  });
+
+  return sortedKeys.reduce((acc: any, key: string) => {
+    acc[key] = grouped[key].sort((a: any, b: any) => moment(a.createdAt).diff(moment(b.createdAt))); // Sort messages inside each key
+    return acc;
+  }, {});
 };
+

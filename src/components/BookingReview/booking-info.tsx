@@ -1,26 +1,31 @@
 import BookingListingBox from "./booking-listing-box";
-import HostProfilePic from "../../assets/host-profile-pic.png";
+import NoUser from "../../assets/icons/if-no-user.png";
+import { getUrl } from "../../utils/helper";
 
-const BookingInfo = () => {
+const BookingInfo = ({ listing }: { listing: any }) => {
   return (
     <div className="p-[20px]">
       <h3 className="text-[32px] font-bold max-lg:text-[26px]">
         Booking Review
       </h3>
       <div className="pt-[24px] pb-[16px] border-b border-[#EEEEEE]">
-        <BookingListingBox />
+        <BookingListingBox listing={listing} />
       </div>
       <div className=" ">
         {/* host name */}
         <div className=" py-[16px] border-b border-[#EEEEEE]">
           <div className=" flex gap-[8px] items-center">
             <img
-              className="w-[48px] h-[48px] object-cover"
-              src={HostProfilePic}
+              className="w-[48px] h-[48px] object-cover rounded-full"
+              src={
+                listing.userId[0]?.profileImage
+                  ? getUrl(listing.userId[0]?.profileImage)
+                  : NoUser
+              }
               alt=""
             />
             <div className="">
-              <p>Meet your host Frank</p>
+              <p>Meet your host {listing.userId[0]?.firstName}</p>
               <span className="text-[14px] text-[#959595]">
                 5+ years of hosting experience
               </span>

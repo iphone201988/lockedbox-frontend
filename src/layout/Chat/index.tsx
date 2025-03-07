@@ -8,6 +8,8 @@ const ChatLayout = () => {
   const { data: userData } = useGetUserQuery();
   const { data, isLoading } = useFindConversationsQuery();
   const [chats, setChats] = useState<ChatProfileProps[]>([]);
+
+  console.log("userData::::", userData);
   useEffect(() => {
     if (data?.success && userData) {
       const chats: ChatProfileProps[] = data.conversations.map(
@@ -15,7 +17,7 @@ const ChatLayout = () => {
           conversationId: conversation._id,
           lastMessage: conversation.lastMessage,
           profile: conversation.participants.find((user: any) => {
-            if (user._id != userData._id) {
+            if (user._id != userData.userExists._id) {
               return {
                 firstName: user.firstName,
                 lastName: user.lastName,

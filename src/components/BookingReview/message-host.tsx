@@ -1,11 +1,14 @@
-import HostProfilePic from "../../assets/host-profile-pic.png";
+import NoUser from "../../assets/icons/if-no-user.png";
+import { getUrl } from "../../utils/helper";
 
 const MessageHost = ({
   handleRequestBooking,
   setContent,
+  listing,
 }: {
   handleRequestBooking: any;
   setContent: any;
+  listing: any;
 }) => {
   return (
     <div className="py-[16px]">
@@ -13,12 +16,16 @@ const MessageHost = ({
       <div className=" ">
         <div className=" flex gap-[8px] items-center">
           <img
-            className="w-[48px] h-[48px] object-cover"
-            src={HostProfilePic}
+            className="w-[48px] h-[48px] object-cover rounded-full"
+            src={
+              listing.userId[0]?.profileImage
+                ? getUrl(listing.userId[0]?.profileImage)
+                : NoUser
+            }
             alt=""
           />
           <div className="">
-            <p>Message Frank</p>
+            <p>Message {listing.userId[0]?.firstName}</p>
             <span className="text-[14px] text-[#959595]">
               Let your host know any other important details
             </span>

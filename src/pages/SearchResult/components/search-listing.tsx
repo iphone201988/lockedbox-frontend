@@ -27,7 +27,11 @@ const SearchListing = ({
         <div className="flex justify-center items-center  bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute right-[8px] top-[8px]">
           <span className="flex gap-[4px] items-center">
             <StarIcon />
-            <b className="text-[13px] font-normal">{averageRating}</b>
+            {averageRating ? (
+              <b className="text-[13px] font-normal">{averageRating}</b>
+            ) : (
+              <></>
+            )}
           </span>
           <p className="text-[13px] ml-[4px]">
             ({totalReviews ? totalReviews : "No"} reviews)

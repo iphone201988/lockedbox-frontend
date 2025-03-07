@@ -11,9 +11,11 @@ const libraries: "places"[] = ["places"];
 const MapInput = ({
   value,
   setFormData,
+  showLabel = true,
 }: {
   value: string;
   setFormData: any;
+  showLabel?: boolean;
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
@@ -135,7 +137,9 @@ const MapInput = ({
             onPlaceChanged={handlePlaceChanged}
           >
             <>
-              <p className=" font-semibold mb-[6px]">Enter Address</p>
+              {showLabel && (
+                <p className=" font-semibold mb-[6px]">Enter Address</p>
+              )}
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <input
                   type="text"

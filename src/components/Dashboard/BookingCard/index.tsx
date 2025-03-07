@@ -93,14 +93,16 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           >
             View Receipt
           </a>
-          {type == "future" && (
-            <Link
-              className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
-              to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
-            >
-              Check in
-            </Link>
-          )}
+          {type == "future" &&
+            !booking.isCheckIn &&
+            booking.status == "approve" && (
+              <Link
+                className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
+                to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
+              >
+                Check in
+              </Link>
+            )}
         </div>
       )}
     </div>

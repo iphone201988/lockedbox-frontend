@@ -14,10 +14,11 @@ const baseQuery = fetchBaseQuery({
 const USER_TAG = "USER";
 const PAYMENT_TAG = "PAYMENT";
 const LISTING_TAG = "LISTING";
+const REVIEW_TAG = "REVIEW";
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
-  tagTypes: [USER_TAG, PAYMENT_TAG, LISTING_TAG],
+  tagTypes: [USER_TAG, PAYMENT_TAG, LISTING_TAG, REVIEW_TAG],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
       query: (body) => ({
@@ -163,6 +164,8 @@ export const lockedBoxApi = createApi({
         sort,
         features,
         allowedStorage,
+        width,
+        length,
       }) => {
         const params = new URLSearchParams();
 
@@ -172,6 +175,8 @@ export const lockedBoxApi = createApi({
         if (sort) params.append("sort", sort);
         if (features) params.append("features", features);
         if (allowedStorage) params.append("allowedStorage", allowedStorage);
+        if (width) params.append("width", width);
+        if (length) params.append("length", length);
 
         return {
           url: `listing/find_listing?${params.toString()}`,
@@ -240,6 +245,7 @@ export const lockedBoxApi = createApi({
         url: `listing/without_review`,
         method: "GET",
       }),
+      providesTags: [REVIEW_TAG],
     }),
     giveReviewToHost: builder.mutation({
       query: (body) => ({
@@ -247,6 +253,7 @@ export const lockedBoxApi = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: [REVIEW_TAG],
     }),
     findHostReviews: builder.query<any, void>({
       query: () => ({
@@ -259,6 +266,7 @@ export const lockedBoxApi = createApi({
         url: `listing/my_review`,
         method: "GET",
       }),
+      providesTags: [REVIEW_TAG],
     }),
 
     // Chat apis

@@ -41,7 +41,7 @@ const ReviewYourHost = () => {
       ...ratings,
       comment: comments ? comments : undefined,
       listingId: listing?._id,
-      hostId: listing?.userId,
+      hostId: listing?.userId[0]._id,
     })
       .unwrap()
       .catch((error: any) => handleError(error, navigate));
@@ -54,7 +54,6 @@ const ReviewYourHost = () => {
   }, [data]);
 
   useEffect(() => {
-    console.log("hostRatingData::::", hostRatingData);
     if (hostRatingData?.success) {
       toast.success(ResponseMessages.REVIEW_GIVEN);
       navigate("/dashboard/reviews");
