@@ -94,6 +94,13 @@ export const lockedBoxApi = createApi({
       }),
       invalidatesTags: [USER_TAG],
     }),
+    dashboardHome: builder.query<any, void>({
+      query: () => ({
+        url: `user/dashboard`,
+        method: "GET",
+      }),
+      providesTags: [USER_TAG],
+    }),
 
     // Payment apis
     addPaymentMethod: builder.mutation({
@@ -277,8 +284,8 @@ export const lockedBoxApi = createApi({
       }),
     }),
     findMessages: builder.query<any, any>({
-      query: (conversationId) => ({
-        url: `user/conversation/${conversationId}`,
+      query: ({ conversationId, page }) => ({
+        url: `user/conversation/${conversationId}?page=${page}`,
         method: "GET",
       }),
     }),
@@ -296,6 +303,7 @@ export const {
   useChangeUserAuthMutation,
   useSendOTPMutation,
   useUpdateUserMutation,
+  useDashboardHomeQuery,
   useUpdateUserProfileImageMutation,
   useAddPaymentMethodMutation,
   useAddStripeConnectMutation,
@@ -323,4 +331,5 @@ export const {
   useGiveReviewToHostMutation,
   useFindConversationsQuery,
   useFindMessagesQuery,
+  useLazyFindMessagesQuery,
 } = lockedBoxApi;

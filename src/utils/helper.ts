@@ -1,5 +1,5 @@
 import { NavigateFunction } from "react-router-dom";
-import { UserAuthSteps } from "../constants";
+import { HomeNotificationsType, UserAuthSteps } from "../constants";
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -89,8 +89,59 @@ export const groupedData = (data: any) => {
   });
 
   return sortedKeys.reduce((acc: any, key: string) => {
-    acc[key] = grouped[key].sort((a: any, b: any) => moment(a.createdAt).diff(moment(b.createdAt))); // Sort messages inside each key
+    acc[key] = grouped[key].sort((a: any, b: any) =>
+      moment(a.createdAt).diff(moment(b.createdAt))
+    ); // Sort messages inside each key
     return acc;
   }, {});
 };
 
+export const getHomeKeys = (
+  type: number,
+  role: string,
+  name: string,
+  startDate: string,
+  bookingId: string,
+  listingId: string
+) => {
+  const currentDate = moment.utc();
+  const differenceInDays = currentDate.diff(moment.utc(startDate), "days");
+
+  let obj = { description: "", path: "", btnText: "" };
+
+  switch (type) {
+    case HomeNotificationsType.NEW_REQUEST:
+      obj = {
+        description:
+          role == "host"
+            ? `New request from ${name}`
+            : `The host is reviewing your request`,
+        path: "/dashboard/booking",
+        btnText: "View Request",
+      };
+      break;
+    case HomeNotificationsType.CHECK_IN:
+      obj = {
+        description: `Check-in date in ${differenceInDays} days`,
+        path: `/dashboard/booking/${bookingId}/check-in/${listingId}`,
+        btnText: `Check-in in ${differenceInDays} days`,
+      };
+      break;
+    case HomeNotificationsType.REVIEW_REQUEST:
+      obj = {
+        description: "Leave a review for your recent rental",
+        path: "/dashboard/reviews",
+        btnText: "Begin Review",
+      };
+      break;
+    case HomeNotificationsType.REQUEST_ACCEPTED:
+      obj = {
+        description: "Your reservation was confirmed",
+        path: "/dashboard/booking",
+        btnText: "View Request",
+      };
+      break;
+  }
+
+  return obj;
+};

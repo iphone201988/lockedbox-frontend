@@ -180,3 +180,13 @@ type ChatProfileProps = {
     profileImage: string;
   };
 };
+
+type HomeNotifications = {
+  id: string;
+  spaceType: string;
+  city: string;
+  image: string;
+  description: string;
+  path: string;
+  btnText: string;
+};

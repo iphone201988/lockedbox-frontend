@@ -6,11 +6,15 @@ import SendIcon from "../../../../assets/icons/send-icn.png";
 import IncomingMessage from "../Message/incoming-message";
 import OutgoingMessage from "../Message/outging-message";
 import { Navigate, useParams } from "react-router-dom";
-import { useFindMessagesQuery, useGetUserQuery } from "../../../../redux/api";
+import {
+  useGetUserQuery,
+  useLazyFindMessagesQuery,
+} from "../../../../redux/api";
 import Loader from "../../../Loader";
 import moment from "moment";
 import { getUrl, groupedData } from "../../../../utils/helper";
 import { useChatSocket } from "../../../../hooks/useChatSocket";
+import { usePagination } from "../../../../hooks/usePagination";
 
 type ListingDetail = {
   image: string;
@@ -26,10 +30,26 @@ const MessageArea = () => {
   if (!id) return <Navigate to="/" />;
 
   const { data: userData } = useGetUserQuery();
-  const { data, isLoading, isFetching } = useFindMessagesQuery(id);
+  // const { data, isLoading, isFetching } = useFindMessagesQuery(id);
+  const [findMessages, { data, isLoading, isFetching }] =
+    useLazyFindMessagesQuery();
   const [conversation, setConversation] = useState<any>([]);
   const [listingDetails, setListingDetails] = useState<ListingDetail>();
   const [receiverId, setReceiverId] = useState();
+
+  const {
+    pagination,
+    setPagnation,
+    scrollableRef,
+    handleScroll,
+    restoreScrollPosition,
+  } = usePagination({
+    scrollDown: true,
+    fetchData: () => {
+      findMessages({ conversationId: id, page: pagination.page });
+    },
+  });
+
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   const appendSingleMessage = (key: string, message: any) => {
@@ -48,19 +68,70 @@ const MessageArea = () => {
     });
   };
 
+  const appendMessages = (data: any) => {
+    if (pagination.page === 1) {
+      setConversation(data);
+    } else {
+      // setConversation((prevConversation: any) => {
+      //   const mergedConversation = { ...prevConversation };
+      //   Object.entries(data).forEach(([key, messages]: [any, any]) => {
+      //     if (mergedConversation[key]) {
+      //       mergedConversation[key] = [...messages, ...mergedConversation[key]];
+      //     } else {
+      //       mergedConversation[key] = messages;
+      //     }
+      //   });
+      //   return mergedConversation;
+      // });
+
+      setConversation((prevConversation: any) => {
+        // Get keys from new data
+        const newKeys = Object.keys(data);
+        // Get keys from previous conversation that are not in the new data
+        const oldKeys = Object.keys(prevConversation).filter(
+          (key) => !newKeys.includes(key)
+        );
+        // Build a new conversation object with new keys first
+        const newConversation: any = {};
+
+        // Insert new keys (or merge if key already exists)
+        newKeys.forEach((key) => {
+          if (prevConversation[key]) {
+            // Merge: new messages come before existing ones
+            newConversation[key] = [...data[key], ...prevConversation[key]];
+          } else {
+            newConversation[key] = data[key];
+          }
+        });
+
+        // Append any keys that were already present but not in the new data
+        oldKeys.forEach((key) => {
+          newConversation[key] = prevConversation[key];
+        });
+
+        return newConversation;
+      });
+    }
+  };
+
   const { sendMessage } = useChatSocket(
     userData?.userExists._id,
     appendSingleMessage
   );
+  
+  useEffect(() => {
+    findMessages({ conversationId: id, page: pagination.page });
+  }, []);
 
   useEffect(() => {
     if (data?.success) {
       const { listingId: listing } = data?.conversation.bookingId;
       let { startDate, endDate } = data?.conversation.bookingId;
+      const { pagination } = data;
       startDate = moment(startDate).format("MMM DD YYYY");
       endDate = moment(endDate).format("MMM DD YYYY");
 
-      setConversation(groupedData(data?.conversationMessages));
+      appendMessages(groupedData(data?.conversationMessages));
 
       setListingDetails({
         image: listing.storageImages[0],
@@ -74,11 +145,19 @@ const MessageArea = () => {
           (id: any) => id.toString() != userData.userExists._id
         )
       );
+
+      setPagnation((prev: any) => ({
+        ...prev,
+        totalPages: pagination.totalPages,
+      }));
     }
   }, [data]);
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (pagination.page === 1) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    restoreScrollPosition();
   }, [conversation]);
 
   const handleSendMessage = (e: any) => {
@@ -90,7 +169,6 @@ const MessageArea = () => {
       contentType: "text",
     };
 
-    console.log("data::::", data);
     sendMessage(JSON.stringify(data));
     setMessage(null);
     appendSingleMessage("today", {
@@ -121,11 +199,15 @@ const MessageArea = () => {
         </div>
       )}
 
-      <div className="py-[24px] px-[30px] h-full overflow-auto no-scrollbar max-lg:px-[20px]">
+      <div
+        className="py-[24px] px-[30px] h-full overflow-auto n max-lg:px-[20px]"
+        ref={scrollableRef}
+        onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
+      >
         {Object.keys(conversation).length ? (
-          Object.keys(conversation).map((key) => {
+          Object.keys(conversation).map((key, index) => {
             return (
-              <>
+              <div key={index}>
                 <div className="text-center">
                   <span className=" inline-block text-[14px] px-[10px] py-[4px] border border-[#EEEEEE] rounded-[4px] text-[#959595] mx-auto capitalize">
                     {key}
@@ -140,7 +222,6 @@ const MessageArea = () => {
                       if (message.senderDetails?.profileImage) {
                         url = getUrl(message.senderDetails?.profileImage);
                       }
-                      console.log("url::::", url);
                       return (
                         <IncomingMessage
                           message={message.content}
@@ -150,7 +231,7 @@ const MessageArea = () => {
                     }
                   })}
                 </div>
-              </>
+              </div>
             );
           })
         ) : (

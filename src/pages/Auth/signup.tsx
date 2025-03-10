@@ -17,8 +17,12 @@ import { useForm } from "../../hooks/useForm";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../constants/api-responses";
+import * as yup from "yup";
 
+type SignUpFormType = yup.InferType<typeof SignUpSchema>;
 const initialState: SignUpFormType = {
+  firstName: "",
+  lastName: "",
   email: "",
   phone: "",
   countryCode: "",
@@ -86,12 +90,36 @@ const Signup = () => {
           <h1 className="text-[52px] font-bold max-lg:text-[36px] text-center">
             Create an account
           </h1>
+
           <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
             <SignUpMethod
               signupMethod={signupMethod}
               setSignupMethod={setSignupMethod}
             />
-
+            <div className="flex gap-[16px] relative w-full max-w-[540px] mb-[10px]">
+              <div>
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="firstName"
+                  value={formData?.firstName}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="Enter First name"
+                  error={errors?.firstName}
+                />
+              </div>
+              <div>
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="lastName"
+                  value={formData?.lastName}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="Enter Last name"
+                  error={errors?.lastName}
+                />
+              </div>
+            </div>
             {signupMethod.email && (
               <div className="input-with-icon relative w-full max-w-[540px]">
                 <Input

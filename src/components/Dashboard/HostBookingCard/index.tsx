@@ -99,7 +99,7 @@ const HostBookingCard = ({
             ${listing.price}/month
           </p>
           <p className="text-[18px] text-[#235370] max-mlg:text-[16px] font-semibold">
-            ${booking.totalAmount}
+            ${booking.totalAmount.toFixed(2)}
           </p>
         </div>
 

@@ -94,7 +94,7 @@ const CheckIn = () => {
             />
             <div className="storage-details flex flex-col gap-[4px] w-full">
               <p className="text-[18px] font-semibold max-md:text-[16px]">
-              {listing.spaceType} for Storage at {listing.city}
+                {listing.spaceType} for Storage at {listing.city}
               </p>
             </div>
           </div>

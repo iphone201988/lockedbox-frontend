@@ -144,3 +144,10 @@ export const spaceFeatures = [
     id: "17",
   },
 ];
+
+export const HomeNotificationsType = {
+  NEW_REQUEST: 1,
+  CHECK_IN: 2,
+  REVIEW_REQUEST: 3,
+  REQUEST_ACCEPTED: 4,
+};
