@@ -67,7 +67,7 @@ const ReviewYourHost = () => {
         <h4 className="text-[22px] font-bold">
           Review your Host {userData?.userExists?.firstName}
         </h4>
-        <p>Give review</p>
+        {/* <p>Give review</p> */}
       </div>
       <div className=" py-[24px] flex gap-[16px] max-md:flex-col">
         <div className=" w-full max-w-[440px] max-md:max-w-full">

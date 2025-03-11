@@ -216,7 +216,9 @@ const CheckIn = () => {
 
                 {isChecked && (
                   <button
-                    className="btn-pri ml-auto !bg-[#959595] !border-0"
+                    className={`btn-pri ml-auto  ${
+                      imageItems.length >= 2 ? "!bg-green-600" : "!bg-[#959595]"
+                    } !border-0`}
                     onClick={completeCheckIn}
                   >
                     Complete {role == "rent" ? "Renter" : "Host"} Check in

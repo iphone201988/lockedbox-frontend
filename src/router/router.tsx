@@ -7,7 +7,14 @@ import Loader from "../components/Loader";
 import Reviews from "../pages/Dashboard/Review";
 import ChatLayout from "../layout/Chat";
 import MessageArea from "../components/Dashboard/Chat/MessageArea";
-import AdminDashboard from "../pages/Admin";
+import AdminLogin from "../pages/Admin/Auth";
+import AdminHome from "../pages/Admin/Home";
+import AdminDashboardLayout from "../layout/Admin";
+import AdminAccount from "../pages/Admin/Home/Account";
+import AdminListing from "../pages/Admin/Home/Listing";
+import AdminBooking from "../pages/Admin/Home/Booking";
+import AdminDispute from "../pages/Admin/Home/Dispute";
+import AdminCheckIN from "../pages/Admin/Home/CheckIn";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -185,12 +192,26 @@ const Router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <AdminDashboard />
-      </Suspense>
-    ),
+    element: <AdminDashboardLayout />,
+    children: [
+      {
+        path: "home",
+        element: <AdminHome />,
+        children: [
+          { path: "account/:id?", element: <AdminAccount /> },
+        { path: "listings/:id?", element: <AdminListing /> },
+        { path: "bookings/:id?", element: <AdminBooking /> },
+        { path: "disputes/:id?", element: <AdminDispute /> },
+        { path: "check-in/:id?", element: <AdminCheckIN /> },
+        ],
+      },
+    ],
   },
+  {
+    path: "/admin/login",
+    element: <AdminLogin />,
+  },
+
   {
     path: "/dashboard",
     element: <DashboardLayout />,

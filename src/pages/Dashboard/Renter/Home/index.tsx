@@ -33,7 +33,7 @@ const RenterHome = () => {
             notification.userId?.firstName,
             notification.bookingId?.startDate,
             notification.bookingId?._id,
-            notification.listingId?._id,
+            notification.listingId?._id
           );
           return {
             id: notification._id,
@@ -57,13 +57,13 @@ const RenterHome = () => {
         <p>Let’s see what’s new</p>
       </div>
       <div className=" py-[24px] flex flex-col gap-[16px]">
-        {notifications.length &&
+        {notifications.length ? (
           notifications.map((notification) => (
             <CommonListing key={notification.id} notification={notification} />
-          ))}
-        {/* <CommonListing type="RenterHome" btnTxt="View Booking" path="" />
-        <CommonListing type="RenterHome" btnTxt="View Booking" path="" />
-        <CommonListing type="RenterHome" btnTxt="View Booking" path="" /> */}
+          ))
+        ) : (
+          <></> 
+        )}
       </div>
     </div>
   );

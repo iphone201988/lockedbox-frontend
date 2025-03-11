@@ -1,11 +1,10 @@
-import React from "react";
-import BoxImage from "../../../../assets/box-detail-image.png";
-import SeasonalIcom from "../../../../assets/icons/seasonal-icn.png";
-import OfficeIcon from "../../../../assets/icons/office-icn.png";
-import AppliancesIcon from "../../../../assets/icons/appliances-icn.png";
-import FurnitureIcon from "../../../../assets/icons/furniture-icn.png";
-import VehiclesIcon from "../../../../assets/icons/vehicles-icn.png";
-import AutoPartIcon from "../../../../assets/icons/autoPart-icn.png";
+import BoxImage from "../../../assets/box-detail-image.png";
+import SeasonalIcom from "../../../assets/icons/seasonal-icn.png";
+import OfficeIcon from "../../../assets/icons/office-icn.png";
+import AppliancesIcon from "../../../assets/icons/appliances-icn.png";
+import FurnitureIcon from "../../../assets/icons/furniture-icn.png";
+import VehiclesIcon from "../../../assets/icons/vehicles-icn.png";
+import AutoPartIcon from "../../../assets/icons/autoPart-icn.png";
 
 const ListingManagement = () => {
   return (

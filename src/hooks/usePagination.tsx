@@ -15,9 +15,9 @@ export const usePagination = ({
   const prevScrollRef = useRef({ scrollTop: 0, scrollHeight: 0 });
 
   const handleScroll = async () => {
+    console.log("scrollDown::;", scrollableRef.current);
     if (scrollableRef.current && pagination.page < pagination.totalPages) {
       const { scrollTop, scrollHeight, clientHeight } = scrollableRef.current;
-
       const page = pagination.page + 1;
       if (scrollDown && scrollTop === 0) {
         setPagnation((prev: any) => ({

@@ -151,7 +151,7 @@ const StepOne = ({
                 <div className="input-with-icon relative w-full max-w-[100%]">
                   <Input
                     className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                    type="text"
+                    type="number"
                     name="length"
                     value={formData?.length}
                     onChange={(e: any) => handleInputChange(e, setFormData)}
@@ -166,7 +166,7 @@ const StepOne = ({
                 <div className="input-with-icon relative w-full max-w-[100%]">
                   <Input
                     className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                    type="text"
+                    type="number"
                     name="width"
                     value={formData?.width}
                     onChange={(e: any) => handleInputChange(e, setFormData)}

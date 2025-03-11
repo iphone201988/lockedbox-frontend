@@ -1,6 +1,6 @@
 import Logo from "../../../assets/logo.png";
 import HostProfilePic from "../../../assets/host-profile-pic.png";
-import AdminProfilePopup from "./components/admin-profile-popup";
+import AdminProfilePopup from "../components/admin-profile-popup";
 import { HomeIcon } from "../../../icons";
 
 const AdminSidebar = () => {

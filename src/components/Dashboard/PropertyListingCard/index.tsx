@@ -64,11 +64,11 @@ const PropertyListingCard = ({
       <div className="flex flex-col gap-[6px] items-end max-md:ml-auto w-[10%] max-lg:w-[15%] max-md:w-full">
         {/* under review btn class */}
         {status == "under_review" && (
-          <button className="btn-yellow">Under Review</button>
+          <button className="btn-yellow capitalize">Under Review</button>
         )}
 
         {/* confirmed btn class */}
-        {status == "active" && <button className="btn-green">{status}</button>}
+        {status == "active" && <button className="btn-green capitalize">{status}</button>}
       </div>
     </div>
   );

@@ -200,7 +200,7 @@ const MessageArea = () => {
       )}
 
       <div
-        className="py-[24px] px-[30px] h-full overflow-auto n max-lg:px-[20px]"
+        className="py-[24px] px-[30px] h-full overflow-auto no-scrollbar max-lg:px-[20px]"
         ref={scrollableRef}
         onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
       >

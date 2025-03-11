@@ -22,7 +22,7 @@ const ReviewCard = ({ path, booking }: { path: string; booking: any }) => {
           </p>
 
           <p className="text-[16px] text-[#959595]">
-            <span className="text-black font-semibold">From:</span>
+            <span className="text-black font-semibold">From: </span>
             {startDate} - {endDate}
           </p>
         </div>

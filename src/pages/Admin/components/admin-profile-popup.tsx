@@ -1,4 +1,4 @@
-import { HelpIcon, LogoutIcon } from "../../../../icons";
+import { HelpIcon, LogoutIcon } from "../../../icons";
 
 const AdminProfilePopup = () => {
   return (

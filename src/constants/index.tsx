@@ -19,7 +19,7 @@ import {
 } from "../icons";
 
 export const routes = [
-  { name: "Find a Space", path: "/search" },
+  { name: "Find Storage", path: "/search" },
   { name: "How it Works", path: "/" },
   { name: "Contact Us", path: "/" },
   { name: "Host your Space", path: "/dashboard/home" },
@@ -27,7 +27,7 @@ export const routes = [
 
 export const RenterRoutes = [
   { name: "Home", icon: <HomeIcon />, path: "/dashboard/home" },
-  { name: "Find a space", icon: <SearchIcon />, path: "/search" },
+  { name: "Find Storage", icon: <SearchIcon />, path: "/search" },
   {
     name: "Account",
     icon: <AccountIcon />,
@@ -50,7 +50,7 @@ export const HostRoutes = [
     icon: <AccountIcon />,
     path: "/dashboard/account/basic-info",
   },
-  { name: "Listing", icon: <ListingIcon />, path: "/dashboard/listing" },
+  { name: "Listings", icon: <ListingIcon />, path: "/dashboard/listing" },
   { name: "Bookings", icon: <BookingIcon />, path: "/dashboard/booking" },
   { name: "Messages", icon: <MessageIcon />, path: "/dashboard/message" },
   {
@@ -103,7 +103,20 @@ export const allowedStorage = [
   { name: "Vehicles", icon: <VehicleIcon /> },
 ];
 
-export const spaceType = ["Basement", "Warehouse"];
+export const spaceType = [
+  "Room",
+  "Basement",
+  "Warehouse",
+  "Closet",
+  "Garage",
+  "Shed",
+  "Office",
+  "Attic",
+  "Driveway",
+  "Vacant Lot",
+  "Restaurant",
+  "Small business",
+];
 
 export const accessPolicyType = [
   { name: "Access requires \n appointment." },

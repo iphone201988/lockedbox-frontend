@@ -55,7 +55,7 @@ const StepThree = ({ handleSubmit }: { handleSubmit: any }) => {
               </p>
             ) : (
               <p className=" text-green-600 font-bold">
-                Account Verified Successfully !!
+                Account Verified Successfully
               </p>
             )}
           </div>

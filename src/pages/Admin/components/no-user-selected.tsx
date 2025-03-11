@@ -1,5 +1,4 @@
-import React from 'react'
-import UserIcon from '../../../../assets/icons/admin-user-icn.png'
+import UserIcon from '../../../assets/icons/admin-user-icn.png'
 
 const IfNoUserSelected = () => {
   return (

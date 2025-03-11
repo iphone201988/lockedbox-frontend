@@ -149,9 +149,9 @@ export const lockedBoxApi = createApi({
       }),
       invalidatesTags: [LISTING_TAG],
     }),
-    getAllListings: builder.query<any, void>({
-      query: () => ({
-        url: `listing/me`,
+    getAllListings: builder.query<any, any>({
+      query: ({ page = 1 }) => ({
+        url: `listing/me?page=${page}`,
         method: "GET",
       }),
       providesTags: [LISTING_TAG],
@@ -311,6 +311,7 @@ export const {
   useRemovePaymentMethodMutation,
   useCreateListingMutation,
   useGetAllListingsQuery,
+  useLazyGetAllListingsQuery,
   useGetListingByIdQuery,
   useFindListingQuery,
   useLazyFindListingQuery,

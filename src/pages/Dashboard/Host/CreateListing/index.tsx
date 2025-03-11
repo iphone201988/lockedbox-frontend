@@ -10,6 +10,7 @@ import * as yup from "yup";
 import {
   useCreateListingMutation,
   useGetListingByIdQuery,
+  useGetUserQuery,
   useUpdateListingMutation,
 } from "../../../../redux/api";
 import { handleError } from "../../../../utils/helper";
@@ -56,6 +57,9 @@ const StepTwoInitialState: StepTwoFormType = {
 const CreateListing = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { data: userData } = useGetUserQuery();
+
+  console.log("userData::::", userData);
 
   const { data: listingData, isLoading: listingDataLoading } =
     useGetListingByIdQuery(id || "", { skip: !id });
@@ -99,6 +103,11 @@ const CreateListing = () => {
     if (step === 2) {
       const hasErrors: boolean = await stepTwoValidate();
       if (hasErrors) return;
+
+      if (userData?.userExists.isStripeAccountConnected) {
+        handleSubmit();
+        return;
+      }
     }
     setCurrentStep(step);
   };
@@ -143,11 +152,11 @@ const CreateListing = () => {
     if (id) {
       await updateListing({ id, body: formData })
         .unwrap()
-        .catch((error) => handleError(error, navigate));
+        .catch((error: any) => handleError(error, navigate));
     } else {
       await createListing(formData)
         .unwrap()
-        .catch((error) => handleError(error, navigate));
+        .catch((error: any) => handleError(error, navigate));
     }
   };
 
@@ -237,17 +246,19 @@ const CreateListing = () => {
               </div>
             </div>
           </Tab>
-          <Tab onClick={() => handleNextStep(2)}>
-            <div className="step-button flex items-center gap-[12px]">
-              <div className="step-number w-[56px] h-[56px] rounded-full text-white flex items-center justify-center text-[20px] !font-semibold">
-                3
+          {!userData?.userExists.isStripeAccountConnected && (
+            <Tab onClick={() => handleNextStep(2)}>
+              <div className="step-button flex items-center gap-[12px]">
+                <div className="step-number w-[56px] h-[56px] rounded-full text-white flex items-center justify-center text-[20px] !font-semibold">
+                  3
+                </div>
+                <div>
+                  <p className="step-count !font-normal">Step 3/3</p>
+                  <p className="font-semibold">Verification</p>
+                </div>
               </div>
-              <div>
-                <p className="step-count !font-normal">Step 3/3</p>
-                <p className="font-semibold">Verification</p>
-              </div>
-            </div>
-          </Tab>
+            </Tab>
+          )}
         </TabList>
 
         <TabPanel>
@@ -269,9 +280,11 @@ const CreateListing = () => {
             errors={stepTwoErrors}
           />
         </TabPanel>
-        <TabPanel>
-          <StepThree handleSubmit={handleSubmit} />
-        </TabPanel>
+        {!userData?.userExists.isStripeAccountConnected && (
+          <TabPanel>
+            <StepThree handleSubmit={handleSubmit} />
+          </TabPanel>
+        )}
       </Tabs>
     </div>
   );
