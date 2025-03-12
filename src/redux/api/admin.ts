@@ -43,6 +43,45 @@ export const adminApi = createApi({
         method: "GET",
       }),
     }),
+    banUser: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `admin/user/${id}/ban`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [ADMIN_TAG],
+    }),
+    getUserListings: builder.query<any, any>({
+      query: ({ id, page = 1 }) => ({
+        url: `admin/user/${id}/listing?page=${page}`,
+        method: "GET",
+      }),
+    }),
+    getUserBooking: builder.query<any, any>({
+      query: ({ id, page = 1 }) => ({
+        url: `admin/user/${id}/booking?page=${page}`,
+        method: "GET",
+      }),
+    }),
+    changeListingStatus: builder.mutation({
+      query: ({ userId, listingId, body }) => ({
+        url: `admin/user/${userId}/listing/${listingId}`,
+        method: "PUT",
+        body,
+      }),
+    }),
+    getUserDisputes: builder.query<any, any>({
+      query: ({ id, page = 1 }) => ({
+        url: `admin/user/${id}/dispute?page=${page}`,
+        method: "GET",
+      }),
+    }),
+    getUserCheckIns: builder.query<any, any>({
+      query: ({ id, page = 1 }) => ({
+        url: `admin/user/${id}/check_in?page=${page}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -51,4 +90,10 @@ export const {
   useGetUserQuery,
   useLazySearchUserQuery,
   useGetUserDetailsQuery,
+  useBanUserMutation,
+  useLazyGetUserListingsQuery,
+  useChangeListingStatusMutation,
+  useLazyGetUserDisputesQuery,
+  useLazyGetUserCheckInsQuery,
+  useLazyGetUserBookingQuery,
 } = adminApi;

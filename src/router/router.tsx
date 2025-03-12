@@ -15,6 +15,7 @@ import AdminListing from "../pages/Admin/Home/Listing";
 import AdminBooking from "../pages/Admin/Home/Booking";
 import AdminDispute from "../pages/Admin/Home/Dispute";
 import AdminCheckIN from "../pages/Admin/Home/CheckIn";
+import AdminLogout from "../pages/Admin/Logout";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -199,11 +200,15 @@ const Router = createBrowserRouter([
         element: <AdminHome />,
         children: [
           { path: "account/:id?", element: <AdminAccount /> },
-        { path: "listings/:id?", element: <AdminListing /> },
-        { path: "bookings/:id?", element: <AdminBooking /> },
-        { path: "disputes/:id?", element: <AdminDispute /> },
-        { path: "check-in/:id?", element: <AdminCheckIN /> },
+          { path: "listings/:id?", element: <AdminListing /> },
+          { path: "bookings/:id?", element: <AdminBooking /> },
+          { path: "disputes/:id?", element: <AdminDispute /> },
+          { path: "check-in/:id?", element: <AdminCheckIN /> },
         ],
+      },
+      {
+        path: "logout",
+        element: <AdminLogout />,
       },
     ],
   },

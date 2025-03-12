@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { StarIcon } from "../../../icons";
+import { getUrl } from "../../../utils/helper";
 
 const SearchListing = ({
   id,
@@ -21,7 +22,7 @@ const SearchListing = ({
       <div className="relative ">
         <img
           className="rounded-[16px] w-full"
-          src={import.meta.env.VITE_BACKEND_URL + image}
+          src={getUrl(image)}
           alt=""
         />
         <div className="flex justify-center items-center  bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute right-[8px] top-[8px]">

@@ -1,10 +1,5 @@
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import UserAccountDetails from "../components/user-account-details";
-import BookingsAndPayments from "../components/bookings-and-payments";
-import DisputeResolution from "../components/dispute-resolution";
-import CheckInPhotos from "../components/check-in-photos";
-import ListingManagement from "../components/listing-management";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Tab, Tabs, TabList } from "react-tabs";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const tabRoutes = [
@@ -17,6 +12,7 @@ const tabRoutes = [
 
 const AdminHome = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -35,13 +31,13 @@ const AdminHome = () => {
   }, [location.pathname]);
 
   return (
-    <div className="px-[30px] py-[32px] max-lg:px-[20px]">
+    <div className="px-[30px] py-[32px] max-lg:px-[20px] h-[calc(100%-100px)]">
       <Tabs
         className="border-0"
         selectedIndex={selectedIndex}
         onSelect={(index) => {
           setSelectedIndex(index);
-          navigate(tabRoutes[index]);
+          navigate(id ? `${tabRoutes[index]}/${id}` : tabRoutes[index]);
         }}
       >
         <TabList>

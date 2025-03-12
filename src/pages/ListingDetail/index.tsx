@@ -8,6 +8,7 @@ import Loader from "../../components/Loader";
 import { useEffect, useState } from "react";
 import DatePicker from "../../components/DatePicker";
 import ListingReviews from "../../components/ListingReviews";
+import { getUrl } from "../../utils/helper";
 
 const ListingDetail = () => {
   const { id } = useParams();
@@ -33,8 +34,8 @@ const ListingDetail = () => {
       <div className="max-w-[1120px] mx-auto pt-[24px]">
         {listing && (
           <ImageGallery
-            storageImages={listing?.storageImages.map(
-              (image: string) => import.meta.env.VITE_BACKEND_URL + image
+            storageImages={listing?.storageImages.map((image: string) =>
+              getUrl(image)
             )}
           />
         )}
@@ -49,7 +50,7 @@ const ListingDetail = () => {
         <div className="">
           <div className="max-w-[520px]">
             {listing && <PoliciesInfo listing={listing} />}
-            {listing && <ListingReviews listing={listing}/>}
+            {listing && <ListingReviews listing={listing} />}
           </div>
           <div className="for-map"></div>
         </div>

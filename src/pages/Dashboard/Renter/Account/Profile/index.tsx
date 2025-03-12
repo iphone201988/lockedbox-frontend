@@ -10,7 +10,11 @@ import {
 import * as yup from "yup";
 import { ProfileSchema } from "../../../../../schema";
 import { useForm } from "../../../../../hooks/useForm";
-import { handleError, handleInputChange } from "../../../../../utils/helper";
+import {
+  getUrl,
+  handleError,
+  handleInputChange,
+} from "../../../../../utils/helper";
 import Input from "../../../../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -110,7 +114,7 @@ const RenterProfile = () => {
         isPhoneVerified,
       } = userData.userExists;
       if (profileImage) {
-        setProfilePic(import.meta.env.VITE_BACKEND_URL + profileImage);
+        setProfilePic(getUrl(profileImage));
       }
 
       setFormData({

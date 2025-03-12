@@ -27,6 +27,7 @@ const AdminHeader = () => {
   const handleSearch = async () => {
     if (searchQuery.length < 3) {
       toast.warning("Please search with atleast 3 characters");
+      setUsers([]);
       return;
     }
 
@@ -37,6 +38,7 @@ const AdminHeader = () => {
 
   useEffect(() => {
     if (data?.success) {
+      if (!data.users.length) toast.error("Users not found");
       setUsers(data.users);
     }
   }, [data]);
@@ -62,7 +64,14 @@ const AdminHeader = () => {
             {users.length ? (
               <div className="search-result flex flex-col gap-[8px] absolute bg-white border border-[#EEEEEE] rounded-[16px] p-[12px] w-full left-[0] top-[70px]">
                 {users.map((user: any) => (
-                  <div className="flex gap-[8px] items-center cursor-pointer">
+                  <div
+                    className="flex gap-[8px] items-center cursor-pointer"
+                    onClick={() => {
+                      setUsers([]);
+                      setSearchQuery("");
+                      navigate(`/admin/home/account/${user._id}`);
+                    }}
+                  >
                     <img
                       className="w-[36px] h-[36px] rounded-full"
                       src={

@@ -190,3 +190,32 @@ type HomeNotifications = {
   path: string;
   btnText: string;
 };
+
+// Admin
+
+type AdminAccountType = {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  createdAt: string;
+  profileImage: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  isStripeAccountConnected: boolean;
+  isAccountBanByAdmin: boolean;
+};
+
+type AdminListingType = {
+  id: string;
+  city: string;
+  spaceType: string;
+  address: string;
+  price: string;
+  status: string;
+  image: string;
+  length: number;
+  width: number;
+  allowedStorage: any;
+};

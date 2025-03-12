@@ -1,12 +1,24 @@
 import CloseIcon from "../../../assets/icons/close-icn.png";
-import BoxImage from "../../../assets/box-detail-image.png";
-
-const RefundAmountPopup = () => {
+const RefundAmountPopup = ({
+  image,
+  spaceType,
+  city,
+  setShowRefundPopup,
+}: {
+  image: string;
+  spaceType: string;
+  city: string;
+  setShowRefundPopup: any;
+}) => {
   return (
     <div className="w-full h-full bg-[rgba(0,0,0,0.8)] fixed top-0 left-0 z-[9999] flex items-center justify-center">
       <div className="bg-white rounded-[16px] max-w-[600px] w-full p-[20px] relative">
         <button className=" absolute right-[20px] top-[20px]">
-          <img src={CloseIcon} alt="" />
+          <img
+            src={CloseIcon}
+            alt=""
+            onClick={() => setShowRefundPopup(false)}
+          />
         </button>
         <header className="text-center pb-[20px]">
           <p className="text-[18px] text-[#235370] font-semibold">
@@ -17,11 +29,11 @@ const RefundAmountPopup = () => {
           <div className="flex flex-col items-center justify-center border-b border-[#EEEEEE] pb-[10px] mb-[10px]">
             <img
               className="w-[130px] h-[115px] rounded-[12px] object-cover"
-              src={BoxImage}
+              src={image}
               alt=""
             />
             <p className="text-[18px] font-semibold mt-[10px]">
-              Room for storage in Surrey
+              {spaceType} for storage in {city}
             </p>
           </div>
           <div className="mb-[0]">

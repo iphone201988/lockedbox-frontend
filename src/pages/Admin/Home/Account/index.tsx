@@ -4,6 +4,7 @@ import UserAccountDetails from "../../components/user-account-details";
 
 const AdminAccount = () => {
   const { id } = useParams();
+
   return <>{id ? <UserAccountDetails /> : <IfNoUserSelected />}</>;
 };
 

@@ -4,7 +4,7 @@ import DeleteIcon from "../../../assets/icons/delete-icn.png";
 import { useBookingDisputeMutation } from "../../../redux/api";
 import Loader from "../../Loader";
 import { useNavigate, useParams } from "react-router-dom";
-import { handleError } from "../../../utils/helper";
+import { getUrl, handleError } from "../../../utils/helper";
 import { toast } from "react-toastify";
 
 const MIN_LIMIT = 2;
@@ -111,13 +111,11 @@ const CheckInPopup = ({
           <div className="flex flex-col items-center justify-center border-b border-[#EEEEEE] pb-[10px] mb-[10px]">
             <img
               className="w-[130px] h-[115px] rounded-[12px] object-cover"
-              src={
-                import.meta.env.VITE_BACKEND_URL + listing?.storageImages?.[0]
-              }
+              src={getUrl(listing?.storageImages?.[0])}
               alt=""
             />
             <p className="text-[18px] font-semibold mt-[10px]">
-            {listing.spaceType} for Storage at {listing.city}
+              {listing.spaceType} for Storage at {listing.city}
             </p>
           </div>
           {dispute && (

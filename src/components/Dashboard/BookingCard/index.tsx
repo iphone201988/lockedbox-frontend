@@ -2,6 +2,7 @@ import DisputeIcon from "../../../assets/icons/dispute-icn.png";
 import moment from "moment";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
 import { Link, Navigate } from "react-router-dom";
+import { getUrl } from "../../../utils/helper";
 
 const BookingCard = ({ booking, type, role }: BookingCard) => {
   const showReceipt = type == "future" || type == "current";
@@ -29,7 +30,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
       <div className="flex w-[70%] gap-[12px] max-md:flex-col max-md:w-full pr-[12px]">
         <img
           className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
-          src={import.meta.env.VITE_BACKEND_URL + listing.storageImages[0]}
+          src={getUrl(listing.storageImages[0])}
           alt=""
         />
         <div className="storage-details flex flex-col gap-[4px]">

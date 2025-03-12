@@ -1,4 +1,5 @@
 import moment from "moment";
+import { getUrl } from "../../../../../utils/helper";
 
 const ReviewFor = ({ listing }: { listing: any }) => {
   const startDate = moment().format("MMM DD YYYY");
@@ -8,7 +9,7 @@ const ReviewFor = ({ listing }: { listing: any }) => {
       <div className="flex gap-[12px] max-md:flex-col max-md:w-full ">
         <img
           className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
-          src={import.meta.env.VITE_BACKEND_URL + listing.storageImages?.[0]}
+          src={getUrl(listing.storageImages?.[0])}
           alt=""
         />
         <div className="storage-details flex flex-col gap-[4px] max-mlg:max-w-[280px]">

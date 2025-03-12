@@ -86,6 +86,13 @@ export const lockedBoxApi = createApi({
       }),
       providesTags: [USER_TAG],
     }),
+    getUserEarnings: builder.query<any, void>({
+      query: () => ({
+        url: `user/earning_summary`,
+        method: "GET",
+      }),
+      providesTags: [USER_TAG],
+    }),
     changeUserAuth: builder.mutation({
       query: (body) => ({
         url: `user/change_email_phone`,
@@ -300,6 +307,7 @@ export const {
   useAddRoleMutation,
   useGetUserQuery,
   useLazyGetUserQuery,
+  useGetUserEarningsQuery,
   useChangeUserAuthMutation,
   useSendOTPMutation,
   useUpdateUserMutation,

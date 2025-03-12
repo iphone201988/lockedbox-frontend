@@ -11,7 +11,7 @@ import {
 } from "../../../redux/api";
 import Loader from "../../Loader";
 import { toast } from "react-toastify";
-import { handleError } from "../../../utils/helper";
+import { getUrl, handleError } from "../../../utils/helper";
 import { useEffect } from "react";
 import { ResponseMessages } from "../../../constants/api-responses";
 
@@ -72,7 +72,7 @@ const HostBookingCard = ({
         <div className="flex gap-[12px] max-md:flex-col max-md:w-full ">
           <img
             className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
-            src={import.meta.env.VITE_BACKEND_URL + listing.storageImages[0]}
+            src={getUrl(listing.storageImages[0])}
             alt=""
           />
           <div className="storage-details flex flex-col gap-[4px]">

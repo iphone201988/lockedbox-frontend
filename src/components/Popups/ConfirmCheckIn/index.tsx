@@ -1,5 +1,6 @@
 import CloseIcon from "../../../assets/icons/close-icn.png";
 import { useNavigate } from "react-router-dom";
+import { getUrl } from "../../../utils/helper";
 
 const CheckInConfirmPopup = ({
   listing,
@@ -31,7 +32,7 @@ const CheckInConfirmPopup = ({
               <img
                 className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
                 src={
-                  import.meta.env.VITE_BACKEND_URL + listing?.storageImages?.[0]
+                  getUrl(listing?.storageImages?.[0])
                 }
                 alt=""
               />
