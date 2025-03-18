@@ -125,6 +125,12 @@ export const lockedBoxApi = createApi({
       }),
       providesTags: [PAYMENT_TAG],
     }),
+    getTransactions: builder.query<any, void>({
+      query: () => ({
+        url: `user/transaction`,
+        method: "GET",
+      }),
+    }),
     removePaymentMethod: builder.mutation({
       query: (paymentMethodId) => ({
         url: `user/payment_method/${paymentMethodId}`,
@@ -252,6 +258,12 @@ export const lockedBoxApi = createApi({
         body,
       }),
     }),
+    getBookingReceipt: builder.query<any, any>({
+      query: (bookingId) => ({
+        url: `booking/${bookingId}/receipt`,
+        method: "GET",
+      }),
+    }),
 
     // Booking apis
     fetchPendingReviewsByRenter: builder.query<any, void>({
@@ -317,6 +329,7 @@ export const {
   useAddStripeConnectMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
+  useGetTransactionsQuery,
   useCreateListingMutation,
   useGetAllListingsQuery,
   useLazyGetAllListingsQuery,
@@ -334,6 +347,7 @@ export const {
   useGetInsurancePlansQuery,
   useBookingCheckInMutation,
   useBookingDisputeMutation,
+  useGetBookingReceiptQuery,
   useFindHostReviewsQuery,
   useFindMyReviewsQuery,
   useFetchPendingReviewsByRenterQuery,

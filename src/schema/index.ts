@@ -45,6 +45,26 @@ export const SignInSchema = yup
     }
   );
 
+export const ForgotPasswordSchema = yup
+  .object({
+    email: yup.string().email("Must be a valid email"),
+    phone: yup.string(),
+    countryCode: yup.string(),
+  })
+  .test(
+    "email-or-phone",
+    "Either email or phone must be provided",
+    function (value) {
+      const { email, phone } = value;
+      if (!email && !phone) {
+        return this.createError({
+          path: "email", // Key for error
+          message: "Either email or phone must be provided",
+        });
+      }
+      return true;
+    }
+  );
 export const CreatePasswordSchema = yup.object({
   password: yup.string().required("Password is required"),
   confirmPassword: yup
@@ -69,6 +89,9 @@ export const BasicInfoSchema = yup.object({
 export const ProfileSchema = yup.object({
   bio: yup.string().optional(),
   address: yup.string().optional(),
+  city: yup.string().optional(),
+  latitude: yup.string().optional(),
+  longitude: yup.string().optional(),
   work: yup.string().optional(),
 });
 

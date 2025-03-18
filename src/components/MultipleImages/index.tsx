@@ -16,7 +16,7 @@ const MultiImageSelect = ({
 }) => {
   const imageRef = useRef<HTMLInputElement>(null);
   const [imageItems, setImageItems] = useState<ImageItem[]>([]);
-  const [removedImages, setRemovedImages] = useState<string[]>([]);
+  // const [removedImages, setRemovedImages] = useState<string[]>([]);
   const maxImages = 5;
 
   // Initialize with existing images from the `images` prop
@@ -58,7 +58,7 @@ const MultiImageSelect = ({
     const item = imageItems[index];
     if (!item.isNew) {
       // Existing image: track it as removed
-      setRemovedImages((prev) => [...prev, item.id]);
+      // setRemovedImages((prev) => [...prev, item.id]);
     } else {
       // New image: revoke temporary URL
       URL.revokeObjectURL(item.url);

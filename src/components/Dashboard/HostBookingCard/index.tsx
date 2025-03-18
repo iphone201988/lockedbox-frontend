@@ -4,7 +4,7 @@ import DateIcon from "../../../assets/icons/date-picker-icn.png";
 import DarkDateIcon from "../../../assets/icons/date-picker-black-icn.png";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   useGetUserQuery,
   useUpdateBookingStatusMutation,
@@ -62,6 +62,13 @@ const HostBookingCard = ({
     }
   }, [data]);
 
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const bookingDayStart = moment(startDate).tz(timeZone).startOf("day");
+  const currentTime = moment().tz(timeZone);
+  const isCheckInAllowed = currentTime.isSameOrAfter(bookingDayStart);
+  const canUserCheckIn = booking.status == "approve" && !booking.isCheckIn;
+
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] ">
       {isLoading && <Loader />}
@@ -77,7 +84,7 @@ const HostBookingCard = ({
           />
           <div className="storage-details flex flex-col gap-[4px]">
             <p className="text-[18px] font-semibold max-md:text-[16px]">
-            {listing.spaceType} for Storage at {listing.city}
+              {listing.spaceType} for Storage at {listing.city}
             </p>
             <p className="text-[#959595] max-md:text-[14px]">
               <span className="font-semibold text-black">
@@ -128,15 +135,19 @@ const HostBookingCard = ({
         )}
 
         <div className=" flex items-center w-full justify-end max-sm:flex-col-reverse gap-[12px] max-sm:items-start">
-          {/* checkin button */}
-          {booking.status == "approve" && !booking.isCheckIn && (
-            <Link
-              className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
-              to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
-            >
-              Check in
-            </Link>
-          )}
+          {canUserCheckIn &&
+            (isCheckInAllowed ? (
+              <Link
+                className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-green-700 rounded-[8px] px-[8px] py-[4px]"
+                to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
+              >
+                Check in
+              </Link>
+            ) : (
+              <button className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]">
+                Check in
+              </button>
+            ))}
 
           {/* start end date */}
           <div className="before-dotted-line flex justify-between relative max-sm:gap-[20px] max-w-[350px] w-full  max-md:max-w-[300px] max-sm:max-w-full max-sm:items-start">

@@ -307,7 +307,7 @@ const SearchResult = () => {
             </div>
           </div>
           <div className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto">
-            <div className="grid grid-cols-[repeat(5,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]">
+            <div className="grid grid-cols-[repeat(3,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]">
               {properties.length ? (
                 properties.map((property: Properties) => (
                   <SearchListing
@@ -316,8 +316,6 @@ const SearchResult = () => {
                     price={property.price}
                     distance={Number((property.distance / 1000).toFixed(2))}
                     image={property.image}
-                    lat={property.lat}
-                    lng={property.lng}
                     totalReviews={property.totalReviews}
                     averageRating={property.averageRating}
                   />

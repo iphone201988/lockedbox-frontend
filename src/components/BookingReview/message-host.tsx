@@ -36,10 +36,10 @@ const MessageHost = ({
       <div className="mt-[20px] mb-[16px]">
         <div className=" border border-[#EEEEEE] p-[16px] rounded-[16px] relative">
           <textarea
-            className="w-full h-[180px] "
+            className="w-full h-[180px] outline-none"
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
-          <div className="flex items-center gap-[12px]">
+          {/* <div className="flex items-center gap-[12px]">
             <input
               className="border border-[#EEEEEE] rounded-[8px] py-[12px] px-[16px] w-full "
               type="text"
@@ -48,7 +48,7 @@ const MessageHost = ({
             <button className="bg-[#235370] font-semibold rounded-[8px] text-[#fff] py-[8px] px-[18px] cursor-pointer">
               Send
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       <button className="btn-pri ml-auto !block" onClick={handleRequestBooking}>

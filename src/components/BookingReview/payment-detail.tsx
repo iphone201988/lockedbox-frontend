@@ -1,7 +1,12 @@
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { useGetPaymentMethodsQuery } from "../../redux/api";
 import Loader from "../Loader";
-import PaymentMethod from "../../pages/Dashboard/Renter/Account/Payment/components/payment-method";
 // @ts-ignore
 import countryList from "react-select-country-list";
 import {
@@ -17,6 +22,7 @@ import { BillingAddressSchema } from "../../schema";
 import Input from "../Input";
 import { handleInputChange } from "../../utils/helper";
 import { toast } from "react-toastify";
+import PaymentMethod from "../../pages/Dashboard/Renter/Account/Payment/components/payment-method";
 
 type BillingFormType = yup.InferType<typeof BillingAddressSchema>;
 const initialState: BillingFormType = {
@@ -26,11 +32,12 @@ const initialState: BillingFormType = {
   postalCode: "",
 };
 
-const PaymentDetail = forwardRef((props, ref) => {
+const PaymentDetail = forwardRef((_, ref) => {
   const stripe = useStripe();
   const elements = useElements();
   const { data, isLoading, refetch } = useGetPaymentMethodsQuery();
   const [cards, setCards] = useState<any>([]);
+  const [paymentMethodId, setPaymentMethodId] = useState("");
   const options = useMemo(() => countryList().getData(), []);
 
   const { formData, setFormData, validate, errors } = useForm(
@@ -39,6 +46,9 @@ const PaymentDetail = forwardRef((props, ref) => {
   );
 
   const handleSubmit = async () => {
+    if (paymentMethodId) {
+      return paymentMethodId;
+    }
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
 
@@ -103,13 +113,12 @@ const PaymentDetail = forwardRef((props, ref) => {
     handleSubmit,
   }));
 
-
   return (
     <div className="">
       {isLoading && <Loader />}
-      {/* {cards.length ? (
+      {cards.length ? (
         <div className="mb-5">
-          <p className="text-[20px] font-semibold ">Cards</p>
+          <p className="text-[20px] font-semibold mt-5">Cards</p>
           {cards.map((card: any) => (
             <PaymentMethod
               brand={card.brand}
@@ -117,12 +126,20 @@ const PaymentDetail = forwardRef((props, ref) => {
               paymentMethodId={card.paymentMethodId}
               refetch={refetch}
               remove={false}
+              handleSelect={() => {
+                if (paymentMethodId === card.paymentMethodId) {
+                  setPaymentMethodId("");
+                } else {
+                  setPaymentMethodId(card.paymentMethodId);
+                }
+              }}
+              isSelected={paymentMethodId === card.paymentMethodId}
             />
           ))}
         </div>
       ) : (
         <></>
-      )} */}
+      )}
 
       <div className="pb-[30px] mt-5">
         <p className="text-[20px] font-semibold ">Payment details</p>

@@ -15,6 +15,7 @@ const Phone = ({
           name: "phone",
           autoFocus: true,
         }}
+        // @ts-ignore
         className="country-code border border-[#EEEEEE] py-[18px] px-[16px] w-full rounded-2xl "
         placeholder="Phone Number"
         value={value}

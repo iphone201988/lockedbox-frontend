@@ -19,7 +19,7 @@ const Password = ({
         type={showPassword ? "text" : "password"}
         name={name}
         value={value}
-        onChange={(e) => handleInputChange(e, setFormData)}
+        onChange={(e:any) => handleInputChange(e, setFormData)}
         placeholder={placeholder}
         error={error}
       />

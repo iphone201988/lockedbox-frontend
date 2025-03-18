@@ -16,6 +16,7 @@ import AdminBooking from "../pages/Admin/Home/Booking";
 import AdminDispute from "../pages/Admin/Home/Dispute";
 import AdminCheckIN from "../pages/Admin/Home/CheckIn";
 import AdminLogout from "../pages/Admin/Logout";
+import BookingReceipt from "../pages/Dashboard/BookingReceipt";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -53,7 +54,6 @@ const RenterPayment = lazy(
   () => import("../pages/Dashboard/Renter/Account/Payment")
 );
 const Booking = lazy(() => import("../pages/Dashboard/Booking"));
-const RenterReviews = lazy(() => import("../pages/Dashboard/Renter/Reviews"));
 const ReviewYourHost = lazy(
   () => import("../pages/Dashboard/Renter/GiveReview")
 );
@@ -216,7 +216,14 @@ const Router = createBrowserRouter([
     path: "/admin/login",
     element: <AdminLogin />,
   },
-
+  {
+    path: "booking/:bookingId/receipt",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <BookingReceipt />
+      </Suspense>
+    ),
+  },
   {
     path: "/dashboard",
     element: <DashboardLayout />,

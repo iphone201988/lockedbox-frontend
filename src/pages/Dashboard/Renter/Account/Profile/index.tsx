@@ -1,8 +1,8 @@
 import ProfilPic from "../../../../../assets/icons/if-no-user.png";
 import LocationImage from "../../../../../assets/icons/location-icn-grey.png";
-import { LocationIcon } from "../../../../../icons";
 import { useEffect, useRef, useState } from "react";
 import {
+  useAddStripeConnectMutation,
   useGetUserQuery,
   useUpdateUserMutation,
   useUpdateUserProfileImageMutation,
@@ -23,6 +23,7 @@ import Loader from "../../../../../components/Loader";
 import VerifyPhonePopup from "../../../../../components/Popups/Phone";
 import VerificationCodePopup from "../../../../../components/Popups/Verify";
 import VerifEmailPopup from "../../../../../components/Popups/Email";
+import MapInput from "../../../../../components/MapInput";
 
 type ProfileFormType = yup.InferType<typeof ProfileSchema>;
 
@@ -30,6 +31,9 @@ const initialState: ProfileFormType = {
   bio: "",
   work: "",
   address: "",
+  city: "",
+  latitude: "",
+  longitude: "",
 };
 
 const RenterProfile = () => {
@@ -48,6 +52,7 @@ const RenterProfile = () => {
     id: "",
     isEmailVerified: "",
     isPhoneVerified: "",
+    isStripeAccountConnected: "",
     createdAt: "",
   });
   const { data: userData, refetch } = useGetUserQuery();
@@ -94,12 +99,38 @@ const RenterProfile = () => {
           bio: formData.bio ? formData.bio : undefined,
           work: formData.work ? formData.work : undefined,
           address: formData.address ? formData.address : undefined,
+          city: formData.city ? formData.city : undefined,
+          latitude: formData.latitude ? formData.latitude : undefined,
+          longitude: formData.longitude ? formData.longitude : undefined,
         }).unwrap();
       }
     } catch (error) {
       handleError(error, navigate);
     }
   };
+
+  const [
+    addStripeConnect,
+    { data: stripeConnectData, isLoading: stripeConnectLoading },
+  ] = useAddStripeConnectMutation();
+
+  const verifyIdentity = async () => {
+    try {
+      await addStripeConnect({}).unwrap();
+    } catch (error) {
+      handleError(error, navigate);
+    }
+  };
+
+  useEffect(() => {
+    if (stripeConnectData?.success) {
+      const { url } = stripeConnectData?.accountLink;
+
+      if (url) {
+        window.open(url, "_blank");
+      }
+    }
+  }, [stripeConnectData]);
 
   useEffect(() => {
     if (userData?.success) {
@@ -112,10 +143,13 @@ const RenterProfile = () => {
         createdAt,
         isEmailVerified,
         isPhoneVerified,
+        stripeAccountId,
+        isStripeAccountConnected,
       } = userData.userExists;
       if (profileImage) {
         setProfilePic(getUrl(profileImage));
       }
+      console.log("userData:::", bio, address, work);
 
       setFormData({
         bio: bio ? bio : "",
@@ -136,6 +170,7 @@ const RenterProfile = () => {
           createdAt: formattedDate,
           isEmailVerified,
           isPhoneVerified,
+          isStripeAccountConnected: stripeAccountId && isStripeAccountConnected,
         });
       }
     }
@@ -147,7 +182,7 @@ const RenterProfile = () => {
 
   return (
     <div className="flex flex-col">
-      {isLoading && <Loader />}
+      {(isLoading || stripeConnectLoading) && <Loader />}
       {showPopup.phone && <VerifyPhonePopup setShowPopup={setShowPopup} />}
       {showPopup.email && <VerifEmailPopup setShowPopup={setShowPopup} />}
       {showPopup.verification && (
@@ -203,11 +238,15 @@ const RenterProfile = () => {
                   />
                 </div>
                 <div className="">
-                  <h5 className="text-[24px] font-semibold">Xander</h5>
-                  <p className="flex items-center gap-[6px]">
-                    <img src={LocationImage} alt="" />
-                    Vancouver, Canada
-                  </p>
+                  <h5 className="text-[24px] font-semibold">
+                    {userData?.userExists?.firstName}
+                  </h5>
+                  {userData?.userExists?.city && (
+                    <p className="flex items-center gap-[6px]">
+                      <img src={LocationImage} alt="" />
+                      {userData?.userExists?.city}
+                    </p>
+                  )}
                 </div>
               </div>
               <button className="btn-sec ml-auto" onClick={handleUpdatePic}>
@@ -256,18 +295,14 @@ const RenterProfile = () => {
             <div className="w-full max-w-[100%]">
               <p className=" font-semibold mb-[6px]">Select Location</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
-                <Input
-                  className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
-                  type="text"
-                  name="address"
-                  placeholder="Location"
-                  value={formData.address}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  error={errors.address}
+                <MapInput
+                  value={formData?.address ? formData.address : ""}
+                  setFormData={setFormData}
+                  showLabel={false}
                 />
-                <span className=" absolute right-[16px] top-[20px]">
-                  <LocationIcon />
-                </span>
+                {errors?.address && (
+                  <span className="mx-2 text-red-500">{errors?.address}</span>
+                )}
               </div>
             </div>
           </div>
@@ -332,12 +367,11 @@ const RenterProfile = () => {
           </div>
           <div className="flex justify-between relative">
             <p className=" font-semibold">Identification</p>
-            <span className="text-[#235370] font-semibold max-mlg:ml-auto max-mlg:mr-[6px]">
-              Not Confirmed
-            </span>
-            <button className="text-[14px] underline text-[#235370] cursor-pointer absolute right-[-80px] max-mlg:relative max-mlg:right-0">
-              Verify now
-            </button>
+            {data.isStripeAccountConnected ? (
+              <span className="text-[#0BB82B] font-semibold">Verified</span>
+            ) : (
+              <NotVerified handleClick={() => verifyIdentity} />
+            )}
           </div>
         </div>
       </div>

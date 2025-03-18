@@ -1,15 +1,22 @@
 import DisputeIcon from "../../../assets/icons/dispute-icn.png";
-import moment from "moment";
+import moment from "moment-timezone";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
 import { Link, Navigate } from "react-router-dom";
 import { getUrl } from "../../../utils/helper";
+import { useState } from "react";
+import CheckInPopup from "../../Popups/CheckInPopUp";
+import { useGetUserQuery } from "../../../redux/api";
 
 const BookingCard = ({ booking, type, role }: BookingCard) => {
   const showReceipt = type == "future" || type == "current";
+  console.log("booking:::", booking);
 
   if (!booking || !booking.listingId) return <Navigate to="/" />;
 
   const { listingId: listing } = booking;
+  const [showDisputePopup, setShowDisputePopup] = useState(false);
+  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
+  const { data } = useGetUserQuery();
   let { startDate, endDate } = booking;
   startDate = moment(startDate).format("MMM DD YYYY");
   endDate = moment(endDate).format("MMM DD YYYY");
@@ -22,10 +29,25 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
 
   const isHost = role == "host";
 
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const bookingDayStart = moment(startDate).tz(timeZone).startOf("day");
+  const currentTime = moment().tz(timeZone);
+  const isCheckInAllowed = currentTime.isSameOrAfter(bookingDayStart);
+  const canUserCheckIn =
+    type == "future" && !booking.isCheckIn && booking.status == "approve";
+
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
       <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
-        {showReceipt && <img src={DisputeIcon} alt="" />}
+        {showReceipt && (
+          <img
+            src={DisputeIcon}
+            alt=""
+            className="cursor-pointer"
+            onClick={() => setShowDisputePopup(true)}
+          />
+        )}
       </button>
       <div className="flex w-[70%] gap-[12px] max-md:flex-col max-md:w-full pr-[12px]">
         <img
@@ -70,7 +92,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           {listing.length}’x{listing.width}’
         </p>
         <p className="text-[18px] text-[#959595] max-mlg:text-[16px]">
-          ${booking.totalAmount} total
+          ${booking.totalAmount.toFixed(2)} total
         </p>
       </div>
 
@@ -88,23 +110,37 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
 
       {showReceipt && (
         <div className="flex gap-[12px] items-end absolute bottom-[10px] right-[10px] max-md:left-[10px] max-sm:flex-col max-sm:items-start max-sm:gap-[6px]">
-          <a
+          <Link
             className=" inline-block text-[14px] text-[#235370] underline font-semibold  cursor-pointer"
-            href="#"
+            to={`/booking/${booking._id}/receipt`}
           >
             View Receipt
-          </a>
-          {type == "future" &&
-            !booking.isCheckIn &&
-            booking.status == "approve" && (
+          </Link>
+          {canUserCheckIn &&
+            (isCheckInAllowed ? (
               <Link
-                className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]"
+                className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-green-700 rounded-[8px] px-[8px] py-[4px]"
                 to={`/dashboard/booking/${booking._id}/check-in/${listing._id}`}
               >
                 Check in
               </Link>
-            )}
+            ) : (
+              <button className="inline-block text-[14px] text-[#FFFFFF]  font-regular cursor-pointer bg-[#959595] rounded-[8px] px-[8px] py-[4px]">
+                Check in
+              </button>
+            ))}
         </div>
+      )}
+
+      {showDisputePopup && (
+        <CheckInPopup
+          listing={listing}
+          handleClose={() => setShowDisputePopup(false)}
+          dispute={true}
+          imageItems={imageItems}
+          setImageItems={setImageItems}
+          role={data?.userExists?.dashboardRole}
+        />
       )}
     </div>
   );

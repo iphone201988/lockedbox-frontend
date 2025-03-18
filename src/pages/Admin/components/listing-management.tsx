@@ -70,7 +70,7 @@ const ListingManagement = ({ listing }: { listing: AdminListingType }) => {
             className="btn-green cursor-pointer"
             onClick={() => handleListing("active")}
           >
-            Active
+            Re-activate
           </button>
         )}
         {status == "active" && (

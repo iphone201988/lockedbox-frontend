@@ -23,7 +23,7 @@ const CheckInConfirmPopup = ({
         </button>
         <header className="text-center pb-[20px]">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Thank you for your review!
+            Thank you for checking in!
           </p>
         </header>
         <body className="max-w-[500px] mx-auto">

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import NoUser from "../../../../assets/icons/if-no-user.png";
 
-import AttachIcon from "../../../../assets/icons/attach-icn.png";
+import AttachIcon from "../../../../assets/icons/add-image.png";
 import SendIcon from "../../../../assets/icons/send-icn.png";
 import IncomingMessage from "../Message/incoming-message";
 import OutgoingMessage from "../Message/outging-message";
@@ -15,6 +15,7 @@ import moment from "moment";
 import { getUrl, groupedData } from "../../../../utils/helper";
 import { useChatSocket } from "../../../../hooks/useChatSocket";
 import { usePagination } from "../../../../hooks/usePagination";
+import { toast } from "react-toastify";
 
 type ListingDetail = {
   image: string;
@@ -30,7 +31,6 @@ const MessageArea = () => {
   if (!id) return <Navigate to="/" />;
 
   const { data: userData } = useGetUserQuery();
-  // const { data, isLoading, isFetching } = useFindMessagesQuery(id);
   const [findMessages, { data, isLoading, isFetching }] =
     useLazyFindMessagesQuery();
   const [conversation, setConversation] = useState<any>([]);
@@ -49,8 +49,9 @@ const MessageArea = () => {
       findMessages({ conversationId: id, page: pagination.page });
     },
   });
-
+  
   const messageEndRef = useRef<HTMLDivElement>(null);
+  const uploadImageRef = useRef<any>(null);
 
   const appendSingleMessage = (key: string, message: any) => {
     setConversation((prev: any) => {
@@ -118,10 +119,14 @@ const MessageArea = () => {
     userData?.userExists._id,
     appendSingleMessage
   );
-  
+
   useEffect(() => {
-    findMessages({ conversationId: id, page: pagination.page });
-  }, []);
+    // Reset pagination and conversation when the id changes
+    setPagnation({ page: 1, totalPages: 1 });
+    setConversation({});
+
+    findMessages({ conversationId: id, page: 1 });
+  }, [id]);
 
   useEffect(() => {
     if (data?.success) {
@@ -140,6 +145,7 @@ const MessageArea = () => {
         startDate,
         endDate,
       });
+
       setReceiverId(
         data.conversation.participants.find(
           (id: any) => id.toString() != userData.userExists._id
@@ -159,6 +165,34 @@ const MessageArea = () => {
     }
     restoreScrollPosition();
   }, [conversation]);
+
+  const handleFileUpload = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate that the file is an image
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please select an image file.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result;
+        const data = {
+          conversationId: id,
+          content: base64String,
+          receiver: receiverId,
+          contentType: "image",
+        };
+        sendMessage(JSON.stringify(data));
+        appendSingleMessage("today", {
+          content: base64String,
+          senderDetails: { _id: userData.userExists._id },
+          contentType: "image",
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
@@ -226,6 +260,8 @@ const MessageArea = () => {
                         <IncomingMessage
                           message={message.content}
                           image={url ?? NoUser}
+                          bookingId={message.bookingId?._id}
+                          status={message.bookingId?.status}
                         />
                       );
                     }
@@ -243,7 +279,20 @@ const MessageArea = () => {
       <div className="px-[30px] mt-auto pb-[24px] pt-[16px] bg-white max-lg:px-[20px] max-md:pb-[16px]">
         <div className=" border border-[#EEEEEE] rounded-[8px] p-[6px] flex items-center ">
           <button className=" cursor-pointer pr-[24px] pl-[10px]">
-            <img src={AttachIcon} alt="" />
+            <img
+              src={AttachIcon}
+              alt="add-image"
+              onClick={() => {
+                if (uploadImageRef?.current) uploadImageRef.current.click();
+              }}
+            />
+            <input
+              type="file"
+              className="hidden"
+              ref={uploadImageRef}
+              accept="image/*"
+              onChange={handleFileUpload}
+            />
           </button>
           <form className="flex w-full" onSubmit={handleSendMessage}>
             <input

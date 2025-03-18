@@ -88,7 +88,7 @@ const BookingReview = () => {
       totalAmount: grandTotal,
     })
       .unwrap()
-      .catch((error) => handleError(error, navigate));
+      .catch((error: any) => handleError(error, navigate));
   };
 
   useEffect(() => {

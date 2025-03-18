@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import CommonListing from "../../../../components/Dashboard/CommonListing";
 import { useDashboardHomeQuery, useGetUserQuery } from "../../../../redux/api";
 import { useEffect, useState } from "react";
@@ -6,7 +5,6 @@ import Loader from "../../../../components/Loader";
 import { getHomeKeys } from "../../../../utils/helper";
 
 const RenterHome = () => {
-  const navigate = useNavigate();
   const { data } = useGetUserQuery();
   const [name, setName] = useState("");
   const { data: dashboardHome, isLoading } = useDashboardHomeQuery();

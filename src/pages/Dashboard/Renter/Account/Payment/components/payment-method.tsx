@@ -27,8 +27,9 @@ const PaymentMethod = ({
   paymentMethodId,
   refetch,
   remove = true,
+  handleSelect,
+  isSelected,
 }: PaymentMethodProps) => {
-  console.log("brand::", brandIcons[brand], brand);
   const navigate = useNavigate();
   const [removePaymentMethod, { isLoading, data }] =
     useRemovePaymentMethodMutation();
@@ -47,7 +48,11 @@ const PaymentMethod = ({
     }
   }, [data]);
   return (
-    <div className="flex flex-col w-full max-w-[400px] border border-[#EEEEEE] p-[16px] rounded-[16px]">
+    <div
+      className={`flex flex-col w-full max-w-[400px] border p-[16px] rounded-[16px] ${
+        isSelected ? "border-black" : "border-[#EEEEEE]"
+      }`}
+    >
       {isLoading && <Loader />}
       <div className="flex gap-[24px] items-start">
         {/* <img src={CardLogo} alt="" /> */}
@@ -65,10 +70,8 @@ const PaymentMethod = ({
           Remove
         </button>
       ) : (
-        <button
-          className="btn-sec mt-[20px] ml-auto"
-        >
-          Select
+        <button className={`btn-sec mt-[20px] ml-auto`} onClick={handleSelect}>
+          {isSelected ? "Remove" : "Select"}
         </button>
       )}
     </div>

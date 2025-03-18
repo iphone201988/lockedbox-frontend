@@ -10,8 +10,12 @@ const PriceInfo = ({
   const total = price * monthsDifference;
   const serviceFee = 79.2;
   const taxes = 99.0;
-  const grandTotal =
-    total + serviceFee + taxes + (selectedPlan ? selectedPlan?.price : 0);
+  const grandTotal = (
+    total +
+    serviceFee +
+    taxes +
+    (selectedPlan ? selectedPlan?.price : 0)
+  ).toFixed(2);
   return (
     <div className="">
       <p className="text-[20px] font-semibold">Price summary</p>

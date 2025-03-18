@@ -26,7 +26,6 @@ const Booking = () => {
     findRenterBookings,
     {
       data: renterData,
-      isLoading: isRentBookingLoading,
       isFetching: isRentBookingFetching,
     },
   ] = useLazyFindRenterBookingsQuery();
@@ -34,7 +33,6 @@ const Booking = () => {
     findHostBookings,
     {
       data: hostData,
-      isLoading: isHostBookingLoading,
       isFetching: isHostBookingFetching,
     },
   ] = useLazyFindHostBookingsQuery();

@@ -5,7 +5,7 @@ import SignUpMethod from "../../components/SignUpMethod";
 import Input from "../../components/Input";
 import { handleError, handleInputChange } from "../../utils/helper";
 import Phone from "../../components/Phone";
-import { SignUpSchema } from "../../schema";
+import { ForgotPasswordSchema } from "../../schema";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Logo from "../../components/Logo";
@@ -15,7 +15,7 @@ import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { OtpType } from "../../constants";
 
-type ForgotPasswordFormType = yup.InferType<typeof SignUpSchema>;
+type ForgotPasswordFormType = yup.InferType<typeof ForgotPasswordSchema>;
 
 const initialState: ForgotPasswordFormType = {
   email: "",
@@ -26,7 +26,7 @@ const initialState: ForgotPasswordFormType = {
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const { formData, setFormData, errors, validate } = useForm(
-    SignUpSchema,
+    ForgotPasswordSchema,
     initialState
   );
 

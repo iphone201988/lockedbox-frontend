@@ -6,8 +6,6 @@ const SearchListing = ({
   id,
   image,
   title,
-  lat,
-  lng,
   distance,
   price,
   totalReviews,
@@ -16,12 +14,12 @@ const SearchListing = ({
   const navigate = useNavigate();
   return (
     <div
-      className="cursor-pointer"
+      className="cursor-pointer max-w-[300px] h-[260px] max-sm:max-w-full"
       onClick={() => navigate(`/listing-details/${id}`)}
     >
-      <div className="relative ">
+      <div className="relative h-[calc(100%-30px)]">
         <img
-          className="rounded-[16px] w-full"
+          className="rounded-[16px] w-full h-full object-cover"
           src={getUrl(image)}
           alt=""
         />
@@ -47,7 +45,7 @@ const SearchListing = ({
           className=" text-[16px] font-semibold text-[#1f1f1f] block w-[150px] leading-[normal] max-md:w-[120px]"
           href="#"
         >
-          {title}
+          {title} space
         </a>
         <span className="text-[#235370] max-md:text-[14px]">
           ${price}/ month

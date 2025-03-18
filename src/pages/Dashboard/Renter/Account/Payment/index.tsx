@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import AddCardPopup from "../../../../../components/Popups/Card";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useGetPaymentMethodsQuery } from "../../../../../redux/api";
+import {
+  useGetPaymentMethodsQuery,
+  useGetTransactionsQuery,
+} from "../../../../../redux/api";
 import PaymentMethod from "./components/payment-method";
 import Loader from "../../../../../components/Loader";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -14,9 +17,10 @@ const RenterPayment = () => {
   const { data, isLoading, refetch } = useGetPaymentMethodsQuery();
   const [cards, setCards] = useState<any>([]);
 
+  const { data: transactionsData } = useGetTransactionsQuery();
+
   useEffect(() => {
     if (data?.success) {
-      console.log("payments data:::", data);
       const cards: any = [];
       data.paymentMethods.forEach((element: any) =>
         cards.push({
@@ -29,6 +33,11 @@ const RenterPayment = () => {
       setCards(cards);
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log("transactionsData::::", transactionsData);
+  }, [transactionsData]);
+
   return (
     <div className="flex flex-col">
       {isLoading && <Loader />}
@@ -49,8 +58,9 @@ const RenterPayment = () => {
         </div>
         <div className="max-w-[100%] w-full">
           <div className=" max-w-[100%] w-full flex gap-[20px] flex-wrap">
-            {cards.map((card: any) => (
+            {cards.map((card: any, index: number) => (
               <PaymentMethod
+                key={index}
                 brand={card.brand}
                 last4={card.last4}
                 paymentMethodId={card.paymentMethodId}

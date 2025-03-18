@@ -1,6 +1,5 @@
 import { ListingStepProp, StepTwoFormType } from "..";
 import CustomOptions from "../../../../../components/CustomOptions";
-import Input from "../../../../../components/Input";
 import Select from "../../../../../components/Select";
 import { accessPolicyType } from "../../../../../constants";
 import { DropDownIcon } from "../../../../../icons";

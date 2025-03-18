@@ -128,6 +128,10 @@ const MapInput = ({
     }
   }, []);
 
+  useEffect(() => {
+    setAddress(value);
+  }, [value]);
+
   return (
     <div>
       {isLoaded && (
