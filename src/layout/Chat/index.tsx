@@ -9,7 +9,6 @@ const ChatLayout = () => {
   const { data, isLoading } = useFindConversationsQuery();
   const [chats, setChats] = useState<ChatProfileProps[]>([]);
 
-  console.log("userData::::", userData);
   useEffect(() => {
     if (data?.success && userData) {
       const chats: ChatProfileProps[] = data.conversations.map(
@@ -34,7 +33,7 @@ const ChatLayout = () => {
   return (
     <div className="h-full flex max-md:flex-col">
       {isLoading && <Loader />}
-      <div className="px-[30px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b">
+      <div className="px-[30px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b overflow-auto">
         <div className="flex flex-col gap-[10px]">
           {chats.map((chat: ChatProfileProps, index: number) => (
             <ChatProfile key={index} chat={chat} />

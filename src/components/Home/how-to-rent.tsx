@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const HowToRent = () => {
   return (
-    <div className="py-[60px] max-lg:py-[40px]">
+    <div className="py-[60px] max-lg:py-[40px]" id="rent">
       <div className="max-w-[1440px] px-[40px] mx-auto max-lg:px-[20px]">
         <h2 className="text-[36px] font-bold text-center mb-[40px] max-lg:text-[26px]">
           How to <span className="text-[#235370]">rent</span>

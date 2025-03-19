@@ -4,10 +4,7 @@ import { useEffect, useState } from "react";
 import AddCardPopup from "../../../../../components/Popups/Card";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import {
-  useGetPaymentMethodsQuery,
-  useGetTransactionsQuery,
-} from "../../../../../redux/api";
+import { useGetPaymentMethodsQuery } from "../../../../../redux/api";
 import PaymentMethod from "./components/payment-method";
 import Loader from "../../../../../components/Loader";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -17,10 +14,9 @@ const RenterPayment = () => {
   const { data, isLoading, refetch } = useGetPaymentMethodsQuery();
   const [cards, setCards] = useState<any>([]);
 
-  const { data: transactionsData } = useGetTransactionsQuery();
-
   useEffect(() => {
     if (data?.success) {
+      console.log("payments data:::", data);
       const cards: any = [];
       data.paymentMethods.forEach((element: any) =>
         cards.push({
@@ -34,19 +30,15 @@ const RenterPayment = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log("transactionsData::::", transactionsData);
-  }, [transactionsData]);
-
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       {isLoading && <Loader />}
       {showPopup && (
         <Elements stripe={stripePromise}>
           <AddCardPopup setShowPopup={setShowPopup} refetch={refetch} />
         </Elements>
       )}
-      {/* Your passowrd */}
+
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
@@ -58,9 +50,8 @@ const RenterPayment = () => {
         </div>
         <div className="max-w-[100%] w-full">
           <div className=" max-w-[100%] w-full flex gap-[20px] flex-wrap">
-            {cards.map((card: any, index: number) => (
+            {cards.map((card: any) => (
               <PaymentMethod
-                key={index}
                 brand={card.brand}
                 last4={card.last4}
                 paymentMethodId={card.paymentMethodId}
@@ -84,7 +75,6 @@ const RenterPayment = () => {
         </div>
       </div>
 
-      {/* Payment History */}
       <PaymentHistory />
     </div>
   );

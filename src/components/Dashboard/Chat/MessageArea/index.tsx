@@ -15,7 +15,7 @@ import moment from "moment";
 import { getUrl, groupedData } from "../../../../utils/helper";
 import { useChatSocket } from "../../../../hooks/useChatSocket";
 import { usePagination } from "../../../../hooks/usePagination";
-import { toast } from "react-toastify";
+import uploadImage from "../UploadImage";
 
 type ListingDetail = {
   image: string;
@@ -49,7 +49,7 @@ const MessageArea = () => {
       findMessages({ conversationId: id, page: pagination.page });
     },
   });
-  
+
   const messageEndRef = useRef<HTMLDivElement>(null);
   const uploadImageRef = useRef<any>(null);
 
@@ -120,6 +120,14 @@ const MessageArea = () => {
     appendSingleMessage
   );
 
+  // For sharing images
+  const { isUploading, getImageUrl } = uploadImage({
+    userId: userData.userExists._id,
+    receiverId,
+    sendMessage,
+    appendSingleMessage,
+  });
+
   useEffect(() => {
     // Reset pagination and conversation when the id changes
     setPagnation({ page: 1, totalPages: 1 });
@@ -130,7 +138,7 @@ const MessageArea = () => {
 
   useEffect(() => {
     if (data?.success) {
-      const { listingId: listing } = data?.conversation.bookingId;
+      const { listingId: listing } = data?.conversation?.bookingId;
       let { startDate, endDate } = data?.conversation.bookingId;
       const { pagination } = data;
       startDate = moment(startDate).format("MMM DD YYYY");
@@ -166,34 +174,6 @@ const MessageArea = () => {
     restoreScrollPosition();
   }, [conversation]);
 
-  const handleFileUpload = (e: any) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Validate that the file is an image
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please select an image file.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result;
-        const data = {
-          conversationId: id,
-          content: base64String,
-          receiver: receiverId,
-          contentType: "image",
-        };
-        sendMessage(JSON.stringify(data));
-        appendSingleMessage("today", {
-          content: base64String,
-          senderDetails: { _id: userData.userExists._id },
-          contentType: "image",
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSendMessage = (e: any) => {
     e.preventDefault();
     const data = {
@@ -213,7 +193,7 @@ const MessageArea = () => {
 
   return (
     <div className="flex flex-col h-full">
-      {(isLoading || isFetching) && <Loader />}
+      {(isLoading || isFetching || isUploading) && <Loader />}
       {listingDetails && (
         <div className="px-[30px] py-[24px]  border-b border-[#EEEEEE] flex gap-[10px] items-center max-lg:px-[20px] max-md:py-[10px]">
           <img
@@ -291,7 +271,7 @@ const MessageArea = () => {
               className="hidden"
               ref={uploadImageRef}
               accept="image/*"
-              onChange={handleFileUpload}
+              onChange={(e: any) => getImageUrl(e)}
             />
           </button>
           <form className="flex w-full" onSubmit={handleSendMessage}>

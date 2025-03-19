@@ -15,6 +15,7 @@ const USER_TAG = "USER";
 const PAYMENT_TAG = "PAYMENT";
 const LISTING_TAG = "LISTING";
 const REVIEW_TAG = "REVIEW";
+
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
@@ -93,9 +94,23 @@ export const lockedBoxApi = createApi({
       }),
       providesTags: [USER_TAG],
     }),
+    getHomeListings: builder.query<any, void>({
+      query: () => ({
+        url: `user/home_screen`,
+        method: "GET",
+      }),
+    }),
     changeUserAuth: builder.mutation({
       query: (body) => ({
         url: `user/change_email_phone`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [USER_TAG],
+    }),
+    uploadImage: builder.mutation({
+      query: (body) => ({
+        url: `user/update_media`,
         method: "POST",
         body,
       }),
@@ -125,9 +140,9 @@ export const lockedBoxApi = createApi({
       }),
       providesTags: [PAYMENT_TAG],
     }),
-    getTransactions: builder.query<any, void>({
-      query: () => ({
-        url: `user/transaction`,
+    getTransactions: builder.query<any, any>({
+      query: ({ page = 1, sort = "latest" }) => ({
+        url: `user/transaction?page=${page}&sort=${sort}`,
         method: "GET",
       }),
     }),
@@ -180,23 +195,27 @@ export const lockedBoxApi = createApi({
       query: ({
         latitude,
         longitude,
+        userId,
         price,
         sort,
         features,
         allowedStorage,
         width,
         length,
+        page,
       }) => {
         const params = new URLSearchParams();
 
         if (latitude) params.append("latitude", latitude);
         if (longitude) params.append("longitude", longitude);
+        if (userId) params.append("userId", userId);
         if (price) params.append("price", price);
         if (sort) params.append("sort", sort);
         if (features) params.append("features", features);
         if (allowedStorage) params.append("allowedStorage", allowedStorage);
         if (width) params.append("width", width);
         if (length) params.append("length", length);
+        if (page) params.append("page", page);
 
         return {
           url: `listing/find_listing?${params.toString()}`,
@@ -264,6 +283,13 @@ export const lockedBoxApi = createApi({
         method: "GET",
       }),
     }),
+    cancelBooking: builder.mutation({
+      query: ({ bookingId, body = {} }) => ({
+        url: `booking/${bookingId}/status`,
+        method: "POST",
+        body,
+      }),
+    }),
 
     // Booking apis
     fetchPendingReviewsByRenter: builder.query<any, void>({
@@ -318,8 +344,10 @@ export const {
   useLoginUserMutation,
   useAddRoleMutation,
   useGetUserQuery,
+  useUploadImageMutation,
   useLazyGetUserQuery,
   useGetUserEarningsQuery,
+  useGetHomeListingsQuery,
   useChangeUserAuthMutation,
   useSendOTPMutation,
   useUpdateUserMutation,
@@ -329,7 +357,7 @@ export const {
   useAddStripeConnectMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
-  useGetTransactionsQuery,
+  useLazyGetTransactionsQuery,
   useCreateListingMutation,
   useGetAllListingsQuery,
   useLazyGetAllListingsQuery,
@@ -338,6 +366,7 @@ export const {
   useLazyFindListingQuery,
   useUpdateListingMutation,
   useRequestBookingMutation,
+  useCancelBookingMutation,
   useFindRenterBookingsQuery,
   useLazyFindRenterBookingsQuery,
   useFindHostBookingsQuery,

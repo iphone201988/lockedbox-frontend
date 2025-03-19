@@ -17,6 +17,10 @@ import AdminDispute from "../pages/Admin/Home/Dispute";
 import AdminCheckIN from "../pages/Admin/Home/CheckIn";
 import AdminLogout from "../pages/Admin/Logout";
 import BookingReceipt from "../pages/Dashboard/BookingReceipt";
+import ContactUs from "../pages/ContactUs";
+import FAQ from "../pages/FAQ";
+import RenterBasics from "../pages/RenterBasics";
+import PageNotFound from "../pages/404";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -192,6 +196,22 @@ const Router = createBrowserRouter([
     ),
   },
   {
+    path: "/faq",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <FAQ />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/renter-basics",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <RenterBasics />
+      </Suspense>
+    ),
+  },
+  {
     path: "/admin",
     element: <AdminDashboardLayout />,
     children: [
@@ -221,6 +241,14 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loader />}>
         <BookingReceipt />
+      </Suspense>
+    ),
+  },
+  {
+    path: "contact-us",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ContactUs />
       </Suspense>
     ),
   },
@@ -368,6 +396,8 @@ const Router = createBrowserRouter([
       },
     ],
   },
+
+  { path: "*", element: <PageNotFound /> },
 ]);
 
 export default Router;

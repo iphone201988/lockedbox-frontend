@@ -4,13 +4,14 @@ import ProfileNavbar from "../../components/ProfileNavbar";
 import Loader from "../../components/Loader";
 import Map from "../../components/Map";
 import SearchListing from "./components/search-listing";
-import { useLazyFindListingQuery } from "../../redux/api";
+import { useGetUserQuery, useLazyFindListingQuery } from "../../redux/api";
 import { handleError } from "../../utils/helper";
 import ItemsFilter from "./components/items-filter";
 import PriceFilter from "./components/price-filter";
 import SortFilter from "./components/sort-filter";
 import { FiltersIcon, PropertyIcon } from "../../icons";
 import MainFilter from "./components/main-filter";
+import { usePagination } from "../../hooks/usePagination";
 
 const initialState = {
   items: false,
@@ -31,6 +32,7 @@ const SearchResult = () => {
     boolean | null
   >(null);
   const [showFilters, setShowFilters] = useState(initialState);
+  const { data: userData } = useGetUserQuery();
 
   const [selectedFilters, setSelectedFilters] = useState<FiltersType>({
     items: [],
@@ -44,6 +46,7 @@ const SearchResult = () => {
     latitude: "",
     longitude: "",
   });
+
   const [properties, setProperties] = useState<any>([]);
   const [findListing, { data, isLoading, isFetching }] =
     useLazyFindListingQuery();
@@ -55,6 +58,19 @@ const SearchResult = () => {
   const [dimensions, setDimensions] = useState<any>({
     width: location.state?.formData?.width || null,
     length: location.state?.formData?.length || null,
+  });
+
+  const {
+    pagination,
+    setPagnation,
+    scrollableRef,
+    handleScroll,
+    restoreScrollPosition,
+  } = usePagination({
+    scrollDown: true,
+    fetchData: () => {
+      fetchListings();
+    },
   });
 
   useEffect(() => {
@@ -105,6 +121,8 @@ const SearchResult = () => {
     const filters: any = {
       latitude: userLocation.latitude,
       longitude: userLocation.longitude,
+      userId: userData?.userExists?._id,
+      page: pagination.page,
       _cacheBuster: Date.now(),
     };
 
@@ -128,6 +146,7 @@ const SearchResult = () => {
 
   useEffect(() => {
     if (data?.success) {
+      const { pagination } = data;
       const mappedProperties = data.listings.map((item: any) => ({
         id: item._id,
         title: item.spaceType,
@@ -139,6 +158,12 @@ const SearchResult = () => {
         totalReviews: item.totalReviews,
         averageRating: item.averageRating,
       }));
+
+      setPagnation((prev: any) => ({
+        ...prev,
+        totalPages: pagination.totalPages,
+      }));
+      restoreScrollPosition();
       setProperties(mappedProperties);
     }
   }, [data]);
@@ -307,7 +332,11 @@ const SearchResult = () => {
             </div>
           </div>
           <div className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto">
-            <div className="grid grid-cols-[repeat(3,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]">
+            <div
+              className="grid grid-cols-[repeat(3,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]"
+              ref={scrollableRef}
+              onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
+            >
               {properties.length ? (
                 properties.map((property: Properties) => (
                   <SearchListing

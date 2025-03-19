@@ -4,19 +4,15 @@ import { allowedStorage as allowedStorageType } from "../../../constants/index";
 import { Link, Navigate } from "react-router-dom";
 import { getUrl } from "../../../utils/helper";
 import { useState } from "react";
-import CheckInPopup from "../../Popups/CheckInPopUp";
-import { useGetUserQuery } from "../../../redux/api";
+import CancelBooking from "../../Popups/CancelBooking";
 
 const BookingCard = ({ booking, type, role }: BookingCard) => {
   const showReceipt = type == "future" || type == "current";
-  console.log("booking:::", booking);
 
   if (!booking || !booking.listingId) return <Navigate to="/" />;
 
   const { listingId: listing } = booking;
-  const [showDisputePopup, setShowDisputePopup] = useState(false);
-  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
-  const { data } = useGetUserQuery();
+  const [cancelBookingPopup, setCancelBookingPopup] = useState(false);
   let { startDate, endDate } = booking;
   startDate = moment(startDate).format("MMM DD YYYY");
   endDate = moment(endDate).format("MMM DD YYYY");
@@ -37,6 +33,8 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
   const canUserCheckIn =
     type == "future" && !booking.isCheckIn && booking.status == "approve";
 
+  console.log("isCheckInAllowed:::", canUserCheckIn, isCheckInAllowed);
+
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
       <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
@@ -45,7 +43,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
             src={DisputeIcon}
             alt=""
             className="cursor-pointer"
-            onClick={() => setShowDisputePopup(true)}
+            onClick={() => setCancelBookingPopup(true)}
           />
         )}
       </button>
@@ -132,14 +130,10 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
         </div>
       )}
 
-      {showDisputePopup && (
-        <CheckInPopup
-          listing={listing}
-          handleClose={() => setShowDisputePopup(false)}
-          dispute={true}
-          imageItems={imageItems}
-          setImageItems={setImageItems}
-          role={data?.userExists?.dashboardRole}
+      {cancelBookingPopup && (
+        <CancelBooking
+          bookingId={booking._id}
+          onClose={() => setCancelBookingPopup(false)}
         />
       )}
     </div>

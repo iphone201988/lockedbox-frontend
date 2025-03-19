@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 import { useUpdateBookingStatusMutation } from "../../../../redux/api";
-import { handleError } from "../../../../utils/helper";
+import { getUrl, handleError } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "../../../Loader";
+import ImageModal from "../../../ImageModal";
 
 const IncomingMessage = ({
   image,
@@ -20,6 +21,10 @@ const IncomingMessage = ({
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
   const [bookingStatus, setBookingStatus] = useState(status);
+
+  const isImage =
+    message.startsWith("/uploads/") ||
+    /\.(jpg|jpeg|png|gif|svg)$/i.test(message);
 
   const handleUpdate = async (status: string) => {
     if (!status || !["approve", "reject"].includes(status)) {
@@ -44,7 +49,14 @@ const IncomingMessage = ({
         <div className="flex gap-[8px]">
           <img src={image} alt="" className="w-[34px] h-[34px] rounded-full" />
           <div className="bg-[#EEEEEE] p-[12px] max-w-[480px]  rounded-[8px] ">
-            <p className="">{message}</p>
+            {isImage ? (
+              <ImageModal
+                url={getUrl(message)}
+                className="max-w-full rounded-[8px]"
+              />
+            ) : (
+              <p className="">{message}</p>
+            )}
           </div>
         </div>
         {bookingStatus == "under_review" && (

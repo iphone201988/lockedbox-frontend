@@ -8,11 +8,12 @@ import { addMonths } from "date-fns";
 import { toast } from "react-toastify";
 import { useLazyCheckBookingAvailabilityQuery } from "../../redux/api";
 import Loader from "../Loader";
-import { handleError } from "../../utils/helper";
+import { getToken, handleError } from "../../utils/helper";
 import moment from "moment";
 
 const DatePicker = ({ id, price }: { id: string; price: number }) => {
   const navigate = useNavigate();
+  const token = getToken();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -38,6 +39,11 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
   };
 
   const handleRequest = async () => {
+    if (!token) {
+      navigate("/signup");
+      return;
+    }
+
     if (!endDate) {
       toast.error("Please select end date");
       return;

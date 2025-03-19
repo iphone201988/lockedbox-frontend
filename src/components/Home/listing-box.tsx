@@ -1,9 +1,13 @@
-import ListingImg from "../../assets/Listing-1.png";
+import { getUrl } from "../../utils/helper";
 
-const ListingBox = () => {
+const ListingBox = ({ listing }: { listing: any }) => {
   return (
     <div className="bg-white rounded-[16px] p-[10px] relative">
-      <img className="rounded-[10px]" src={ListingImg} alt="" />
+      <img
+        className="rounded-[10px] h-full object-cover min-h-[260px] max-h-[260px]"
+        src={getUrl(listing.storageImages[0])}
+        alt=""
+      />
       <div className="flex justify-center items-center flex-col bg-[#235370] text-[#ffffff] rounded-[8px] p-[5px] absolute right-[15px] top-[15px]">
         <span className="flex gap-[4px] items-center">
           <svg
@@ -25,15 +29,17 @@ const ListingBox = () => {
               strokeLinejoin="round"
             />
           </svg>{" "}
-          <b>4.5</b>
+          <b>{listing.averageRating}</b>
         </span>
-        <p className="text-[14px] mt-[-2px]">(7 reviews)</p>
+        <p className="text-[14px] mt-[-2px]">
+          ({listing.totalReviews} reviews)
+        </p>
       </div>
       <a
-        className="mt-[10px] text-[24px] font-semibold text-[#235370] block w-[140px] leading-[normal] max-lg:text-[20px] max-md:text-[18px]"
+        className="mt-[10px] text-[24px] font-semibold text-[#235370] block w-full leading-[normal] max-lg:text-[20px] max-md:text-[18px]"
         href="#"
       >
-        Office space for storage
+        {listing.spaceType} space for storage
       </a>
       <p className="flex text-[#959595] gap-[6px] mt-[4px] items-center">
         <span>
@@ -52,7 +58,7 @@ const ListingBox = () => {
             />
           </svg>
         </span>
-        White Rock
+        {listing.city}
       </p>
     </div>
   );

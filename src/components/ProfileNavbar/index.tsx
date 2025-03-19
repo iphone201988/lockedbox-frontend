@@ -9,20 +9,24 @@ import { getToken, getUrl } from "../../utils/helper";
 
 const ProfileNavbar = () => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
-  const { data } = useGetUserQuery();
   const token = getToken();
+  let data: any = null;
+  if (token) {
+    const { data: userData } = useGetUserQuery();
+    data = userData;
+  }
   return (
     <div className=" border-b border-[#EEEEEE]">
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
         <Logo className="max-w-[158px] max-lg:max-w-[120px]" />
-        {token && (
+        {token ? (
           <div className="">
             <button
               className="cursor-pointer w-[48px] h-[48px] relative"
               onClick={() => setShowDropDown(!showDropDown)}
             >
               <img
-                className="object-cover"
+                className="w-[48px] h-[48px] object-cover rounded-full"
                 src={
                   data?.userExists.profileImage
                     ? getUrl(data?.userExists.profileImage)
@@ -48,6 +52,22 @@ const ProfileNavbar = () => {
               </div>
             </button>
           </div>
+        ) : (
+          <>
+            <div className="menu flex gap-x-[32px] text-[18px] text-[#1E1E1E] font-light max-lg:text-[16px] max-lg:gap-x-[16px] max-md:hidden ml-auto mr-[12px]">
+              <Link className="hover:text-[#235370]" to="/">
+                Back to home page
+              </Link>
+            </div>
+            <div className="flex gap-x-4">
+              <Link to="/signin" className="btn-sec">
+                Login
+              </Link>
+              <Link to="/signup" className="btn-pri">
+                Sign Up
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>
