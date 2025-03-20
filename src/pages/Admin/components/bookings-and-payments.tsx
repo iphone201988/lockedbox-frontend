@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import RefundAmountPopup from "./refund-amount-popup";
 import { useCloseDisputeMutation } from "../../../redux/api/admin";
 import Loader from "../../../components/Loader";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const BookingsAndPayments = ({ booking }: { booking: any }) => {
@@ -123,12 +123,16 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
           </button>
         )}
       </div>
-      <Link
+      <button
         className="text-[14px] text-[#235370] underline ml-[8px] font-semibold absolute bottom-[10px] right-[10px] cursor-pointer max-md:left-0"
-        to={`/booking/${booking._id}/receipt`}
+        onClick={() =>
+          navigate(`/booking/${booking._id}/receipt`, {
+            state: { isAdmin: true },
+          })
+        }
       >
         View Receipt
-      </Link>
+      </button>
     </div>
   );
 };

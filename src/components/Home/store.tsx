@@ -145,7 +145,7 @@ const Store = () => {
         </div>
         <div className="right relative">
           <img className="rounded-4xl" src={StoreImg} alt="" />
-          <p className="monts-font text-[18px] font-bold text-[#235370] p-[12px] rounded-[16px] bg-white absolute right-[16px] top-[16px] max-lg:text-[16px]">
+          <p className="monts-font text-[18px] font-bold text-[#235370] p-[12px] rounded-[16px] bg-[#EEEEEE] absolute right-[16px] top-[16px] max-lg:text-[16px]">
             Over 50+ options nearby
           </p>
         </div>

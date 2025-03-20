@@ -41,7 +41,9 @@ const Home = () => {
       <Store />
       <HowToRent />
       <HostWithUs />
-      {data?.userExists?.dashboardRole == "rent" && <JoinHost />}
+      {(!token || data?.userExists?.dashboardRole === "rent") && (
+        <JoinHost />
+      )}
       <Footer />
     </>
   );

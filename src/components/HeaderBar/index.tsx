@@ -29,6 +29,9 @@ const HeaderBar = () => {
     if (path.includes("/dashboard/message")) {
       header = `Messages`;
     }
+    if (path.includes("/dashboard/listing/create-listing")) {
+      header = `Create Listing`;
+    }
   }
 
   return (

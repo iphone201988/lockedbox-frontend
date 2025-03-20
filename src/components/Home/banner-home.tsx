@@ -37,6 +37,7 @@ const BannerHome = () => {
             value={formData?.address}
             setFormData={setFormData}
             showLabel={false}
+            placeholder="Search Location"
           />
           {errors?.address && (
             <span className="mx-2 text-red-500">{errors?.address}</span>

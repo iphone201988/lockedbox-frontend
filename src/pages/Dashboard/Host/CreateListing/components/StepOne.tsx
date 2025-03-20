@@ -7,7 +7,7 @@ import {
   allowedStorage,
   spaceType,
 } from "../../../../../constants";
-import { DropDownIcon, LocationIcon, PriceIcon } from "../../../../../icons";
+import { DropDownIcon, PriceIcon, SizeIcon } from "../../../../../icons";
 import { handleInputChange } from "../../../../../utils/helper";
 import MultiSelect from "../../../../../components/MultiSelect";
 import MapInput from "../../../../../components/MapInput";
@@ -36,7 +36,6 @@ const StepOne = ({
               {errors?.address && (
                 <span className="mx-2 text-red-500">{errors?.address}</span>
               )}
-
             </div>
             <div className=" mt-[8px]">
               <label className="flex  items-start gap-[8px]" htmlFor="">
@@ -159,7 +158,7 @@ const StepOne = ({
                     error={errors?.length}
                   />
                   <span className=" absolute right-[16px] top-[20px]">
-                    <LocationIcon />
+                    <SizeIcon />
                   </span>
                 </div>
                 <p className="text-[26px] font-semibold px-[20px]">X</p>
@@ -174,7 +173,7 @@ const StepOne = ({
                     error={errors?.width}
                   />
                   <span className=" absolute right-[16px] top-[20px]">
-                    <LocationIcon />
+                    <SizeIcon />
                   </span>
                 </div>
               </div>

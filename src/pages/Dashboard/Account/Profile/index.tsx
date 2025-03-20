@@ -370,7 +370,7 @@ const RenterProfile = () => {
             {data.isStripeAccountConnected ? (
               <span className="text-[#0BB82B] font-semibold">Verified</span>
             ) : (
-              <NotVerified handleClick={() => verifyIdentity} />
+              <NotVerified handleClick={verifyIdentity} />
             )}
           </div>
         </div>

@@ -82,6 +82,12 @@ export const adminApi = createApi({
         method: "GET",
       }),
     }),
+    getBookingReceiptForAdmin: builder.query<any, any>({
+      query: (bookingId) => ({
+        url: `admin/booking/${bookingId}/receipt`,
+        method: "GET",
+      }),
+    }),
     closeDispute: builder.mutation({
       query: ({ userId, bookingId, body = {} }) => ({
         url: `admin/user/${userId}/booking/${bookingId}/close`,
@@ -112,4 +118,5 @@ export const {
   useLazyGetUserBookingQuery,
   useCloseDisputeMutation,
   useMakeRefundMutation,
+  useGetBookingReceiptForAdminQuery,
 } = adminApi;

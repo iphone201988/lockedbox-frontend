@@ -1,6 +1,12 @@
-import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
-import { useState, useEffect } from "react";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  Marker,
+  Autocomplete,
+} from "@react-google-maps/api";
+import { useState, useEffect, useRef } from "react";
 import Loader from "../Loader";
+import { LocationIcon } from "../../icons";
 
 const createPriceMarker = (price: string) => {
   if (!window.google || !window.google.maps) return null;
@@ -26,9 +32,13 @@ const createPriceMarker = (price: string) => {
 const Map = ({
   properties,
   userLocation,
+  setUserLocation,
+  value,
 }: {
   properties: any;
   userLocation: any;
+  setUserLocation: any;
+  value: string;
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
@@ -40,6 +50,12 @@ const Map = ({
   const [markers, setMarkers] = useState<
     { lat: number; lng: number; icon: google.maps.Icon }[]
   >([]);
+
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [address, setAddress] = useState(value ?? "");
+
   const [zoom, setZoom] = useState(12); // Default zoom level
   const [center, setCenter] = useState<{ lat: number; lng: number }>(
     properties.length
@@ -92,19 +108,59 @@ const Map = ({
     setZoom(18); // Set zoom level closer
   };
 
+  const geocodeLatLng = async (lat: number, lng: number) => {
+    if (!geocoderRef.current) {
+      geocoderRef.current = new window.google.maps.Geocoder();
+    }
+    const geocoder = geocoderRef.current;
+    const location = { lat, lng };
+
+    geocoder.geocode({ location }, async (results, status) => {
+      if (status === "OK" && results && results[0]) {
+        setAddress(results[0].formatted_address);
+      } else {
+        setAddress("Address not found");
+      }
+    });
+  };
+
+  const handlePlaceChanged = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+
+      if (place?.geometry) {
+        const location: any = place.geometry.location;
+        const newCenter = {
+          lat: location.lat(),
+          lng: location.lng(),
+        };
+        setBounds(null);
+        setCenter(newCenter);
+
+        setUserLocation({
+          latitude: location.lat(),
+          longitude: location.lng(),
+        });
+
+        setCenter({ lat: location.lat(), lng: location.lng() });
+        geocodeLatLng(location.lat(), location.lng());
+      }
+    }
+  };
+
   if (!isLoaded) return <Loader />;
 
   return (
-    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-gray-200">
+    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-gray-200 relative">
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "100%" }}
         zoom={zoom}
         center={center}
         onLoad={(map) => {
           setMapRef(map);
-          if (properties.length === 0) {
-            map.setCenter(center);
-          }
+          // if (properties.length === 0) {
+          map.setCenter(center);
+          // }
         }}
         options={{
           streetViewControl: false,
@@ -128,6 +184,26 @@ const Map = ({
           />
         ))}
       </GoogleMap>
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 w-full max-w-2xl">
+        <Autocomplete
+          onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+          onPlaceChanged={handlePlaceChanged}
+        >
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder="Search Location"
+              ref={inputRef}
+              className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer bg-white"
+              onChange={(e) => setAddress(e.target.value)}
+              value={address}
+            />
+            <span className=" absolute right-[16px] top-[20px]">
+              <LocationIcon />
+            </span>
+          </div>
+        </Autocomplete>
+      </div>
     </div>
   );
 };

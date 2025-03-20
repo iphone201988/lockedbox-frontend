@@ -12,10 +12,12 @@ const MapInput = ({
   value,
   setFormData,
   showLabel = true,
+  placeholder,
 }: {
   value: string;
   setFormData: any;
   showLabel?: boolean;
+  placeholder?: string;
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY!,
@@ -148,7 +150,7 @@ const MapInput = ({
                 <input
                   type="text"
                   className="border w-full border-[#EEEEEE] py-[20px] pl-[16px] pr-[40px] rounded-2xl cursor-pointer"
-                  placeholder="Enter address"
+                  placeholder={placeholder ? placeholder : "Enter address"}
                   ref={inputRef}
                   onChange={(e) => {
                     setAddress(e.target.value);

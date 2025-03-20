@@ -12,8 +12,9 @@ import {
 import Loader from "../../Loader";
 import { toast } from "react-toastify";
 import { getUrl, handleError } from "../../../utils/helper";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ResponseMessages } from "../../../constants/api-responses";
+import CancelBooking from "../../Popups/CancelBooking";
 
 const HostBookingCard = ({
   booking,
@@ -23,7 +24,7 @@ const HostBookingCard = ({
   refetch: any;
 }) => {
   const navigate = useNavigate();
-
+  const [cancelBookingPopup, setCancelBookingPopup] = useState(false);
   if (!booking || !booking.listingId) return <Navigate to="/" />;
 
   const { listingId: listing } = booking;
@@ -75,9 +76,14 @@ const HostBookingCard = ({
     <div className="border border-[#EEEEEE] rounded-[16px] ">
       {isLoading && <Loader />}
       <div className="p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
-        <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
-          {canUserCancelBooking && <img src={DisputeIcon} alt="" />}
-        </button>
+        {canUserCancelBooking && (
+          <button
+            className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"
+            onClick={() => setCancelBookingPopup(true)}
+          >
+            <img src={DisputeIcon} alt="" />
+          </button>
+        )}
         <div className="flex gap-[12px] max-md:flex-col max-md:w-full ">
           <img
             className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
@@ -174,6 +180,13 @@ const HostBookingCard = ({
           </div>
         </div>
       </div>
+
+      {cancelBookingPopup && (
+        <CancelBooking
+          bookingId={booking._id}
+          onClose={() => setCancelBookingPopup(false)}
+        />
+      )}
     </div>
   );
 };

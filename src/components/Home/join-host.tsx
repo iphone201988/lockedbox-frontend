@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import JoinHostImg from "../../assets/join-us-img.png";
 import { useUpdateUserMutation } from "../../redux/api";
 import { useNavigate } from "react-router-dom";
-import { handleError } from "../../utils/helper";
+import { getToken, handleError } from "../../utils/helper";
 import Loader from "../Loader";
 
 const JoinHost = () => {
+  const token = getToken();
   const navigate = useNavigate();
   const [updateUserData, { data, isLoading }] = useUpdateUserMutation();
 
@@ -39,7 +40,13 @@ const JoinHost = () => {
             </p>
             <button
               className="btn-pri !bg-white !text-[#235370] !border-0 max-md:!bg-[#235370] max-md:!text-[#ffffff]"
-              onClick={() => handleRoleChange("host")}
+              onClick={() => {
+                if (token) {
+                  handleRoleChange("host");
+                } else {
+                  navigate("/signup");
+                }
+              }}
             >
               Get Started
             </button>

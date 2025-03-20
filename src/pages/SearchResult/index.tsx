@@ -217,7 +217,12 @@ const SearchResult = () => {
       <div className="flex h-[90vh] max-lg:flex-col">
         {showGrid && (
           <div className="w-max-[50%] w-[50%] max-lg:w-max-[100%] max-lg:w-[100%] max-lg:h-[50%]">
-            <Map properties={properties} userLocation={userLocation} />
+            <Map
+              properties={properties}
+              userLocation={userLocation}
+              setUserLocation={setUserLocation}
+              value={location.state?.formData?.address}
+            />
           </div>
         )}
         <div
@@ -333,7 +338,11 @@ const SearchResult = () => {
           </div>
           <div className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto">
             <div
-              className="grid grid-cols-[repeat(3,_1fr)] gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]"
+              className={`grid ${
+                showGrid
+                  ? "grid-cols-[repeat(3,_1fr)]"
+                  : "grid-cols-[repeat(6,_1fr)]"
+              } gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]`}
               ref={scrollableRef}
               onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
             >
