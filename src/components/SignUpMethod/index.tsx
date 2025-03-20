@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 const SignUpMethod = ({
   signupMethod,
   setSignupMethod,
@@ -5,6 +7,13 @@ const SignUpMethod = ({
   signupMethod: AuthType;
   setSignupMethod: React.Dispatch<React.SetStateAction<AuthType>>;
 }) => {
+  const location = useLocation();
+  const path = location.pathname;
+  const map: any = {
+    "/signin": "Log In by",
+    "/signup": "Sign Up by",
+    "/forgot-password": "By",
+  };
   return (
     <div className="w-full max-w-[540px]">
       <div className="select-option flex justify-end mb-[10px] gap-[12px]">
@@ -17,13 +26,13 @@ const SignUpMethod = ({
             })
           }
         >
-          Login by Email
+          {map[path]} Email
         </button>
         <button
           className={`${signupMethod.phone ? "btn-pri" : "btn-sec"}`}
           onClick={() => setSignupMethod({ email: false, phone: true })}
         >
-          Login by Phone number
+          {map[path]} Phone number
         </button>
       </div>
     </div>

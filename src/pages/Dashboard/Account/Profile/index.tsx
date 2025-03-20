@@ -1,29 +1,29 @@
-import ProfilPic from "../../../../../assets/icons/if-no-user.png";
-import LocationImage from "../../../../../assets/icons/location-icn-grey.png";
+import ProfilPic from "../../../../assets/icons/if-no-user.png";
+import LocationImage from "../../../../assets/icons/location-icn-grey.png";
 import { useEffect, useRef, useState } from "react";
 import {
   useAddStripeConnectMutation,
   useGetUserQuery,
   useUpdateUserMutation,
   useUpdateUserProfileImageMutation,
-} from "../../../../../redux/api";
+} from "../../../../redux/api";
 import * as yup from "yup";
-import { ProfileSchema } from "../../../../../schema";
-import { useForm } from "../../../../../hooks/useForm";
+import { ProfileSchema } from "../../../../schema";
+import { useForm } from "../../../../hooks/useForm";
 import {
   getUrl,
   handleError,
   handleInputChange,
-} from "../../../../../utils/helper";
-import Input from "../../../../../components/Input";
+} from "../../../../utils/helper";
+import Input from "../../../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ResponseMessages } from "../../../../../constants/api-responses";
-import Loader from "../../../../../components/Loader";
-import VerifyPhonePopup from "../../../../../components/Popups/Phone";
-import VerificationCodePopup from "../../../../../components/Popups/Verify";
-import VerifEmailPopup from "../../../../../components/Popups/Email";
-import MapInput from "../../../../../components/MapInput";
+import { ResponseMessages } from "../../../../constants/api-responses";
+import Loader from "../../../../components/Loader";
+import VerifyPhonePopup from "../../../../components/Popups/Phone";
+import VerificationCodePopup from "../../../../components/Popups/Verify";
+import VerifEmailPopup from "../../../../components/Popups/Email";
+import MapInput from "../../../../components/MapInput";
 
 type ProfileFormType = yup.InferType<typeof ProfileSchema>;
 

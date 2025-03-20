@@ -285,7 +285,7 @@ export const lockedBoxApi = createApi({
     }),
     cancelBooking: builder.mutation({
       query: ({ bookingId, body = {} }) => ({
-        url: `booking/${bookingId}/status`,
+        url: `booking/${bookingId}/cancel`,
         method: "POST",
         body,
       }),

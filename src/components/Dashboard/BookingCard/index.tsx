@@ -31,14 +31,17 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
   const currentTime = moment().tz(timeZone);
   const isCheckInAllowed = currentTime.isSameOrAfter(bookingDayStart);
   const canUserCheckIn =
-    type == "future" && !booking.isCheckIn && booking.status == "approve";
+    (type == "future" || type == "current") &&
+    !booking.isCheckIn &&
+    booking.status == "approve";
 
-  console.log("isCheckInAllowed:::", canUserCheckIn, isCheckInAllowed);
+  const canUserCancelBooking =
+    booking.status != "reject" && booking.status != "under_review";
 
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
       <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
-        {showReceipt && (
+        {showReceipt && canUserCancelBooking && (
           <img
             src={DisputeIcon}
             alt=""
@@ -66,7 +69,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           {!isHost && (
             <p className="text-[#959595] max-md:text-[16px]">
               <span className="font-semibold text-black">From:</span>{" "}
-              {startDate}- {endDate}
+              {startDate} - {endDate}
             </p>
           )}
           <div className="mt-auto flex gap-[12px] items-center">
@@ -103,6 +106,10 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
         {/* confirmed btn class */}
         {booking.status == "approve" && (
           <button className="btn-green">Confirmed</button>
+        )}
+
+        {booking.status == "reject" && (
+          <button className="btn-red">Canceled</button>
         )}
       </div>
 

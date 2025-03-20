@@ -82,6 +82,20 @@ export const adminApi = createApi({
         method: "GET",
       }),
     }),
+    closeDispute: builder.mutation({
+      query: ({ userId, bookingId, body = {} }) => ({
+        url: `admin/user/${userId}/booking/${bookingId}/close`,
+        method: "PUT",
+        body,
+      }),
+    }),
+    makeRefund: builder.mutation({
+      query: ({ userId, bookingId, body }) => ({
+        url: `admin/user/${userId}/booking/${bookingId}/refund`,
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -96,4 +110,6 @@ export const {
   useLazyGetUserDisputesQuery,
   useLazyGetUserCheckInsQuery,
   useLazyGetUserBookingQuery,
+  useCloseDisputeMutation,
+  useMakeRefundMutation,
 } = adminApi;

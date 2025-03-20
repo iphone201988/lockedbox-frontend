@@ -85,7 +85,7 @@ const BookingReview = () => {
       amount,
       tax,
       serviceFee,
-      totalAmount: grandTotal,
+      totalAmount: grandTotal.toFixed(2),
     })
       .unwrap()
       .catch((error: any) => handleError(error, navigate));

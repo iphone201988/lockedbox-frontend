@@ -11,20 +11,20 @@ const IncomingMessage = ({
   message,
   bookingId,
   status,
+  contentType,
 }: {
   image: any;
   message: string;
   bookingId: string;
   status: string;
+  contentType: string;
 }) => {
   const navigate = useNavigate();
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
   const [bookingStatus, setBookingStatus] = useState(status);
 
-  const isImage =
-    message.startsWith("/uploads/") ||
-    /\.(jpg|jpeg|png|gif|svg)$/i.test(message);
+  const isImage = contentType == "image";
 
   const handleUpdate = async (status: string) => {
     if (!status || !["approve", "reject"].includes(status)) {

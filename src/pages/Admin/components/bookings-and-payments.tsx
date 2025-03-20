@@ -1,10 +1,16 @@
 import moment from "moment";
 import DisputeIcon from "../../../assets/icons/dispute-icn.png";
 import { getUrl } from "../../../utils/helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RefundAmountPopup from "./refund-amount-popup";
+import { useCloseDisputeMutation } from "../../../redux/api/admin";
+import Loader from "../../../components/Loader";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const BookingsAndPayments = ({ booking }: { booking: any }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const transaction = booking.transactionRentId.length
     ? booking.transactionRentId[0]
     : {};
@@ -15,19 +21,47 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
 
   const [showRefundPopup, setShowRefundPopup] = useState(false);
 
+  const [closeDispute, { data, isLoading }] = useCloseDisputeMutation();
+
+  const handleCloseDispute = async () => {
+    await closeDispute({ userId: id, bookingId: booking._id })
+      .unwrap()
+      .catch((error: any) => {
+        toast.error(error.data.message);
+        if (error.status == 401) {
+          sessionStorage.removeItem("token");
+          navigate("/admin/logout");
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (data?.success) {
+      window.location.href = `/admin/home/bookings/${id}`;
+    }
+  }, [data]);
+
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
+      {isLoading && <Loader />}
       {showRefundPopup && (
         <RefundAmountPopup
           image={getUrl(booking.listingId.storageImages[0])}
           spaceType={booking.listingId.spaceType}
           city={booking.listingId.city}
           setShowRefundPopup={setShowRefundPopup}
+          bookingId={booking._id}
+          totalAmount={booking.totalAmount}
         />
       )}
-      <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
-        <img src={DisputeIcon} alt="" />
-      </button>
+      {booking.status == "under_review" && (
+        <button
+          className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"
+          onClick={handleCloseDispute}
+        >
+          <img src={DisputeIcon} alt="" />
+        </button>
+      )}
       <div className="flex gap-[12px] max-md:flex-col max-md:w-full ">
         <img
           className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
@@ -76,6 +110,10 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
           <button className="btn-green cursor-pointer">Refunded</button>
         )}
 
+        {booking.status == "reject" && (
+          <button className="btn-red cursor-pointer">Rejected</button>
+        )}
+
         {booking.status == "under_review" && (
           <button
             className="btn-red cursor-pointer"
@@ -85,12 +123,12 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
           </button>
         )}
       </div>
-      <a
+      <Link
         className="text-[14px] text-[#235370] underline ml-[8px] font-semibold absolute bottom-[10px] right-[10px] cursor-pointer max-md:left-0"
-        href="#"
+        to={`/booking/${booking._id}/receipt`}
       >
         View Receipt
-      </a>
+      </Link>
     </div>
   );
 };

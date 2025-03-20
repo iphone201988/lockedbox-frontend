@@ -6,7 +6,7 @@ const AdminProfilePopup = () => {
     // siderbar dropdown
     <div className="shadow rounded-[16px] border border-[#EEEEEE] absolute right-[-8px] bottom-[48px] bg-white z-[999]">
       <div className="p-[12px] w-max flex flex-col gap-[12px] max-md:gap-[8px]">
-        <Link className="profile-link !text-[16px] !gap-[8px]" to="">
+        <Link className="profile-link !text-[16px] !gap-[8px]" to="/faq">
           <HelpIcon />
           Help
         </Link>

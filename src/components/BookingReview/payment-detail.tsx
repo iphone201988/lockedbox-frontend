@@ -22,7 +22,7 @@ import { BillingAddressSchema } from "../../schema";
 import Input from "../Input";
 import { handleInputChange } from "../../utils/helper";
 import { toast } from "react-toastify";
-import PaymentMethod from "../../pages/Dashboard/Renter/Account/Payment/components/payment-method";
+import PaymentMethod from "../../pages/Dashboard/Account/Payment/components/payment-method";
 
 type BillingFormType = yup.InferType<typeof BillingAddressSchema>;
 const initialState: BillingFormType = {

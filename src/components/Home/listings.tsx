@@ -7,7 +7,6 @@ const Listings = () => {
   const { data, isLoading } = useGetHomeListingsQuery();
   const [listings, setListings] = useState([]);
   useEffect(() => {
-    console.log("data:::", data);
     if (data?.success) {
       setListings(data?.listings);
     }

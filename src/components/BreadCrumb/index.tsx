@@ -3,9 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 const BreadCrumbs = ({
   searchTerm,
   setSearchTerm,
+  handleSearch
 }: {
   searchTerm?: any;
   setSearchTerm?: any;
+  handleSearch?: any;
 }) => {
   const location = useLocation();
   const path: string = location.pathname;
@@ -36,7 +38,7 @@ const BreadCrumbs = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="btn-pri">Search</button>
+            <button className="btn-pri" onClick={handleSearch}>Search</button>
           </>
         )}
       </div>

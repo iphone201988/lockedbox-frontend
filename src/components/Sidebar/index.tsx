@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "../../assets/logo.png";
 import NoUser from "../../assets/icons/if-no-user.png";
 import { HostRoutes, RenterRoutes } from "../../constants";
@@ -12,6 +12,7 @@ const SideBar = () => {
   const location = useLocation();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [role, setRole] = useState<any>("rent");
+  const sidebarRef = useRef<HTMLButtonElement>(null);
   const {
     data: userData,
     isLoading: isUserLoading,
@@ -30,15 +31,29 @@ const SideBar = () => {
     }
   }, [userData]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setShowProfilePopup(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   if (isUserLoading) return <Loader />;
   if (isError) return <Navigate to="/logout" />;
 
   return (
     <div className="h-[100vh]">
       <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full w-[250px] min-w-[220px] max-w-[220px]">
-        <a className="mb-[45px] block" href="">
+        <Link className="mb-[45px] block" to="/">
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />
-        </a>
+        </Link>
         <div className="side-bar w-full flex flex-col gap-[6px]">
           {routesMap[role].map((item: any, index: any) => (
             <Link
@@ -75,7 +90,10 @@ const SideBar = () => {
           <div className="flex">
             <button
               className=" cursor-pointer relative"
-              onClick={() => setShowProfilePopup(!showProfilePopup)}
+              onClick={() => {
+                setShowProfilePopup(!showProfilePopup);
+              }}
+              ref={sidebarRef}
             >
               <svg
                 width="24"

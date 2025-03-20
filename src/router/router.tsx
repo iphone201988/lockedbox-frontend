@@ -40,22 +40,22 @@ const Logout = lazy(() => import("../pages/Logout"));
 const CheckIn = lazy(() => import("../pages/Dashboard/CheckIn"));
 
 // Renter Dashboard Pages
-const RenterHome = lazy(() => import("../pages/Dashboard/Renter/Home"));
-const RenterAccount = lazy(() => import("../pages/Dashboard/Renter/Account"));
+const RenterHome = lazy(() => import("../pages/Dashboard/Home"));
+const RenterAccount = lazy(() => import("../pages/Dashboard/Account"));
 const RenterBasicInfo = lazy(
-  () => import("../pages/Dashboard/Renter/Account/BasicInfo")
+  () => import("../pages/Dashboard/Account/BasicInfo")
 );
 const RenterProfile = lazy(
-  () => import("../pages/Dashboard/Renter/Account/Profile")
+  () => import("../pages/Dashboard/Account/Profile")
 );
 const RenterSecurity = lazy(
-  () => import("../pages/Dashboard/Renter/Account/Security")
+  () => import("../pages/Dashboard/Account/Security")
 );
 const RenterNotification = lazy(
-  () => import("../pages/Dashboard/Renter/Account/Notification")
+  () => import("../pages/Dashboard/Account/Notification")
 );
 const RenterPayment = lazy(
-  () => import("../pages/Dashboard/Renter/Account/Payment")
+  () => import("../pages/Dashboard/Account/Payment")
 );
 const Booking = lazy(() => import("../pages/Dashboard/Booking"));
 const ReviewYourHost = lazy(

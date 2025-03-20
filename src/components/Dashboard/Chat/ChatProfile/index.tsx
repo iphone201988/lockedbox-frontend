@@ -20,7 +20,9 @@ const ChatProfile = ({ chat }: { chat: ChatProfileProps }) => {
         <p className=" font-semibold">
           {chat.profile.firstName} {chat.profile.lastName?.[0]}.
         </p>
-        <p className="text-[14px] text-[#959595]">{chat.lastMessage}</p>
+        <p className="text-[14px] text-[#959595]">
+          {chat.lastMessageType == "text" ? chat.lastMessage : "Image"}
+        </p>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NoUser from "../../assets/icons/if-no-user.png";
 import Logo from "../Logo";
 import { profileMenu } from "../../constants";
@@ -11,10 +11,27 @@ const ProfileNavbar = () => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const token = getToken();
   let data: any = null;
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
   if (token) {
     const { data: userData } = useGetUserQuery();
     data = userData;
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowDropDown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className=" border-b border-[#EEEEEE]">
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
@@ -39,7 +56,10 @@ const ProfileNavbar = () => {
                   showDropDown ? "block" : "hidden"
                 }`}
               >
-                <div className="p-[12px] w-max flex flex-col gap-[16px] max-md:gap-[8px]">
+                <div
+                  className="p-[12px] w-max flex flex-col gap-[16px] max-md:gap-[8px]"
+                  ref={profileMenuRef}
+                >
                   {profileMenu.map((item: any) => (
                     <Link className="profile-link" to={item.url}>
                       {item.icon}

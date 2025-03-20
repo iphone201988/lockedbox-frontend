@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import ToggleButton from "../../../../../components/ToggleButton";
+import ToggleButton from "../../../../components/ToggleButton";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
-} from "../../../../../redux/api";
-import Loader from "../../../../../components/Loader";
-import { handleError } from "../../../../../utils/helper";
+} from "../../../../redux/api";
+import Loader from "../../../../components/Loader";
+import { handleError } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ResponseMessages } from "../../../../../constants/api-responses";
+import { ResponseMessages } from "../../../../constants/api-responses";
 
 const RenterNotification = () => {
   const navigate = useNavigate();

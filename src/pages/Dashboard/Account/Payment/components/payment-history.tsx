@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import FilterIcon from "../../../../../../assets/icons/filter-icn.png";
-import PaymentHistoryDetail from "../../../../../../components/PaymentHistoryDetail";
-import { useLazyGetTransactionsQuery } from "../../../../../../redux/api";
-import Loader from "../../../../../../components/Loader";
-import { usePagination } from "../../../../../../hooks/usePagination";
+import FilterIcon from "../../../../../assets/icons/filter-icn.png";
+import PaymentHistoryDetail from "../../../../../components/PaymentHistoryDetail";
+import { useLazyGetTransactionsQuery } from "../../../../../redux/api";
+import Loader from "../../../../../components/Loader";
+import { usePagination } from "../../../../../hooks/usePagination";
+import NoListing from "../../../../../components/Dashboard/NoListing";
 
 const PaymentHistory = () => {
   const [selectedFilter, setSelectedFilter] = useState("latest");
@@ -32,7 +33,7 @@ const PaymentHistory = () => {
   useEffect(() => {
     if (data?.success) {
       const { pagination } = data;
-      setTransactions((prev: any) => ([ ...prev, ...data?.transactions ]));
+      setTransactions((prev: any) => [...prev, ...data?.transactions]);
 
       setPagnation((prev: any) => ({
         ...prev,
@@ -100,7 +101,7 @@ const PaymentHistory = () => {
             <PaymentHistoryDetail key={index} transaction={data} />
           ))
         ) : (
-          <></>
+          <NoListing type="payments" />
         )}
       </div>
     </div>

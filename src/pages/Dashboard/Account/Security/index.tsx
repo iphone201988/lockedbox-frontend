@@ -1,14 +1,14 @@
 import * as yup from "yup";
-import { UpdatePasswordSchema } from "../../../../../schema";
-import { useForm } from "../../../../../hooks/useForm";
-import Password from "../../../../../components/Password";
-import { handleError } from "../../../../../utils/helper";
+import { UpdatePasswordSchema } from "../../../../schema";
+import { useForm } from "../../../../hooks/useForm";
+import Password from "../../../../components/Password";
+import { handleError } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
-import { useUpdateUserMutation } from "../../../../../redux/api";
-import Loader from "../../../../../components/Loader";
+import { useUpdateUserMutation } from "../../../../redux/api";
+import Loader from "../../../../components/Loader";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { ResponseMessages } from "../../../../../constants/api-responses";
+import { ResponseMessages } from "../../../../constants/api-responses";
 
 type UpdatePasswordType = yup.InferType<typeof UpdatePasswordSchema>;
 

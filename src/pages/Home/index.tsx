@@ -8,9 +8,14 @@ import Listings from "../../components/Home/listings";
 import Store from "../../components/Home/store";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useLazyGetUserQuery } from "../../redux/api";
+import { getToken } from "../../utils/helper";
 
 const Home = () => {
   const location = useLocation();
+  const token = getToken();
+
+  const [findUser, { data }] = useLazyGetUserQuery();
 
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -20,6 +25,14 @@ const Home = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (token) {
+      (async () => {
+        await findUser().unwrap();
+      })();
+    }
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -28,7 +41,7 @@ const Home = () => {
       <Store />
       <HowToRent />
       <HostWithUs />
-      <JoinHost />
+      {data?.userExists?.dashboardRole == "rent" && <JoinHost />}
       <Footer />
     </>
   );

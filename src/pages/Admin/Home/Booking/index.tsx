@@ -49,7 +49,7 @@ const AdminBooking = () => {
     >
       {(isLoading || isFetching) && <Loader />}
       {bookings.map((booking: any) => (
-        <BookingsAndPayments booking={booking}/>
+        <BookingsAndPayments booking={booking} />
       ))}
     </div>
   );

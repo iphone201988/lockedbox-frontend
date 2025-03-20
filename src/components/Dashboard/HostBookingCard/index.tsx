@@ -68,13 +68,15 @@ const HostBookingCard = ({
   const currentTime = moment().tz(timeZone);
   const isCheckInAllowed = currentTime.isSameOrAfter(bookingDayStart);
   const canUserCheckIn = booking.status == "approve" && !booking.isCheckIn;
+  const canUserCancelBooking =
+    booking.status != "reject" && booking.status != "under_review";
 
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] ">
       {isLoading && <Loader />}
       <div className="p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
         <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
-          <img src={DisputeIcon} alt="" />
+          {canUserCancelBooking && <img src={DisputeIcon} alt="" />}
         </button>
         <div className="flex gap-[12px] max-md:flex-col max-md:w-full ">
           <img

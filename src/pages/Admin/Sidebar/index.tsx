@@ -3,12 +3,28 @@ import NoUser from "../../../assets/icons/if-no-user.png";
 import AdminProfilePopup from "../components/admin-profile-popup";
 import { HomeIcon } from "../../../icons";
 import { useGetUserQuery } from "../../../redux/api/admin";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const AdminSidebar = () => {
   const { data } = useGetUserQuery();
   const [showPopup, setShowPopup] = useState(false);
+  const sidebarRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setShowPopup(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="h-[100vh] max-lg:hidden">
       <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full w-[250px] min-w-[220px] max-w-[220px]">
@@ -36,6 +52,7 @@ const AdminSidebar = () => {
             <button
               className=" cursor-pointer relative"
               onClick={() => setShowPopup(!showPopup)}
+              ref={sidebarRef}
             >
               <svg
                 width="24"

@@ -43,11 +43,13 @@ const uploadImage = ({
         conversationId: id,
         content: url,
         receiver: receiverId,
+        contentType: "image",
       };
       sendMessage(JSON.stringify(payload));
       appendSingleMessage("today", {
         content: url,
         senderDetails: { _id: userId },
+        contentType: "image",
       });
     }
   }, [data]);

@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useRemovePaymentMethodMutation } from "../../../../../../redux/api";
-import { handleError } from "../../../../../../utils/helper";
-import Loader from "../../../../../../components/Loader";
+import { useRemovePaymentMethodMutation } from "../../../../../redux/api";
+import { handleError } from "../../../../../utils/helper";
+import Loader from "../../../../../components/Loader";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { ResponseMessages } from "../../../../../../constants/api-responses";
+import { ResponseMessages } from "../../../../../constants/api-responses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCcVisa,

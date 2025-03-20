@@ -1,8 +1,9 @@
-import CommonListing from "../../../../components/Dashboard/CommonListing";
-import { useDashboardHomeQuery, useGetUserQuery } from "../../../../redux/api";
+import CommonListing from "../../../components/Dashboard/CommonListing";
+import { useDashboardHomeQuery, useGetUserQuery } from "../../../redux/api";
 import { useEffect, useState } from "react";
-import Loader from "../../../../components/Loader";
-import { getHomeKeys } from "../../../../utils/helper";
+import Loader from "../../../components/Loader";
+import { getHomeKeys } from "../../../utils/helper";
+import NoListing from "../../../components/Dashboard/NoListing";
 
 const RenterHome = () => {
   const { data } = useGetUserQuery();
@@ -47,20 +48,21 @@ const RenterHome = () => {
     }
   }, [dashboardHome]);
 
+  if (isLoading) return <Loader />;
+
   return (
-    <div className="px-[30px] max-lg:px-[20px] ">
-      {isLoading && <Loader />}
+    <div className="px-[30px] max-lg:px-[20px]">
       <div className=" py-[10px]  border-b border-[#EEEEEE]">
         <h4 className="text-[22px] font-bold">Hello {name}!</h4>
         <p>Let’s see what’s new</p>
       </div>
-      <div className=" py-[24px] flex flex-col gap-[16px]">
+      <div className="py-[24px] flex flex-col gap-[16px]">
         {notifications.length ? (
           notifications.map((notification) => (
             <CommonListing key={notification.id} notification={notification} />
           ))
         ) : (
-          <></> 
+          <NoListing type="requests" />
         )}
       </div>
     </div>

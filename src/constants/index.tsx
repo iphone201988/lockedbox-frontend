@@ -64,20 +64,20 @@ export const HostRoutes = [
 export const profileMenu = [
   { icon: <HomeIcon />, label: "Home", url: "/" },
   { icon: <SearchIcon />, label: "Find a space", url: "/search" },
-  { icon: <AccountIcon />, label: "Account", url: "/account" },
-  { icon: <BookingIcon />, label: "Bookings", url: "/bookings" },
-  { icon: <MessageIcon />, label: "Messages", url: "/messages" },
+  { icon: <AccountIcon />, label: "Account", url: "/dashboard/account" },
+  { icon: <BookingIcon />, label: "Bookings", url: "/dashboard/booking" },
+  { icon: <MessageIcon />, label: "Messages", url: "/dashboard/message" },
   {
     icon: <ReviewIcon />,
     label: "Reviews",
-    url: "/reviews",
+    url: "/dashboard/reviews",
     hasNotification: true,
   },
 ];
 
 export const profileSubMenu = [
   { icon: <SwitchIcon />, label: "Switch to hosting" },
-  { icon: <HelpIcon />, label: "Help", url: "/help" },
+  { icon: <HelpIcon />, label: "Help", url: "/faq" },
   { icon: <LogoutIcon />, label: "Log-out", url: "/logout" },
 ];
 

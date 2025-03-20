@@ -1,12 +1,12 @@
-import AddIcon from "../../../../../assets/icons/add-icn.png";
+import AddIcon from "../../../../assets/icons/add-icn.png";
 import PaymentHistory from "./components/payment-history";
 import { useEffect, useState } from "react";
-import AddCardPopup from "../../../../../components/Popups/Card";
+import AddCardPopup from "../../../../components/Popups/Card";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useGetPaymentMethodsQuery } from "../../../../../redux/api";
+import { useGetPaymentMethodsQuery } from "../../../../redux/api";
 import PaymentMethod from "./components/payment-method";
-import Loader from "../../../../../components/Loader";
+import Loader from "../../../../components/Loader";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const RenterPayment = () => {

@@ -1,5 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../../assets/icons/close-icn.png";
 import { CrossIcon } from "../../../icons";
+import { useCancelBookingMutation } from "../../../redux/api";
+import Loader from "../../Loader";
+import { handleError } from "../../../utils/helper";
+import { useEffect } from "react";
 
 const CancelBooking = ({
   bookingId,
@@ -8,11 +13,25 @@ const CancelBooking = ({
   bookingId: string;
   onClose: () => void;
 }) => {
-  console.log("bookingId::", bookingId);
-  //   const handleCancelBoking = async () => {};
+  const navigate = useNavigate();
+  // const { data: userData } = useGetUserQuery();
+  const [cancelBooking, { data, isLoading }] = useCancelBookingMutation();
+
+  const handleCancelBoking = async () => {
+    console.log("bookingId::", bookingId);
+
+    await cancelBooking({ bookingId })
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
+  };
+
+  useEffect(() => {
+    console.log("data::::", data);
+  }, [data]);
 
   return (
     <div className="w-full h-full bg-[rgba(0,0,0,0.2)] fixed top-0 left-0 z-[9999] flex items-center justify-center">
+      {isLoading && <Loader />}
       <div className="bg-white rounded-[16px] max-w-[600px] w-full p-[20px] relative">
         <button className=" absolute right-[20px] top-[20px]">
           <img
@@ -58,10 +77,12 @@ const CancelBooking = ({
             </ul>
           </div>
           <div className="flex gap-[20px] items-center justify-center">
-            <button className="btn-sec " onClick={onClose}>
+            <button className="btn-sec" onClick={onClose}>
               Close
             </button>
-            <button className="btn-pri ">Confirm</button>
+            <button className="btn-pri" onClick={handleCancelBoking}>
+              Confirm
+            </button>
           </div>
         </body>
       </div>

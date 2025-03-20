@@ -1,8 +1,29 @@
+import { useEffect } from "react";
 import JoinHostImg from "../../assets/join-us-img.png";
+import { useUpdateUserMutation } from "../../redux/api";
+import { useNavigate } from "react-router-dom";
+import { handleError } from "../../utils/helper";
+import Loader from "../Loader";
 
 const JoinHost = () => {
+  const navigate = useNavigate();
+  const [updateUserData, { data, isLoading }] = useUpdateUserMutation();
+
+  const handleRoleChange = async (role: string) => {
+    try {
+      await updateUserData({ dashboardRole: role }).unwrap();
+    } catch (error) {
+      handleError(error, navigate);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.success) navigate("/dashboard/listing");
+  }, [data]);
+
   return (
     <div className="py-[60px] max-lg:py-[40px]">
+      {isLoading && <Loader />}
       <div className="max-w-[1440px] px-[40px] mx-auto max-lg:px-[20px]">
         <div className=" relative">
           <img className=" max-md:hidden" src={JoinHostImg} alt="" />
@@ -16,12 +37,12 @@ const JoinHost = () => {
               empty garage, basement, or shed, you can help your community while
               earning money effortlessly!
             </p>
-            <a
+            <button
               className="btn-pri !bg-white !text-[#235370] !border-0 max-md:!bg-[#235370] max-md:!text-[#ffffff]"
-              href="#"
+              onClick={() => handleRoleChange("host")}
             >
               Get Started
-            </a>
+            </button>
           </div>
         </div>
       </div>

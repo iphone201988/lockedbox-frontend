@@ -176,6 +176,10 @@ const MessageArea = () => {
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
+    if (message && !message.trim()) {
+      setMessage(null);
+      return;
+    }
     const data = {
       conversationId: id,
       content: message,
@@ -188,6 +192,7 @@ const MessageArea = () => {
     appendSingleMessage("today", {
       content: message,
       senderDetails: { _id: userData.userExists._id },
+      contentType: "text",
     });
   };
 
@@ -230,7 +235,12 @@ const MessageArea = () => {
                 <div className="mt-[24px]">
                   {conversation[key].map((message: any) => {
                     if (message.senderDetails._id == userData.userExists._id) {
-                      return <OutgoingMessage message={message.content} />;
+                      return (
+                        <OutgoingMessage
+                          message={message.content}
+                          contentType={message.contentType}
+                        />
+                      );
                     } else {
                       let url = null;
                       if (message.senderDetails?.profileImage) {
@@ -242,6 +252,7 @@ const MessageArea = () => {
                           image={url ?? NoUser}
                           bookingId={message.bookingId?._id}
                           status={message.bookingId?.status}
+                          contentType={message.contentType}
                         />
                       );
                     }

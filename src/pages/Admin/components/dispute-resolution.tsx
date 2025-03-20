@@ -49,7 +49,7 @@ const DisputeResolution = ({ dispute }: { dispute: any }) => {
       <div className="flex flex-col w-full gap-[6px] items-end max-md:ml-auto">
         <p className="text-[#959595]">Requested amount</p>
         <p className="text-[#235370] font-semibold">
-          ${dispute.bookingId.amount}
+          ${dispute.bookingId.totalAmount}
         </p>
       </div>
     </div>

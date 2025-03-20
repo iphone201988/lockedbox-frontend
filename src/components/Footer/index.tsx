@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import FooterLogo from "../../assets/footer-logo.png";
 import { FacebookIcon, InstagramIcon, LinkedInIcon } from "../../icons";
 
@@ -19,34 +20,34 @@ const Footer = () => {
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">
                 Services
               </p>
-              <a href="#">Find Storage</a>
-              <a href="#">Delivery</a>
-              <a href="#">Pick-up</a>
+              <Link to="/search">Find Storage</Link>
+              <Link to="#">Delivery</Link>
+              <Link to="#">Pick-up</Link>
             </div>
             <div className=" flex flex-col gap-2 max-sm:max-w-[150px] max-sm:w-full ">
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">
                 Links
               </p>
-              <a href="#">Home</a>
-              <a href="#">Delivery</a>
-              <a href="#">Pick-up</a>
+              <Link to="#">Home</Link>
+              <Link to="#">Delivery</Link>
+              <Link to="#">Pick-up</Link>
             </div>
             <div className=" flex flex-col gap-2 max-sm:max-w-[150px] max-sm:w-full">
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">
                 Support
               </p>
-              <a href="#">FAQ</a>
-              <a href="#">Contact Us</a>
-              <a href="#">Support Centre</a>
+              <Link to="/faq">FAQ</Link>
+              <Link to="/contact-us">Contact Us</Link>
+              <Link to="#">Support Centre</Link>
             </div>
             <div className=" flex flex-col gap-2 max-sm:max-w-[150px] max-sm:w-full">
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">
                 Company
               </p>
-              <a href="#">About</a>
-              <a href="#">Press</a>
-              <a href="#">Job Openings</a>
-              <a href="#">Partners</a>
+              <Link to="#">About</Link>
+              <Link to="#">Press</Link>
+              <Link to="#">Job Openings</Link>
+              <Link to="#">Partners</Link>
             </div>
           </div>
         </div>
@@ -58,7 +59,7 @@ const Footer = () => {
             <LinkedInIcon />
           </div>
           <p className=" max-md:text-14px">
-            <a href="">Privacy | Terms | Help</a>
+            <Link to="">Privacy | Terms | Help</Link>
           </p>
         </div>
       </div>

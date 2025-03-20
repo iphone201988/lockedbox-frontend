@@ -1,17 +1,17 @@
 import * as yup from "yup";
-import { BasicInfoSchema } from "../../../../../schema";
-import { useForm } from "../../../../../hooks/useForm";
-import Input from "../../../../../components/Input";
-import { handleError, handleInputChange } from "../../../../../utils/helper";
+import { BasicInfoSchema } from "../../../../schema";
+import { useForm } from "../../../../hooks/useForm";
+import Input from "../../../../components/Input";
+import { handleError, handleInputChange } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
-} from "../../../../../redux/api";
+} from "../../../../redux/api";
 import { useEffect } from "react";
-import Loader from "../../../../../components/Loader";
+import Loader from "../../../../components/Loader";
 import { toast } from "react-toastify";
-import { ResponseMessages } from "../../../../../constants/api-responses";
+import { ResponseMessages } from "../../../../constants/api-responses";
 
 type BasicInfoFormType = yup.InferType<typeof BasicInfoSchema>;
 const initialState: BasicInfoFormType = {
