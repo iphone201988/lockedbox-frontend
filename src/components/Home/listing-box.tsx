@@ -5,11 +5,11 @@ const ListingBox = ({ listing }: { listing: any }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-white rounded-[16px] p-[10px] relative cursor-pointer"
+      className="bg-white rounded-[16px] p-[10px] relative cursor-pointer max-w-[320px]"
       onClick={() => navigate(`listing-details/${listing._id}`)}
     >
       <img
-        className="rounded-[10px] h-full object-cover min-h-[260px] max-h-[260px]"
+        className="rounded-[10px] w-full h-full object-cover min-h-[260px] max-h-[260px]"
         src={getUrl(listing.storageImages[0])}
         alt=""
       />
@@ -41,12 +41,12 @@ const ListingBox = ({ listing }: { listing: any }) => {
         </p>
       </div>
       <a
-        className="mt-[10px] text-[24px] font-semibold text-[#235370] block w-full leading-[normal] max-lg:text-[20px] max-md:text-[18px]"
+        className="mt-[10px] text-[24px] font-semibold text-[#235370] block w-[80%] leading-[normal] max-lg:text-[20px] max-md:text-[18px] max-mlg:text-[18px]"
         href="#"
       >
         {listing.spaceType} space for storage
       </a>
-      <p className="flex text-[#959595] gap-[6px] mt-[4px] items-center">
+      <p className="flex text-[#959595] gap-[6px] mt-[4px] items-center max-lg:text-[14px]">
         <span>
           <svg
             width="24"
