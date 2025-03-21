@@ -5,7 +5,13 @@ import * as yup from "yup";
 import { ContactUsSchema } from "../../schema";
 import { useForm } from "../../hooks/useForm";
 import Input from "../../components/Input";
-import { handleInputChange } from "../../utils/helper";
+import { handleError, handleInputChange } from "../../utils/helper";
+import { useContactUsMutation } from "../../redux/api";
+import Loader from "../../components/Loader";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ResponseMessages } from "../../constants/api-responses";
 
 type ContactUsFormType = yup.InferType<typeof ContactUsSchema>;
 
@@ -17,18 +23,33 @@ const initialState: ContactUsFormType = {
 };
 
 const ContactUs = () => {
+  const navigate = useNavigate();
   const { formData, setFormData, validate, errors } = useForm(
     ContactUsSchema,
     initialState
   );
 
+  const [contactUs, { data, isLoading }] = useContactUsMutation();
+
   const handleSubmit = async () => {
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
+
+    await contactUs(formData)
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success(ResponseMessages.CONTACT_US);
+      setFormData(initialState);
+    }
+  }, [data]);
 
   return (
     <div>
+      {isLoading && <Loader />}
       <ProfileNavbar />
       {/* <SecNavBar /> */}
       <div className="px-[40px] max-lg:px-[20px] max-w-[1180px] mx-auto py-[24px]">

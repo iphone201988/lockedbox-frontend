@@ -341,6 +341,15 @@ export const lockedBoxApi = createApi({
         method: "GET",
       }),
     }),
+
+    // Feedback apis
+    contactUs: builder.mutation({
+      query: (body) => ({
+        url: `feedback`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -392,4 +401,5 @@ export const {
   useFindMessagesQuery,
   useLazyFindMessagesQuery,
   useCancelListingMutation,
+  useContactUsMutation,
 } = lockedBoxApi;

@@ -28,6 +28,7 @@ const BookingReview = () => {
   const [listing, setListing] = useState<any>();
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [content, setContent] = useState<string>("");
+  const [insuranceError, setInsuranceError] = useState<string>("");
   const paymentRef = useRef<any>(null);
 
   const [requestBooking, { data: bookingData, isLoading: requestLoading }] =
@@ -40,7 +41,11 @@ const BookingReview = () => {
   const { startDate, endDate } = location.state;
 
   const monthsDifference = Math.ceil(
-    moment(endDate, "MM-DD-YYYY").diff(moment(startDate, "MM-DD-YYYY"), "months", true)
+    moment(endDate, "MM-DD-YYYY").diff(
+      moment(startDate, "MM-DD-YYYY"),
+      "months",
+      true
+    )
   );
 
   console.log("monthsDifference:::", monthsDifference);
@@ -66,6 +71,11 @@ const BookingReview = () => {
     const paymentMethodId = await paymentRef.current.handleSubmit();
 
     if (!paymentMethodId) {
+      return;
+    }
+
+    if (!selectedPlan || !selectedPlan?.price) {
+      setInsuranceError("Please select any insurance plan");
       return;
     }
 
@@ -133,6 +143,7 @@ const BookingReview = () => {
           <InsuranceOptions
             selectedPlan={selectedPlan}
             setSelectedPlan={setSelectedPlan}
+            insuranceError={insuranceError}
           />
           {listing && (
             <MessageHost

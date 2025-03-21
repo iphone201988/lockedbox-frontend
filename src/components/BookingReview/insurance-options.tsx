@@ -10,9 +10,11 @@ type InsurancePlans = {
 const InsuranceOptions = ({
   selectedPlan,
   setSelectedPlan,
+  insuranceError,
 }: {
   selectedPlan: any;
   setSelectedPlan: any;
+  insuranceError: string;
 }) => {
   const { data } = useGetInsurancePlansQuery();
   const [insurancePlans, setInsurancePlans] = useState<InsurancePlans[]>([]);
@@ -55,6 +57,11 @@ const InsuranceOptions = ({
       {selectedPlan && (
         <p className="mt-4 text-[18px] font-semibold">
           Selected Plan: {selectedPlan.name} - ${selectedPlan.price}/month
+        </p>
+      )}
+      {insuranceError && (
+        <p className="mt-4 text-[18px] text-red-600 font-semibold">
+          {insuranceError}
         </p>
       )}
     </div>

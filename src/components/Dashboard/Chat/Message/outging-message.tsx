@@ -14,7 +14,7 @@ const OutgoingMessage = ({
       {isImage ? (
         <ImageModal
           url={getUrl(message)}
-          className="max-w-full rounded-[8px]"
+          className="w-[200px] h-[200px] rounded-[8px] object-cover"
         />
       ) : (
         <p className="text-white">{message}</p>

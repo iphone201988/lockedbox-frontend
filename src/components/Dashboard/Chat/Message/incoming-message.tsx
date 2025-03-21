@@ -19,6 +19,7 @@ const IncomingMessage = ({
   status: string;
   contentType: string;
 }) => {
+  console.log("contentType:::",contentType)
   const navigate = useNavigate();
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
@@ -52,7 +53,7 @@ const IncomingMessage = ({
             {isImage ? (
               <ImageModal
                 url={getUrl(message)}
-                className="max-w-full rounded-[8px]"
+                className="w-[200px] h-[200px] rounded-[8px] object-cover"
               />
             ) : (
               <p className="">{message}</p>

@@ -14,4 +14,5 @@ export const ResponseMessages = {
   BOOKING_REQUESTED: "Booking request sent successfully",
   BOOKING_STATUS_UPDATED: "Booking status updated successfully",
   REVIEW_GIVEN: "Review submitted successfully",
+  CONTACT_US: "Submitted successfully",
 };
