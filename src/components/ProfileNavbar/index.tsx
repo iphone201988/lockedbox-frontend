@@ -12,6 +12,7 @@ const ProfileNavbar = () => {
   const token = getToken();
   let data: any = null;
   const profileMenuRef = useRef<HTMLDivElement>(null);
+  const profileMenuIconRef = useRef<HTMLButtonElement>(null);
 
   if (token) {
     const { data: userData } = useGetUserQuery();
@@ -22,7 +23,8 @@ const ProfileNavbar = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node)
+        !profileMenuRef.current.contains(event.target as Node) &&
+        profileMenuRef.current.contains(profileMenuIconRef?.current as Node)
       ) {
         setShowDropDown(false);
       }
@@ -41,6 +43,7 @@ const ProfileNavbar = () => {
             <button
               className="cursor-pointer w-[48px] h-[48px] relative"
               onClick={() => setShowDropDown(!showDropDown)}
+              ref={profileMenuIconRef}
             >
               <img
                 className="w-[48px] h-[48px] object-cover rounded-full"

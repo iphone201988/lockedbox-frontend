@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { profileSubMenu } from "../../constants";
 import { useGetUserQuery, useUpdateUserMutation } from "../../redux/api";
 import { getToken, handleError } from "../../utils/helper";
@@ -12,13 +12,15 @@ const ProfileSubMenu = ({
 }) => {
   const navigate = useNavigate();
   const token = getToken();
+  const location = useLocation();
+  const path = location.pathname;
   const {
     data: userData,
     isLoading: isUserLoading,
     isError,
   } = useGetUserQuery();
   const [role, setRole] = useState();
-  const [updateUserData, { isLoading }] = useUpdateUserMutation();
+  const [updateUserData, { data, isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
     if (userData?.success) {
@@ -26,6 +28,12 @@ const ProfileSubMenu = ({
       setRole(dashboardRole);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (data?.success) {
+      window.location.href = path;
+    }
+  }, [data]);
 
   const handleRoleChange = async (role: string) => {
     try {

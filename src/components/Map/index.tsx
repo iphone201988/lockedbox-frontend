@@ -194,7 +194,7 @@ const Map = ({
               type="text"
               placeholder="Search Location"
               ref={inputRef}
-              className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer bg-white"
+              className="border w-full border-[#EEEEEE] py-[20px] pl-[16px] pr-[40px] rounded-2xl cursor-pointer bg-white"
               onChange={(e) => setAddress(e.target.value)}
               value={address}
             />

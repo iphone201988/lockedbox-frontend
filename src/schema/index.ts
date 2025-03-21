@@ -166,6 +166,16 @@ export const BillingAddressSchema = yup.object({
   postalCode: yup.string().required("Zip is required"),
 });
 
+export const ContactUsSchema = yup.object({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .required("Email is required"),
+  message: yup.string().required("Message is required"),
+});
+
 export const validateForm = async (
   schema: yup.ObjectSchema<any>,
   data: any

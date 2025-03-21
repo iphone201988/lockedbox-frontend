@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { allowedStorage as allowedStorageType } from "../../../constants/index";
-import { getUrl } from "../../../utils/helper";
+import { getUrl, handleError } from "../../../utils/helper";
+import DisputeIcon from "../../../assets/icons/dispute-icn.png";
+import { useCancelListingMutation } from "../../../redux/api";
+import Loader from "../../Loader";
+import { useEffect, useState } from "react";
+import CancelListing from "../CancelListing";
 
 const PropertyListingCard = ({
   id,
@@ -12,14 +17,47 @@ const PropertyListingCard = ({
   status,
   storageImages,
   allowedStorage,
+  refetch,
 }: ListingType) => {
+  const navigate = useNavigate();
   const icons = allowedStorage.map((storage: string) => {
     return allowedStorageType.map((allowedStorage: any) => {
       if (allowedStorage.name == storage) return allowedStorage.icon;
     });
   });
+
+  const [cancelBookingPopup, setCancelBookingPopup] = useState(false);
+
+  const [cancelListing, { data, isLoading }] = useCancelListingMutation();
+
+  const handleCancelListing = async (id: string) => {
+    await cancelListing(id)
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
+  };
+
+  useEffect(() => {
+    if (data?.success) {
+      setCancelBookingPopup(false);
+      refetch();
+    }
+  }, [data]);
+
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative max-lg:gap-[12px] ">
+      {isLoading && <Loader />}
+      {cancelBookingPopup && (
+        <CancelListing
+          onConfirm={() => handleCancelListing(id)}
+          onClose={() => setCancelBookingPopup(false)}
+        />
+      )}
+      <button
+        className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"
+        onClick={() => setCancelBookingPopup(true)}
+      >
+        <img src={DisputeIcon} alt="" />
+      </button>
       <div className="flex gap-[12px] max-md:flex-col max-md:w-full w-[60%] max-lg:w-[50%]">
         <img
           className="w-[130px] h-[115px] object-cover rounded-[10px] max-md:w-full max-md:h-[200px]"
@@ -69,7 +107,9 @@ const PropertyListingCard = ({
         )}
 
         {/* confirmed btn class */}
-        {status == "active" && <button className="btn-green capitalize">{status}</button>}
+        {status == "active" && (
+          <button className="btn-green capitalize">{status}</button>
+        )}
       </div>
     </div>
   );

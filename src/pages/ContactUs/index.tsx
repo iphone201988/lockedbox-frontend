@@ -1,11 +1,35 @@
 import ContactImg from "../../assets/login-img.png";
 import BreadCrumbs from "../../components/BreadCrumb";
 import ProfileNavbar from "../../components/ProfileNavbar";
+import * as yup from "yup";
+import { ContactUsSchema } from "../../schema";
+import { useForm } from "../../hooks/useForm";
+import Input from "../../components/Input";
+import { handleInputChange } from "../../utils/helper";
+
+type ContactUsFormType = yup.InferType<typeof ContactUsSchema>;
+
+const initialState: ContactUsFormType = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  message: "",
+};
 
 const ContactUs = () => {
+  const { formData, setFormData, validate, errors } = useForm(
+    ContactUsSchema,
+    initialState
+  );
+
+  const handleSubmit = async () => {
+    const hasErrors: boolean = await validate();
+    if (hasErrors) return;
+  };
+
   return (
     <div>
-        <ProfileNavbar/>
+      <ProfileNavbar />
       {/* <SecNavBar /> */}
       <div className="px-[40px] max-lg:px-[20px] max-w-[1180px] mx-auto py-[24px]">
         <BreadCrumbs />
@@ -27,40 +51,57 @@ const ContactUs = () => {
                 <div className="flex gap-[16px]">
                   <div className="w-full">
                     <p className=" font-semibold">First name</p>
-                    <input
+                    <Input
                       className="w-full border border-[#EEEEEE] px-[16px] py-[20px] rounded-[16px]"
                       type="text"
+                      name="firstName"
+                      value={formData?.firstName}
+                      onChange={(e: any) => handleInputChange(e, setFormData)}
                       placeholder="Enter first name"
+                      error={errors?.firstName}
                     />
                   </div>
                   <div className="w-full">
                     <p className=" font-semibold">Last name</p>
-                    <input
+                    <Input
                       className="w-full border border-[#EEEEEE] px-[16px] py-[20px] rounded-[16px]"
                       type="text"
+                      name="lastName"
+                      value={formData?.lastName}
+                      onChange={(e: any) => handleInputChange(e, setFormData)}
                       placeholder="Enter last name"
+                      error={errors?.lastName}
                     />
                   </div>
                 </div>
                 <div className="w-full">
                   <p className=" font-semibold">Email</p>
-                  <input
+                  <Input
                     className="w-full border border-[#EEEEEE] px-[16px] py-[20px] rounded-[16px]"
                     type="email"
-                    placeholder="Enter email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Email"
+                    error={errors?.email}
                   />
                 </div>
                 <div className="w-full">
                   <p className=" font-semibold">Message</p>
                   <textarea
                     className="w-full border border-[#EEEEEE] px-[16px] py-[20px] rounded-[16px] h-[180px]"
-                    name=""
-                    id=""
-                  >
-                    Enter message...
-                  </textarea>
+                    name="message"
+                    placeholder="Enter message..."
+                    value={formData?.message}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                  ></textarea>
+                  {errors?.message && (
+                    <span className="mx-2 text-red-500">{errors.message}</span>
+                  )}
                 </div>
-                <button className="btn-pri ml-auto">Submit</button>
+                <button className="btn-pri ml-auto" onClick={handleSubmit}>
+                  Submit
+                </button>
               </div>
             </div>
           </div>

@@ -26,6 +26,12 @@ const HostListings = () => {
     },
   });
 
+  const refetch = () => {
+    setListing([]);
+    setPagnation({ page: 1, totalPages: 1 });
+    getAllListings({ page: 1 });
+  };
+
   useEffect(() => {
     if (data?.success) {
       const { pagination } = data;
@@ -57,9 +63,10 @@ const HostListings = () => {
     getAllListings({ page: pagination.page });
   }, []);
 
-  if (isLoading || isFetching) return <Loader />;
+  if (isLoading) return <Loader />;
   return (
     <div className="px-[30px] max-lg:px-[20px] pb-[100px] relative  h-[calc(100%-100px)]">
+      {isFetching && <Loader />}
       {listing?.length ? (
         <div className=" flex pb-[12px] pt-[32px] border-b border-[#EEEEEE] max-md:hidden">
           <p className="text-[#235370] font-semibold w-[60%] max-lg:w-[50%]">
@@ -83,7 +90,7 @@ const HostListings = () => {
       >
         {listing?.length ? (
           listing.map((list, index: number) => (
-            <PropertyListingCard key={index} {...list} />
+            <PropertyListingCard key={index} {...list} refetch={refetch} />
           ))
         ) : (
           <NoListing type="requests" />

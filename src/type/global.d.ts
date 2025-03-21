@@ -133,6 +133,7 @@ type ListingType = {
   price: number;
   storageImages: string[];
   allowedStorage: string[];
+  refetch: () => void;
 };
 
 type CustomOptions = {

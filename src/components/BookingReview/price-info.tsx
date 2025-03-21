@@ -8,8 +8,8 @@ const PriceInfo = ({
   selectedPlan: any;
 }) => {
   const total = price * monthsDifference;
-  const serviceFee = 79.2;
-  const taxes = 99.0;
+  const serviceFee = total * 0.12;
+  const taxes = total * 0.12 + serviceFee * 0.05;
   const grandTotal = (
     total +
     serviceFee +
@@ -28,11 +28,11 @@ const PriceInfo = ({
         </div>
         <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
           <p className="text-left text-[#959595]">Service fee</p>
-          <p className="text-right font-semibold"> ${serviceFee} CAD</p>
+          <p className="text-right font-semibold"> ${serviceFee.toFixed(2)} CAD</p>
         </div>
         <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
           <p className="text-left text-[#959595]">Taxes</p>
-          <p className="text-right font-semibold">${taxes} CAD</p>
+          <p className="text-right font-semibold">${taxes.toFixed(2)} CAD</p>
         </div>
         <div className="flex justify-between py-[16px] ">
           <p className="text-left text-[#235370] font-bold">Total (CAD)</p>

@@ -40,8 +40,10 @@ const BookingReview = () => {
   const { startDate, endDate } = location.state;
 
   const monthsDifference = Math.ceil(
-    moment(endDate).diff(moment(startDate), "days") / 30
+    moment(endDate, "MM-DD-YYYY").diff(moment(startDate, "MM-DD-YYYY"), "months", true)
   );
+
+  console.log("monthsDifference:::", monthsDifference);
 
   const { data, isLoading } = useGetListingByIdQuery(id);
   useEffect(() => {
@@ -68,24 +70,26 @@ const BookingReview = () => {
     }
 
     const amount = listing.price * monthsDifference;
-    const tax = 99.0;
-    const serviceFee = 79.2;
+    const serviceFee = amount * 0.12;
+    const tax = amount * 0.12 + serviceFee * 0.05;
     const grandTotal =
       amount + serviceFee + tax + (selectedPlan ? selectedPlan?.price : 0);
 
     await requestBooking({
       listingId: id,
-      startDate,
-      endDate,
+      startDate: moment(startDate).format("YYYY-MM-DD"),
+      endDate: moment(endDate).format("YYYY-MM-DD"),
       hostId: listing?.userId[0]._id,
       content,
       paymentMethodId,
       currency: "cad",
       insuranceId: selectedPlan.id,
-      amount,
-      tax,
-      serviceFee,
+      amount: amount.toFixed(2),
+      tax: tax.toFixed(2),
+      serviceFee: serviceFee.toFixed(2),
       totalAmount: grandTotal.toFixed(2),
+      isCurrentDate:
+        moment(startDate).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD"),
     })
       .unwrap()
       .catch((error: any) => handleError(error, navigate));

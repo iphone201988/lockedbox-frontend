@@ -177,6 +177,13 @@ export const lockedBoxApi = createApi({
       }),
       invalidatesTags: [LISTING_TAG],
     }),
+    cancelListing: builder.mutation({
+      query: (id) => ({
+        url: `listing/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [LISTING_TAG],
+    }),
     getAllListings: builder.query<any, any>({
       query: ({ page = 1 }) => ({
         url: `listing/me?page=${page}`,
@@ -384,4 +391,5 @@ export const {
   useFindConversationsQuery,
   useFindMessagesQuery,
   useLazyFindMessagesQuery,
+  useCancelListingMutation,
 } = lockedBoxApi;

@@ -56,7 +56,7 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
       _cacheBuster: Date.now(),
     })
       .unwrap()
-      .catch((error) => handleError(error, navigate));
+      .catch((error:any) => handleError(error, navigate));
   };
 
   useEffect(() => {
