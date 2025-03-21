@@ -49,7 +49,6 @@ const ListingDetail = () => {
           </div>
         </div>
         <div className="flex gap-[24px] justify-between max-lg:flex-col-reverse max-lg:gap-0">
-          {" "}
           <div className="max-w-[520px]">
             {listing && <PoliciesInfo listing={listing} />}
             {listing && <ListingReviews listing={listing} />}
