@@ -34,7 +34,9 @@ const BookingReceipt = () => {
       <div className="max-w-[1120px]  mx-auto mt-[24px] max-mlg:px-[20px]">
         <div className=" flex border border-[#EEEEEE] rounded-[16px] max-md:flex-col">
           <div className="w-[50%] max-lg:w-[40%] max-md:w-[100%]">
-            {listing && <BookingReceiptInfo listing={listing} />}
+            {listing && (
+              <BookingReceiptInfo listing={listing} bookingId={bookingId} />
+            )}
           </div>
           <div className="w-[50%] border-l border-[#EEEEEE] max-lg:w-[60%] max-md:w-[100%] max-md:border-l-0 max-md:border-t">
             {booking && <BookingReceiptDetails booking={booking} />}

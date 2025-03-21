@@ -206,7 +206,7 @@ const RenterProfile = () => {
           <div className="border border-[#EEEEEE] rounded-[16px] overflow-hidden">
             <div className="bg-[#235370] p-[20px] text-[#fff] text-right">
               <p>
-                <span className=" font-semibold">User ID:</span> 123456789
+                <span className=" font-semibold">User ID:</span> {data?.id}
               </p>
               <p>
                 <span className=" font-semibold">Joined:</span> {data.createdAt}

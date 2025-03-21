@@ -10,17 +10,18 @@ const HostReviews = () => {
   const [reviewsData, setReviewsData] = useState<any>();
 
   useEffect(() => {
-    if (data?.success)
+    if (data?.success) {
       setReviewsData({
         averageRating: data?.averageRating,
         percentagerentAgain: data?.percentagerentAgain,
         reviews: data?.reviews,
       });
+    }
   }, [data]);
   return (
     <div>
       {isLoading && <Loader />}
-      {reviewsData?.length > 0 && (
+      {reviewsData?.reviews?.length > 0 && (
         <div className="border border-[#EEEEEE] rounded-[8px] p-[20px] max-w-[600px] flex justify-between max-md:flex-col max-md:gap-[16px]">
           <div className="flex items-center gap-[12px] w-[50%] justify-center border-r border-[#EEEEEE] max-md:border-0 max-md:justify-start max-md:w-full">
             <span className="bg-[#235370] p-[16px] rounded-full">
@@ -47,7 +48,7 @@ const HostReviews = () => {
       )}
 
       <div className="mt-[16px] flex gap-[16px] flex-wrap">
-        {reviewsData?.length ? (
+        {reviewsData?.reviews?.length ? (
           reviewsData.reviews.map((review: any) => (
             <HostReviewBox review={review} />
           ))

@@ -3,6 +3,7 @@ import NoUser from "../../assets/icons/if-no-user.png";
 import { getUrl } from "../../utils/helper";
 
 const ListingInfoDetails = ({ listing }: { listing: any }) => {
+  console.log("listing::::", listing);
   const icons = listing.allowedStorage.map((storage: string) => {
     return allowedStorageType.find((allowedStorage: any) => {
       if (allowedStorage.name == storage) return allowedStorage;
@@ -91,9 +92,11 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
         <p>{listing?.description}</p>
       </div>
 
-{/* Additional features */}
-<div className="py-[16px] border-b border-[#EEEEEE]">
-        <p className="text-[18px] font-semibold mb-[6px]">Additional features</p>
+      {/* Additional features */}
+      <div className="py-[16px] border-b border-[#EEEEEE]">
+        <p className="text-[18px] font-semibold mb-[6px]">
+          Additional features
+        </p>
         <ul className="list-disc list-inside flex flex-col gap-[6px]">
           <li>Climate Control</li>
           <li>Security</li>

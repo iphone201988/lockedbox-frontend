@@ -2,7 +2,13 @@ import NoUser from "../../../../assets/icons/if-no-user.png";
 import BookingListingBox from "../../../../components/BookingReview/booking-listing-box";
 import { getUrl } from "../../../../utils/helper";
 
-const BookingReceiptInfo = ({ listing }: { listing: any }) => {
+const BookingReceiptInfo = ({
+  listing,
+  bookingId,
+}: {
+  listing: any;
+  bookingId: string;
+}) => {
   return (
     <div className="p-[20px] pb-[0]">
       <h3 className="text-[28px] font-bold max-lg:text-[26px]">
@@ -34,7 +40,7 @@ const BookingReceiptInfo = ({ listing }: { listing: any }) => {
       </div>
       <div className="py-[16px] ">
         <p className="text-[20px] font-semibold text-[#959595]">
-          <span className="text-[#000000]">Confirmation Number:</span> 987654321
+          <span className="text-[#000000]">Confirmation Number:</span> {bookingId}
         </p>
       </div>
     </div>

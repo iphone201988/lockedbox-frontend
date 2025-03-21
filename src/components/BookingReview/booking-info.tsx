@@ -34,7 +34,7 @@ const BookingInfo = ({ listing }: { listing: any }) => {
       </div>
       <div className="py-[16px] ">
         <p className="text-[20px] font-semibold text-[#959595]">
-          <span className="text-[#000000]">Confirmation Number:</span> 987654321
+          {/* <span className="text-[#000000]">Confirmation Number:</span> 987654321 */}
         </p>
       </div>
     </div>

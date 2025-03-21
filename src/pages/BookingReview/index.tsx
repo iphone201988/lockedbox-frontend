@@ -71,6 +71,7 @@ const BookingReview = () => {
     const paymentMethodId = await paymentRef.current.handleSubmit();
 
     if (!paymentMethodId) {
+      toast.error("Please select your payment method details");
       return;
     }
 

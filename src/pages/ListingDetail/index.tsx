@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "../../components/DatePicker";
 import ListingReviews from "../../components/ListingReviews";
 import { getUrl } from "../../utils/helper";
+import LocationMap from "../../components/LocationMap";
 
 const ListingDetail = () => {
   const { id } = useParams();
@@ -47,12 +48,17 @@ const ListingDetail = () => {
             {listing && <DatePicker price={listing?.price} id={listing?._id} />}
           </div>
         </div>
-        <div className="">
+        <div className="flex gap-[24px] justify-between max-lg:flex-col-reverse max-lg:gap-0">
+          {" "}
           <div className="max-w-[520px]">
             {listing && <PoliciesInfo listing={listing} />}
             {listing && <ListingReviews listing={listing} />}
           </div>
-          <div className="for-map"></div>
+          {listing && (
+            <div className="for-map max-w-[560px] w-full mt-[16px] max-lg:max-w-full">
+              <LocationMap lat={listing?.latitude} lng={listing?.longitude} />
+            </div>
+          )}
         </div>
       </div>
     </div>
