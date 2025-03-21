@@ -151,7 +151,7 @@ const Map = ({
   if (!isLoaded) return <Loader />;
 
   return (
-    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-gray-200 relative">
+    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-gray-200 relative max-lg:max-h-full max-lg:h-[360px]">
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "100%" }}
         zoom={zoom}
@@ -184,12 +184,12 @@ const Map = ({
           />
         ))}
       </GoogleMap>
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 w-full max-w-2xl">
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 w-full max-w-2xl">
         <Autocomplete
           onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
           onPlaceChanged={handlePlaceChanged}
         >
-          <div className="w-full">
+          <div className="w-full px-[16px]">
             <input
               type="text"
               placeholder="Search Location"
@@ -198,7 +198,7 @@ const Map = ({
               onChange={(e) => setAddress(e.target.value)}
               value={address}
             />
-            <span className=" absolute right-[16px] top-[20px]">
+            <span className=" absolute right-[28px] top-[20px]">
               <LocationIcon />
             </span>
           </div>

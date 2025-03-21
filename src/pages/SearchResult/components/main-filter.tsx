@@ -43,7 +43,7 @@ const MainFilter = ({
     <div
       className={`${
         showFilters ? "flex" : "hidden"
-      } flex-col items-stretch gap-[14px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]`}
+      } flex-col items-stretch gap-[16px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]`}
       onClick={(e) => e.stopPropagation()}
     >
       {spaceFeatures.map((feature) => (
@@ -67,7 +67,7 @@ const MainFilter = ({
       ))}
       <button
         onClick={() => onFilterChange(tempSelectedIds)}
-        className="px-[16px] py-[6px] bg-[#235370] rounded-[8px] text-[#fff] cursor-pointer ml-auto block mt-[16px]"
+        className="px-[16px] py-[6px] bg-[#235370] rounded-[8px] text-[#fff] cursor-pointer ml-auto block mt-[10px]"
       >
         Apply
       </button>
