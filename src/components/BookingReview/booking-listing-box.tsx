@@ -5,7 +5,7 @@ const BookingListingBox = ({ listing }: { listing: any }) => {
   return (
     <div className="bg-white rounded-[16px] relative max-w-[260px] ">
       <img
-        className="rounded-[10px]"
+        className="w-full rounded-[10px] min-h-[230px] max-h-[230px] object-cover"
         src={getUrl(listing.storageImages[0])}
         alt=""
       />

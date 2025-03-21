@@ -340,9 +340,9 @@ const SearchResult = () => {
             <div
               className={`grid ${
                 showGrid
-                  ? "grid-cols-[repeat(3,_1fr)]"
-                  : "grid-cols-[repeat(6,_1fr)]"
-              } gap-[16px] pb-[20px] max-mlg:grid-cols-[repeat(3,_1fr)] max-lg:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)]`}
+                  ? "grid-cols-[repeat(3,_1fr)] max-mlg:grid-cols-[repeat(3,_1fr)] "
+                  : "grid-cols-[repeat(6,_1fr)] max-2xl:grid-cols-[repeat(5,_1fr)] max-mlg:grid-cols-[repeat(4,_1fr)]"
+              } gap-[16px] pb-[20px]  max-lg:grid-cols-[repeat(3,_1fr)] max-md:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)] `}
               ref={scrollableRef}
               onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
             >
