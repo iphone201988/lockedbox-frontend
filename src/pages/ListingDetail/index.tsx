@@ -31,7 +31,7 @@ const ListingDetail = () => {
   return (
     <div className="">
       <ProfileNavbar />
-      <div className="max-w-[1120px] mx-auto pt-[24px]">
+      <div className="max-w-[1120px] mx-auto pt-[24px] max-mlg:px-[20px]">
         {listing && (
           <ImageGallery
             storageImages={listing?.storageImages.map((image: string) =>

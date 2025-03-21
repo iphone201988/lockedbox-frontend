@@ -58,14 +58,15 @@
 }
 
 .select-option button {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
-  padding: 8px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 12px;
+  line-height: 24px;
 }
 
-//Search page
+/* //Search page */
 
 .filter-btns-row {
   display: flex;
@@ -106,7 +107,7 @@
   }
 }
 
-// Booking Review
+/* // Booking Review */
 
 .before-dotted-line::before {
   content: "";
@@ -196,7 +197,7 @@
   }
 }
 
-//SideBar
+/* //SideBar */
 
 .side-bar .profile-link {
   padding: 12px 16px;
@@ -232,7 +233,7 @@
   opacity: 1;
 }
 
-// Create Listing page
+/* // Create Listing page */
 
 .step-form .react-tabs__tab-list {
   padding: 0 !important;

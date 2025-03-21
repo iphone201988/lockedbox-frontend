@@ -97,7 +97,7 @@ const Signup = () => {
               setSignupMethod={setSignupMethod}
             />
             <div className="flex gap-[16px] relative w-full max-w-[540px] mb-[10px]">
-              <div>
+              <div className="w-full">
                 <Input
                   className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
                   type="text"
@@ -108,7 +108,7 @@ const Signup = () => {
                   error={errors?.firstName}
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <Input
                   className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
                   type="text"

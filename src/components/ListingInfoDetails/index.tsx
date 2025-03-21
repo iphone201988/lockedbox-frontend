@@ -90,6 +90,17 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
         <p className="text-[18px] font-semibold mb-[6px]">About this place</p>
         <p>{listing?.description}</p>
       </div>
+
+{/* Additional features */}
+<div className="py-[16px] border-b border-[#EEEEEE]">
+        <p className="text-[18px] font-semibold mb-[6px]">Additional features</p>
+        <ul className="list-disc list-inside flex flex-col gap-[6px]">
+          <li>Climate Control</li>
+          <li>Security</li>
+          <li>Cameras</li>
+        </ul>
+      </div>
+
       {/* storage info */}
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <div className=" flex flex-wrap gap-x-[40px] gap-y-[16px]">

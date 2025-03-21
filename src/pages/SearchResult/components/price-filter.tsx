@@ -44,7 +44,7 @@ const PriceFilter = ({
       />
       <button
         onClick={() => onPriceChange(tempPrice)}
-        className="px-[16px] py-[6px] bg-[#235370] rounded-[8px] text-[#fff] cursor-pointer ml-auto block mt-[16px]"
+        className="px-[16px] py-[6px] bg-[#235370] rounded-[8px] text-[#fff] cursor-pointer ml-auto block mt-[8px]"
       >
         Set
       </button>
