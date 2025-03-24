@@ -139,15 +139,15 @@ const Store = () => {
             </a>
           </div>
           <p className="max-w-[340px]">
-            Search from 100+ certified storage hosts nearby that will safeguard
+            Search from certified storage hosts nearby that will safeguard
             your items.
           </p>
         </div>
         <div className="right relative">
           <img className="rounded-4xl max-lg:w-full" src={StoreImg} alt="" />
-          <p className="monts-font text-[18px] font-bold text-[#235370] p-[12px] rounded-[16px] bg-[#EEEEEE] absolute right-[16px] top-[16px] max-lg:text-[16px]">
+          {/* <p className="monts-font text-[18px] font-bold text-[#235370] p-[12px] rounded-[16px] bg-[#EEEEEE] absolute right-[16px] top-[16px] max-lg:text-[16px]">
             Over 50+ options nearby
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

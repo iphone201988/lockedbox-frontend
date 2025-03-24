@@ -71,8 +71,8 @@ const PropertyListingCard = ({
           <p className="text-[#959595] max-md:text-[14px]">
             <span className="font-semibold text-black">Location: </span> {city}
           </p>
-          <div className="mt-auto flex gap-[12px] items-center flex-wrap pt-[16px]">
-            <span className="flex gap-[5px] w-[52px] h-[42px] justify-center items-center">
+          <div className="mt-auto flex items-center flex-wrap pt-[16px]">
+            <span className="flex gap-[5px] w-auto justify-center items-center fix-svg-height">
               {...icons}
             </span>
             <Link

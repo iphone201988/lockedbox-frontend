@@ -100,8 +100,8 @@ const HostBookingCard = ({
               </span>{" "}
               123456789
             </p>
-            <div className="mt-auto flex gap-[12px] items-center">
-              <span className="flex gap-[5px] w-[52px] h-[42px] justify-center items-center">
+            <div className="mt-auto flex items-center">
+              <span className="flex gap-[5px] w-auto justify-center items-center fix-svg-height">
                 {...icons}
               </span>
             </div>

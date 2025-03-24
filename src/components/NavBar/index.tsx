@@ -8,7 +8,7 @@ const NavBar = () => {
   return (
     <div className=" border-b border-[#EEEEEE]">
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
-        <Logo className="max-w-[158px] max-lg:max-w-[120px]" />
+        <Logo className="max-w-[158px] max-lg:max-w-[120px] max-sm:max-w-[100px]" />
         <div className="menu flex gap-x-[32px] text-[18px] text-[#1E1E1E] font-light max-lg:text-[16px] max-lg:gap-x-[16px] max-lg:hidden">
           {routes.map((link: any, index: number) => (
             <Link
@@ -21,7 +21,7 @@ const NavBar = () => {
             </Link>
           ))}
         </div>
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 max-md:gap-[8px]">
           {!token && (
             <>
               <Link to="/signin" className="btn-sec">

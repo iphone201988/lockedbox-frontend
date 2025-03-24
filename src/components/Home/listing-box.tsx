@@ -5,11 +5,11 @@ const ListingBox = ({ listing }: { listing: any }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-white rounded-[16px] p-[10px] relative cursor-pointer max-w-[320px]"
+      className="w-full bg-white rounded-[16px] p-[10px] relative cursor-pointer max-w-[320px]"
       onClick={() => navigate(`listing-details/${listing._id}`)}
     >
       <img
-        className="rounded-[10px] w-full h-full object-cover min-h-[260px] max-h-[260px]"
+        className="w-full rounded-[10px] h-full object-cover min-h-[260px] max-h-[260px]"
         src={getUrl(listing.storageImages[0])}
         alt=""
       />

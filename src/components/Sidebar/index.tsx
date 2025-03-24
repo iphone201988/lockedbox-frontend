@@ -49,7 +49,7 @@ const SideBar = () => {
   if (isError) return <Navigate to="/logout" />;
 
   return (
-    <div className="h-[100vh]">
+    <div className="h-[100vh] max-lg:hidden">
       <div className="flex flex-col border-r border-[#EEEEEE] fixed left-0 top-0 bg-white z-[999] py-[32px] px-[16px] h-full w-[250px] min-w-[220px] max-w-[220px]">
         <Link className="mb-[45px] block" to="/">
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />

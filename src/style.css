@@ -25,6 +25,10 @@
   z-index: -1;
 }
 
+.for-fix-image>div{height: 100%;}
+
+.fix-svg-height>svg{width: 20px; height: 20px;}
+
 /* responsive */
 @media only screen and (max-width: 1024px) {
   .before-line::before {

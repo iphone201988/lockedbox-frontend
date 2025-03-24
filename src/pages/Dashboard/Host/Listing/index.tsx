@@ -65,7 +65,7 @@ const HostListings = () => {
 
   if (isLoading) return <Loader />;
   return (
-    <div className="px-[30px] max-lg:px-[20px] pb-[100px] relative  h-[calc(100%-100px)]">
+    <div className="px-[30px] max-lg:px-[20px] pb-[100px] relative  h-[calc(100%-100px)] max-md:pb-[30px]">
       {isFetching && <Loader />}
       {listing?.length ? (
         <div className=" flex pb-[12px] pt-[32px] border-b border-[#EEEEEE] max-md:hidden">

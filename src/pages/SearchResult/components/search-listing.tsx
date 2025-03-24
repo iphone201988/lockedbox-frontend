@@ -42,7 +42,7 @@ const SearchListing = ({
       </div>
       <div className="flex justify-between items-start mt-[6px]">
         <a
-          className=" text-[16px] font-semibold text-[#1f1f1f] block w-[150px] leading-[normal] max-md:w-[120px]"
+          className=" text-[16px] font-semibold text-[#1f1f1f] block w-[150px] leading-[normal] max-md:w-[66%]"
           href="#"
         >
           {title} space

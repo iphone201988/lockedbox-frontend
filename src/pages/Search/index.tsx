@@ -37,7 +37,7 @@ const Search = () => {
       <ProfileNavbar />
       <div className="max-w-[1440px] px-[40px] mx-auto py-16 max-lg:px-[20px] max-lg:py-[40px] h-[88vh] flex justify-center items-center">
         <div className=" flex flex-col items-center">
-          <h2 className="text-[42px] text-center font-bold max-lg:text-[36px]">
+          <h2 className="text-[42px] text-center font-bold max-lg:text-[36px] max-sm:text-[26px]">
             Where are you located?
           </h2>
           <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
@@ -46,7 +46,7 @@ const Search = () => {
               <span className="mx-2 text-red-500">{errors?.address}</span>
             )}
           </div>
-          <h2 className="text-[42px] text-center font-bold max-lg:text-[36px]">
+          <h2 className="text-[42px] text-center font-bold max-lg:text-[36px] max-sm:text-[26px]">
             What size do require?
           </h2>
           <div className="flex items-center">

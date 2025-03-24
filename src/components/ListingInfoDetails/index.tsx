@@ -13,10 +13,10 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
     <div className="">
       <div className="flex justify-between items-center py-[16px] border-b border-[#EEEEEE]">
         <div className="">
-          <p className="text-[26px] font-semibold max-md:text-[20px]">
+          <p className="text-[26px] font-semibold max-md:text-[20px] max-sm:text-[18px]">
             {listing?.spaceType} for Storage
           </p>
-          <p className="location text-[18px] text-[#959595]">{listing?.city}</p>
+          <p className="location text-[18px] text-[#959595] max-sm:text-[16px]">{listing?.city}</p>
         </div>
         <div className="">
           <div className="flex justify-center items-center">
@@ -48,7 +48,7 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
                 </defs>
               </svg>
               {listing.averageRating ? (
-                <b className="text-[16px] font-normal">
+                <b className="text-[16px] font-normal max-md:text-[14px]">
                   {Number(listing.averageRating).toFixed(2)}
                 </b>
               ) : (
@@ -59,7 +59,7 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
               ({listing.totalReviews ? listing.totalReviews : "No"} reviews)
             </p>
           </div>
-          <p className="text-[18px] text-[#959595] mt-[6px] text-right">
+          <p className="text-[18px] text-[#959595] mt-[6px] text-right max-sm:text-[16px]">
             <b className="text-[#000000]">Size:</b> {listing.length}’x
             {listing.width}’
           </p>
@@ -108,7 +108,7 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
       <div className="py-[16px] border-b border-[#EEEEEE]">
         <div className=" flex flex-wrap gap-x-[40px] gap-y-[16px]">
           {icons.map((item: any) => (
-            <div className="w-[40%] flex items-center gap-[8px]">
+            <div className="w-[40%] flex items-center gap-[8px] max-sm:w-full">
               <span className="flex gap-[5px] w-[24px] h-[24px] items-center">
                 {item.icon}
               </span>

@@ -91,7 +91,7 @@ const HostWithUs = () => {
               Renters
             </h5>
             <p className="text-[20px] max-lg:text-[16px]">
-              Renters on Neighbor are identity-verified through phone and email,
+              Renters on LockedBox are identity-verified through phone and email,
               giving you added security and confidence when sharing your space
             </p>
           </div>

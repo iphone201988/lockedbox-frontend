@@ -92,7 +92,7 @@ h6 {
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 18px;
+  font-size: 17px;
   font-family: "Montserrat", serif;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -182,6 +182,11 @@ input[type="number"] {
   ul.react-tabs__tab-list {
     gap: 24px !important;
     flex-wrap: wrap;
+  }
+  .btn-sec,
+  .btn-pri {
+    font-size: 16px;
+    padding: 10px 16px;
   }
 }
 
