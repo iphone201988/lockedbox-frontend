@@ -57,7 +57,7 @@ const Search = () => {
                 name="length"
                 value={formData?.length}
                 onChange={(e: any) => handleInputChange(e, setFormData)}
-                placeholder="Size"
+                placeholder="ft"
                 error={errors?.length}
               />
               <span className=" absolute right-[16px] top-[20px]">
@@ -74,7 +74,7 @@ const Search = () => {
                 name="width"
                 value={formData?.width}
                 onChange={(e: any) => handleInputChange(e, setFormData)}
-                placeholder="Size"
+                placeholder="ft"
                 error={errors?.width}
               />
               <span className=" absolute right-[16px] top-[20px]">

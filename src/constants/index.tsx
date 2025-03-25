@@ -7,6 +7,12 @@ import {
   FurnitureIcon,
   HelpIcon,
   HomeIcon,
+  HomePageAppliancesIcon,
+  HomePageAutoPartsIcons,
+  HomePageFurtinureIcon,
+  HomePageOfficeIcon,
+  HomePageSeasonalIcon,
+  HomePageVehichleIcon,
   ListingIcon,
   LogoutIcon,
   MessageIcon,
@@ -62,7 +68,7 @@ export const HostRoutes = [
 ];
 
 export const profileMenu = [
-  { icon: <HomeIcon />, label: "Home", url: "/" },
+  { icon: <HomeIcon />, label: "Home", url: "/dashboard/home" },
   { icon: <SearchIcon />, label: "Find a space", url: "/search" },
   { icon: <AccountIcon />, label: "Account", url: "/dashboard/account" },
   { icon: <BookingIcon />, label: "Bookings", url: "/dashboard/booking" },
@@ -95,12 +101,36 @@ export const OtpType = {
 };
 
 export const allowedStorage = [
-  { name: "Furniture & Household", icon: <FurnitureIcon /> },
-  { name: "Auto Parts & Accessories", icon: <AutoPartsIcon /> },
-  { name: "Seasonal & Recreation", icon: <RecreationIcon /> },
-  { name: "Appliances & Electronics", icon: <ElectronicsIcon /> },
-  { name: "Office, School & Business", icon: <BusinessIcon /> },
-  { name: "Vehicles", icon: <VehicleIcon /> },
+  {
+    name: "Furniture & Household",
+    icon: <FurnitureIcon />,
+    homePageIcon: <HomePageFurtinureIcon />,
+  },
+  {
+    name: "Auto Parts & Accessories",
+    icon: <AutoPartsIcon />,
+    homePageIcon: <HomePageAutoPartsIcons />,
+  },
+  {
+    name: "Seasonal & Recreation",
+    icon: <RecreationIcon />,
+    homePageIcon: <HomePageSeasonalIcon />,
+  },
+  {
+    name: "Appliances & Electronics",
+    icon: <ElectronicsIcon />,
+    homePageIcon: <HomePageAppliancesIcon />,
+  },
+  {
+    name: "Office, School & Business",
+    icon: <BusinessIcon />,
+    homePageIcon: <HomePageOfficeIcon />,
+  },
+  {
+    name: "Vehicles",
+    icon: <VehicleIcon />,
+    homePageIcon: <HomePageVehichleIcon />,
+  },
 ];
 
 export const spaceType = [
@@ -121,6 +151,16 @@ export const spaceType = [
 export const accessPolicyType = [
   { name: "Access requires \n appointment." },
   { name: " No appointment \n required for access." },
+];
+
+export const frequencyPolicy = [
+  "Upon Request",
+  "Daily",
+  "Weekly",
+  "Monthly",
+  "Weekends Only",
+  "M-F",
+  "24/7",
 ];
 
 export const spaceFeatures = [

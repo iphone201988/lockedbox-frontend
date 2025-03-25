@@ -55,13 +55,13 @@ const Map = ({
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [address, setAddress] = useState(value ?? "");
+  const isInitialRender = useRef(true);
 
-  const [zoom, setZoom] = useState(12); // Default zoom level
-  const [center, setCenter] = useState<{ lat: number; lng: number }>(
-    properties.length
-      ? { lat: 37.7749, lng: -122.4194 }
-      : { lat: userLocation.latitude, lng: userLocation.longitude }
-  );
+  const [zoom, setZoom] = useState(16); // Default zoom level
+  const [center, setCenter] = useState<{ lat: number; lng: number }>({
+    lat: userLocation.latitude,
+    lng: userLocation.longitude,
+  });
 
   useEffect(() => {
     if (isLoaded && properties.length > 0) {
@@ -71,18 +71,36 @@ const Map = ({
           new window.google.maps.LatLng(property.lat, property.lng)
         );
       });
-      setBounds(newBounds);
+      // setBounds(newBounds);
     }
   }, [properties, isLoaded]);
 
   useEffect(() => {
     if (mapRef && bounds) {
       mapRef.fitBounds(bounds);
+      const currentZoom = mapRef.getZoom();
+      if (currentZoom && currentZoom > 15) {
+        mapRef.setZoom(15);
+      }
     }
   }, [mapRef, bounds]);
 
+  // useEffect(() => {
+  //   if (mapRef && properties.length > 1 && bounds) {
+  //     mapRef.fitBounds(bounds);
+  //     const currentZoom = mapRef.getZoom();
+  //     if (currentZoom > 15) {
+  //       mapRef.setZoom(15); // Prevent zooming in too much
+  //     }
+  //   } else if (properties.length === 1) {
+  //     mapRef.setCenter({ lat: properties[0].lat, lng: properties[0].lng });
+  //     mapRef.setZoom(14); // Reasonable zoom for one property
+  //   }
+  // }, [mapRef, bounds, properties]);
+
   useEffect(() => {
     if (isLoaded) {
+
       setMarkers(
         properties
           .map((property: any) => {
@@ -148,6 +166,33 @@ const Map = ({
     }
   };
 
+  const handleIdle = () => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    if (mapRef) {
+      const center = mapRef.getCenter();
+      if (center) {
+        const newLocation = {
+          latitude: center.lat(),
+          longitude: center.lng(),
+        };
+
+        // Prevent unnecessary state updates to stop infinite loop
+        if (
+          newLocation.latitude !== userLocation.latitude ||
+          newLocation.longitude !== userLocation.longitude
+        ) {
+          console.log("center:::", newLocation.latitude, newLocation.longitude);
+          setUserLocation(newLocation);
+          geocodeLatLng(newLocation.latitude, newLocation.longitude);
+        }
+      }
+    }
+  };
+
   if (!isLoaded) return <Loader />;
 
   return (
@@ -162,6 +207,7 @@ const Map = ({
           map.setCenter(center);
           // }
         }}
+        onIdle={handleIdle}
         options={{
           streetViewControl: false,
           mapTypeControl: false,

@@ -31,11 +31,21 @@ const SearchResult = () => {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState<
     boolean | null
   >(null);
-  const [showFilters, setShowFilters] = useState(initialState);
   const { data: userData } = useGetUserQuery();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const customLocation =
+    !location.state?.formData?.longitude || !location.state?.formData?.latitude;
+
+  const hasItemSelected = location.state?.item;
+
+  const [showFilters, setShowFilters] = useState(
+    hasItemSelected ? { ...initialState, items: true } : initialState
+  );
+
   const [selectedFilters, setSelectedFilters] = useState<FiltersType>({
-    items: [],
+    items: hasItemSelected ? [hasItemSelected] : [],
     price: 0,
     sort: "",
     main: [],
@@ -50,10 +60,6 @@ const SearchResult = () => {
   const [properties, setProperties] = useState<any>([]);
   const [findListing, { data, isLoading, isFetching }] =
     useLazyFindListingQuery();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const customLocation =
-    !location.state?.formData?.longitude || !location.state?.formData?.latitude;
 
   const [dimensions, setDimensions] = useState<any>({
     width: location.state?.formData?.width || null,

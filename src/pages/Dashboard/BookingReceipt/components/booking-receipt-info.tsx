@@ -31,16 +31,14 @@ const BookingReceiptInfo = ({
             />
             <div className="">
               <p>Meet your host {listing.userId.firstName}</p>
-              <span className="text-[14px] text-[#959595]">
-                5+ years of hosting experience
-              </span>
             </div>
           </div>
         </div>
       </div>
       <div className="py-[16px] ">
         <p className="text-[20px] font-semibold text-[#959595]">
-          <span className="text-[#000000]">Confirmation Number:</span> {bookingId}
+          <span className="text-[#000000]">Confirmation Number:</span>{" "}
+          {bookingId}
         </p>
       </div>
     </div>
