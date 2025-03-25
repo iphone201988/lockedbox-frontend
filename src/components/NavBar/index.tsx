@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../Logo";
 import { getToken } from "../../utils/helper";
 import { routes } from "../../constants";
+import ProfileNavbar from "../ProfileNavbar";
 
 const NavBar = () => {
   const token = getToken();
@@ -33,9 +34,12 @@ const NavBar = () => {
             </>
           )}
           {token && (
-            <Link to="/logout" className="btn-sec">
-              Logout
-            </Link>
+            <>
+              <ProfileNavbar showLogo={false} />
+              <Link to="/logout" className="btn-sec">
+                Logout
+              </Link>
+            </>
           )}
         </div>
       </div>

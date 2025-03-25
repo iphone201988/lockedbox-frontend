@@ -25,9 +25,6 @@ const BookingInfo = ({ listing }: { listing: any }) => {
             />
             <div className="">
               <p>Meet your host {listing.userId[0]?.firstName}</p>
-              <span className="text-[14px] text-[#959595]">
-                5+ years of hosting experience
-              </span>
             </div>
           </div>
         </div>

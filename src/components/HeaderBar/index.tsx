@@ -9,7 +9,6 @@ const HeaderBar = () => {
   const role = data?.userExists.dashboardRole;
 
   const headerMap: any = {
-    "/dashboard/home": "Dashboard",
     "/dashboard/booking": "Bookings",
     "/dashboard/listing": "Listings",
     "/dashboard/reviews": `${
@@ -31,6 +30,9 @@ const HeaderBar = () => {
     }
     if (path.includes("/dashboard/listing/create-listing")) {
       header = `Create Listing`;
+    }
+    if (path.includes("/dashboard/home")) {
+      header = `${role == "host" ? "Host" : "Renter"} Dashboard`;
     }
   }
 

@@ -7,7 +7,7 @@ import ProfileSubMenu from "../ProfileSubMenu";
 import { useGetUserQuery } from "../../redux/api";
 import { getToken, getUrl } from "../../utils/helper";
 
-const ProfileNavbar = () => {
+const ProfileNavbar = ({ showLogo = true }: { showLogo?: boolean }) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const token = getToken();
   let data: any = null;
@@ -35,9 +35,13 @@ const ProfileNavbar = () => {
   }, []);
 
   return (
-    <div className=" border-b border-[#EEEEEE]">
-      <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
-        <Logo className="max-w-[158px] max-lg:max-w-[120px]" />
+    <div className={`${showLogo ? "border-b border-[#EEEEEE]" : ""}`}>
+      <div
+        className={`${
+          showLogo ? "py-5 px-10" : ""
+        } mx-auto flex flex-row items-center justify-between max-lg:px-[20px]`}
+      >
+        {showLogo && <Logo className="max-w-[158px] max-lg:max-w-[120px]" />}
         {token ? (
           <div className="">
             <button

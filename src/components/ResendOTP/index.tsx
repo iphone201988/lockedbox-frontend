@@ -12,7 +12,12 @@ const ResendOTP = ({ formData, type }: { formData: any; type: number }) => {
 
   const handleResendOTP = async () => {
     try {
-      await sendOTP({ ...formData, type }).unwrap();
+      await sendOTP({
+        ...formData,
+        type,
+        firstName: undefined,
+        lastName: undefined,
+      }).unwrap();
       setTimer(30);
       setIsResendDisabled(true);
     } catch (error) {

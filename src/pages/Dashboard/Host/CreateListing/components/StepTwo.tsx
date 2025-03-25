@@ -1,7 +1,7 @@
 import { ListingStepProp, StepTwoFormType } from "..";
 import CustomOptions from "../../../../../components/CustomOptions";
 import Select from "../../../../../components/Select";
-import { accessPolicyType } from "../../../../../constants";
+import { accessPolicyType, frequencyPolicy } from "../../../../../constants";
 import { DropDownIcon } from "../../../../../icons";
 import { handleInputChange } from "../../../../../utils/helper";
 import MultiImageSelect from "../../../../../components/MultipleImages";
@@ -162,7 +162,7 @@ const StepTwo = ({
               <p className=" font-semibold mb-[6px]">Select type</p>
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <Select
-                  options={["Weekly"]}
+                  options={frequencyPolicy}
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer dropdown-container"
                   name="frequency"
                   value={formData?.frequency}
