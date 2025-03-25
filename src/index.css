@@ -227,3 +227,4 @@ input[type="number"] {
     flex-wrap: wrap;
   }
 }
+.for-fix-image>div{height: 100%;}
