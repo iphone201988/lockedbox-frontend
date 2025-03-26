@@ -3,8 +3,10 @@ import { getUrl } from "../../../utils/helper";
 
 const CommonListing = ({
   notification,
+  onClick,
 }: {
   notification: HomeNotifications;
+  onClick?: () => void;
 }) => {
   const navigate = useNavigate();
   return (
@@ -29,7 +31,10 @@ const CommonListing = ({
         <div className="flex flex-col gap-[6px] items-end max-md:ml-auto">
           <button
             className="btn-sec"
-            onClick={() => navigate(notification.path)}
+            onClick={() => {
+              if (onClick) onClick();
+              navigate(notification.path);
+            }}
           >
             {notification.btnText}
           </button>

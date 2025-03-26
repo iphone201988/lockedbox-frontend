@@ -33,7 +33,7 @@ export const routes = [
 
 export const RenterRoutes = [
   { name: "Home", icon: <HomeIcon />, path: "/dashboard/home" },
-  { name: "Find Storage", icon: <SearchIcon />, path: "/search" },
+  { name: "Find Storage", icon: <SearchIcon />, path: "/search-results" },
   {
     name: "Account",
     icon: <AccountIcon />,
@@ -251,4 +251,14 @@ export const RenterBasicsContent = [
     answer:
       "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
   },
+];
+
+export const HostCancellationPolicies = [
+  "A: 100% free cancellation 5 days or more prior to reservation start. Refund listing fee and service fees",
+  "B: 75% refund if the renter cancels within 4 days. No refund of service fee.",
+  "C: If a monthly contract has started, cancellation of the next month and remaining months can only occur on or before the anniversary date free of charge. If a renter cancels after their anniversary date, they lose out on the next month and service fee.",
+];
+
+export const RenterCancellationPolicies = [
+  "The host is entitled to the following cancellation policy: the host must provide 30 day notice. If the host fails to provide a 30 day notice, they will be charged a $70 cancellation fee.",
 ];

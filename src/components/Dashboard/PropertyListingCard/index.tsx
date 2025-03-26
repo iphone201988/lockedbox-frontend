@@ -81,6 +81,12 @@ const PropertyListingCard = ({
             >
               Edit
             </Link>
+            <Link
+              className="text-[14px] text-[#235370] underline ml-[8px] font-semibold"
+              to={`/listing-details/${id}`}
+            >
+              View listing
+            </Link>
           </div>
         </div>
       </div>

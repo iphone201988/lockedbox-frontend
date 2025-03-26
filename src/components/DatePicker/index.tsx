@@ -11,6 +11,21 @@ import Loader from "../Loader";
 import { getToken, handleError } from "../../utils/helper";
 import moment from "moment";
 
+// const alreadyBookedDates = [
+//   {
+//     startdate: "",
+//     enddate: "",
+//   },
+//   {
+//     startdate: "",
+//     enddate: "",
+//   },
+//   {
+//     startdate: "",
+//     enddate: "",
+//   },
+// ];
+
 const DatePicker = ({ id, price }: { id: string; price: number }) => {
   const navigate = useNavigate();
   const token = getToken();
@@ -23,6 +38,7 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
   // State for start and end dates
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(addMonths(today, 1));
+  const [bookedRanges, setBookedRanges] = useState([]);
 
   // Handle start date selection
   const handleStartDateChange = (date: Date) => {
@@ -56,7 +72,7 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
       _cacheBuster: Date.now(),
     })
       .unwrap()
-      .catch((error:any) => handleError(error, navigate));
+      .catch((error: any) => handleError(error, navigate));
   };
 
   useEffect(() => {
@@ -80,7 +96,9 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
         <span className="text-[14px] text-[#959595]">Taxes not included</span>
 
         <div className="w-full mt-[10px]">
-          <p className="font-semibold mb-[6px]">Start date</p>
+          <p className="font-semibold mb-[6px]">
+            Start date <span className="text-red-500">*</span>
+          </p>
           <div className="input-with-icon relative w-full max-w-[100%]">
             <span className="absolute right-[16px] top-[20px]">
               <img src={DateIcon} alt="" />
@@ -94,7 +112,9 @@ const DatePicker = ({ id, price }: { id: string; price: number }) => {
             />
           </div>
 
-          <p className="font-semibold mb-[6px] mt-[12px]">End date</p>
+          <p className="font-semibold mb-[6px] mt-[12px]">
+            End date<span className="text-red-500">*</span>
+          </p>
           <div className="input-with-icon relative w-full max-w-[100%]">
             <span className="absolute right-[16px] top-[20px]">
               <img src={DateIcon} alt="" />

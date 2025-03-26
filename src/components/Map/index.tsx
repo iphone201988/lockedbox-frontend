@@ -57,7 +57,7 @@ const Map = ({
   const [address, setAddress] = useState(value ?? "");
   const isInitialRender = useRef(true);
 
-  const [zoom, setZoom] = useState(16); // Default zoom level
+  const [zoom, setZoom] = useState(15); // Default zoom level
   const [center, setCenter] = useState<{ lat: number; lng: number }>({
     lat: userLocation.latitude,
     lng: userLocation.longitude,
@@ -71,6 +71,7 @@ const Map = ({
           new window.google.maps.LatLng(property.lat, property.lng)
         );
       });
+
       // setBounds(newBounds);
     }
   }, [properties, isLoaded]);
@@ -99,8 +100,18 @@ const Map = ({
   // }, [mapRef, bounds, properties]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (mapRef && userLocation) {
+      const marker = new window.google.maps.Marker({
+        position: { lat: userLocation.latitude, lng: userLocation.longitude },
+        map: mapRef,
+      });
+      return () => marker.setMap(null);
+    }
+  }, [mapRef, userLocation]);
 
+  useEffect(() => {
+    if (isLoaded) {
+      geocodeLatLng(userLocation.latitude, userLocation.longitude);
       setMarkers(
         properties
           .map((property: any) => {
@@ -221,6 +232,15 @@ const Map = ({
           ],
         }}
       >
+        {isLoaded && mapRef && (
+          <Marker
+            key={`${userLocation.latitude}-${userLocation.longitude}`}
+            position={{
+              lat: userLocation.latitude,
+              lng: userLocation.longitude,
+            }}
+          />
+        )}
         {markers.map((marker, index) => (
           <Marker
             key={index}

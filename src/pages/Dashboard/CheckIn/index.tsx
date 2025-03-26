@@ -101,7 +101,7 @@ const CheckIn = () => {
           <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
             <div className="max-w-[380px] w-full max-md:max-w-full">
               <p className="text-[18px] text-[#235370] font-semibold">
-                Step 1: Confirm {role == "rent" ? "Host" : "Renter"} Space
+                Step 1: Confirm {role == "rent" ? "Host" : "Renter"} Space <span className="text-red-500">*</span>
               </p>
             </div>
             <div className=" max-w-[440px] w-full max-md:max-w-full">
@@ -132,7 +132,7 @@ const CheckIn = () => {
             <div className="max-w-[380px] w-full max-md:max-w-full">
               <p className="text-[18px] text-[#235370] font-semibold">
                 Step 2: Upload photos of {role == "rent" ? "your" : "Renter"}'s
-                items
+                items <span className="text-red-500">*</span>
               </p>
             </div>
             <div className=" max-w-[440px] w-full max-md:max-w-full">

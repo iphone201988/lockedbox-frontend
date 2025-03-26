@@ -46,7 +46,7 @@ const uploadImage = ({
         contentType: "image",
       };
       sendMessage(JSON.stringify(payload));
-      appendSingleMessage("today", {
+      appendSingleMessage("today", id, {
         content: url,
         senderDetails: { _id: userId },
         contentType: "image",

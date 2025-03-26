@@ -19,8 +19,7 @@ const NoListing = ({
 
       <div className="mt-[16px] mb-[20px]">
         <p className="text-[18px] text-center mb-[10px]">
-          You currently do not have any <br />{" "}
-          <span className=" capitalize"> {type}</span> yet
+          You currently do not have any <br /> {type} yet
         </p>
         <p className="text-[24px] font-semibold"></p>
       </div>

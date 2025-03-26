@@ -175,6 +175,7 @@ type CheckInPopup = {
 type ChatProfileProps = {
   conversationId: string;
   lastMessage: string;
+  totalUnread: number;
   lastMessageType: "text" | "image";
   profile: {
     firstName: string;

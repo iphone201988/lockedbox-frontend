@@ -26,7 +26,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Where is the space located?
+            Where is the space located? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">
@@ -65,7 +65,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            What type of space is it?
+            What type of space is it? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">
@@ -94,7 +94,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Does the space have any <br /> additional features ?
+            Does the space have any <br /> additional features ? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">
@@ -118,7 +118,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            What can be stored?
+            What can be stored? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[55%] w-full max-md:max-w-full">
@@ -139,7 +139,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            What is the size of your space?
+            What is the size of your space? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">
@@ -186,7 +186,7 @@ const StepOne = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            What is the monthly price?
+            What is the monthly price? <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">

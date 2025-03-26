@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../../assets/icons/close-icn.png";
 import { CrossIcon } from "../../../icons";
-import { useCancelBookingMutation } from "../../../redux/api";
+import { useCancelBookingMutation, useGetUserQuery } from "../../../redux/api";
 import Loader from "../../Loader";
 import { handleError } from "../../../utils/helper";
 import { useEffect } from "react";
+import {
+  HostCancellationPolicies,
+  RenterCancellationPolicies,
+} from "../../../constants";
+import { toast } from "react-toastify";
+import { ResponseMessages } from "../../../constants/api-responses";
 
 const CancelBooking = ({
   bookingId,
@@ -14,7 +20,11 @@ const CancelBooking = ({
   onClose: () => void;
 }) => {
   const navigate = useNavigate();
-  // const { data: userData } = useGetUserQuery();
+  const { data: userData } = useGetUserQuery();
+  const policies =
+    userData?.userExists?.dashboardRole == "host"
+      ? HostCancellationPolicies
+      : RenterCancellationPolicies;
   const [cancelBooking, { data, isLoading }] = useCancelBookingMutation();
 
   const handleCancelBoking = async () => {
@@ -26,7 +36,10 @@ const CancelBooking = ({
   };
 
   useEffect(() => {
-    console.log("data::::", data);
+    if (data?.success) {
+      toast.success(ResponseMessages.BOOKING_CANCELED);
+      onClose();
+    }
   }, [data]);
 
   return (
@@ -59,21 +72,9 @@ const CancelBooking = ({
               The renter is entitled to the following cancellation policies:-
             </p>
             <ul className="flex flex-col gap-[6px] text-[#959595]">
-              <li className=" text-[14px]">
-                <b>A:</b> 100% free cancellation 5 days or more prior to
-                reservation start. Refund listing fee and service fees
-              </li>
-              <li className=" text-[14px]">
-                <b>B:</b> 75% refund if the renter cancels within 4 days. No
-                refund of service fee.
-              </li>
-              <li className=" text-[14px]">
-                <b>C:</b> If a monthly contract has started, cancellation of the
-                next month and remaining months can only occur on or before the
-                anniversary date free of charge. If a renter cancels after their
-                anniversary date, they lose out on the next month and service
-                fee.{" "}
-              </li>
+              {policies.map((policy: string, index: number) => (
+                <li className=" text-[14px]" key={index}>{policy}</li>
+              ))}
             </ul>
           </div>
           <div className="flex gap-[20px] items-center justify-center">

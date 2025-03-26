@@ -369,9 +369,7 @@ const SearchResult = () => {
                   <span>
                     <PropertyIcon />
                   </span>
-                  <p className="text-[18px] font-semibold">
-                    No Storage Room found
-                  </p>
+                  <p className="text-[18px] font-semibold">No listings found</p>
                 </div>
               )}
             </div>

@@ -7,7 +7,8 @@ import { useState } from "react";
 import CancelBooking from "../../Popups/CancelBooking";
 
 const BookingCard = ({ booking, type, role }: BookingCard) => {
-  const showReceipt = type == "future" || type == "current";
+  const showReceipt =
+    (type == "future" && booking.status == "approve") || type == "current";
 
   if (!booking || !booking.listingId) return <Navigate to="/" />;
 
@@ -64,7 +65,11 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
             <span className="font-semibold text-black">
               Booking Confirmation:
             </span>{" "}
-            123456789
+            {booking._id}
+          </p>
+          <p className="text-[#959595] max-md:text-[14px]">
+            <span className="font-semibold text-black">From:</span>{" "}
+            {booking.renterId?.firstName} {booking.renterId?.lastName}
           </p>
           {!isHost && (
             <p className="text-[#959595] max-md:text-[16px]">

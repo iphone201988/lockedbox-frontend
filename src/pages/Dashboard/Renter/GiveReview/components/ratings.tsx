@@ -18,7 +18,9 @@ const Ratings = ({
     <div className="flex flex-col">
       <div className="border border-[#EEEEEE] rounded-[16px] p-[24px] flex flex-col gap-[30px] mb-[24px] max-md:p-[16px]">
         <div className="flex justify-center gap-[8px] flex-col items-center">
-          <p className=" font-semibold">Communication</p>
+          <p className=" font-semibold">
+            Communication<span className="text-red-500">*</span>
+          </p>
           <div className="flex gap-[8px]">
             <ReactStars
               count={5}
@@ -32,7 +34,9 @@ const Ratings = ({
           </div>
         </div>
         <div className="flex justify-center gap-[8px] flex-col items-center">
-          <p className=" font-semibold">Accuracy</p>
+          <p className=" font-semibold">
+            Accuracy<span className="text-red-500">*</span>
+          </p>
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}
@@ -46,7 +50,9 @@ const Ratings = ({
           </div>
         </div>
         <div className="flex justify-center gap-[8px] flex-col items-center">
-          <p className=" font-semibold">Safety</p>
+          <p className=" font-semibold">
+            Safety<span className="text-red-500">*</span>
+          </p>
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}
@@ -60,7 +66,9 @@ const Ratings = ({
           </div>
         </div>
         <div className="flex justify-center gap-[8px] flex-col items-center">
-          <p className=" font-semibold">Cleanliness</p>
+          <p className=" font-semibold">
+            Cleanliness<span className="text-red-500">*</span>
+          </p>
           <div className=" flex gap-[8px]">
             <ReactStars
               count={5}

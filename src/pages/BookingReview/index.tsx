@@ -1,6 +1,6 @@
 import BookingInfo from "../../components/BookingReview/booking-info";
 import PriceSummary from "../../components/BookingReview/price-summary";
-import InsuranceOptions from "../../components/BookingReview/insurance-options";
+// import InsuranceOptions from "../../components/BookingReview/insurance-options";
 import MessageHost from "../../components/BookingReview/message-host";
 import ProfileNavbar from "../../components/ProfileNavbar";
 import {
@@ -26,9 +26,9 @@ const BookingReview = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [listing, setListing] = useState<any>();
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  // const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [content, setContent] = useState<string>("");
-  const [insuranceError, setInsuranceError] = useState<string>("");
+  // const [insuranceError, setInsuranceError] = useState<string>("");
   const paymentRef = useRef<any>(null);
 
   const [requestBooking, { data: bookingData, isLoading: requestLoading }] =
@@ -41,8 +41,8 @@ const BookingReview = () => {
   const { startDate, endDate } = location.state;
 
   const monthsDifference = Math.ceil(
-    moment(endDate, "MM-DD-YYYY").diff(
-      moment(startDate, "MM-DD-YYYY"),
+    moment(endDate, "MMM DD YYYY").diff(
+      moment(startDate, "MMM DD YYYY"),
       "months",
       true
     )
@@ -64,7 +64,7 @@ const BookingReview = () => {
     }
 
     if (!content) {
-      toast.error("Content is required!");
+      toast.error("Message is required!");
       return;
     }
 
@@ -75,16 +75,17 @@ const BookingReview = () => {
       return;
     }
 
-    if (!selectedPlan || !selectedPlan?.price) {
-      setInsuranceError("Please select any insurance plan");
-      return;
-    }
+    // if (!selectedPlan || !selectedPlan?.price) {
+    //   setInsuranceError("Please select any insurance plan");
+    //   return;
+    // }
 
     const amount = listing.price * monthsDifference;
     const serviceFee = amount * 0.12;
     const tax = amount * 0.12 + serviceFee * 0.05;
-    const grandTotal =
-      amount + serviceFee + tax + (selectedPlan ? selectedPlan?.price : 0);
+    // const grandTotal =
+    //   amount + serviceFee + tax + (selectedPlan ? selectedPlan?.price : 0);
+    const grandTotal = amount + serviceFee + tax;
 
     await requestBooking({
       listingId: id,
@@ -94,7 +95,7 @@ const BookingReview = () => {
       content,
       paymentMethodId,
       currency: "cad",
-      insuranceId: selectedPlan.id,
+      // insuranceId: selectedPlan.id,
       amount: amount.toFixed(2),
       tax: tax.toFixed(2),
       serviceFee: serviceFee.toFixed(2),
@@ -124,7 +125,7 @@ const BookingReview = () => {
               <PriceInfo
                 monthsDifference={monthsDifference}
                 price={listing?.price}
-                selectedPlan={selectedPlan}
+                // selectedPlan={selectedPlan}
               />
             </div>
           </div>
@@ -141,11 +142,11 @@ const BookingReview = () => {
       </div>
       <div className="max-w-[1120px] mx-auto  max-mlg:px-[20px]">
         <div className="max-w-[520px]">
-          <InsuranceOptions
+          {/* <InsuranceOptions
             selectedPlan={selectedPlan}
             setSelectedPlan={setSelectedPlan}
             insuranceError={insuranceError}
-          />
+          /> */}
           {listing && (
             <MessageHost
               handleRequestBooking={handleRequestBooking}

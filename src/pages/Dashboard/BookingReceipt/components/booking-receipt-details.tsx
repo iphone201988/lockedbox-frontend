@@ -17,7 +17,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
         <PriceInfo
           monthsDifference={booking.totalMonth}
           price={booking.totalAmount}
-          selectedPlan={0}
+          // selectedPlan={0}
         />
       </div>
       <div className="">

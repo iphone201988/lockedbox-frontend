@@ -13,10 +13,12 @@ const MapInput = ({
   setFormData,
   showLabel = true,
   placeholder,
+  required = false,
 }: {
   value: string;
   setFormData: any;
   showLabel?: boolean;
+  required?: boolean;
   placeholder?: string;
 }) => {
   const { isLoaded } = useJsApiLoader({
@@ -135,7 +137,10 @@ const MapInput = ({
           >
             <>
               {showLabel && (
-                <p className=" font-semibold mb-[6px]">Enter Address</p>
+                <p className=" font-semibold mb-[6px]">
+                  Enter Address{" "}
+                  {required && <span className="text-red-500">*</span>}
+                </p>
               )}
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <input

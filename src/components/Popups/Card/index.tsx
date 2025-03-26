@@ -116,7 +116,9 @@ const AddCardPopup = ({
         </header>
         <body className="max-w-[400px] mx-auto">
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">Card Number</p>
+            <p className=" font-semibold mb-[6px]">
+              Card Number<span className="text-red-500">*</span>
+            </p>
             <div className="w-full max-w-[100%]">
               <CardNumberElement
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -138,7 +140,9 @@ const AddCardPopup = ({
             </div>
           </div>
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">Account Holder Name</p>
+            <p className=" font-semibold mb-[6px]">
+              Account Holder Name<span className="text-red-500">*</span>
+            </p>
             <div className="w-full max-w-[100%]">
               <Input
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -154,7 +158,9 @@ const AddCardPopup = ({
           </div>
           <div className=" flex gap-[16px]">
             <div className="flex-1">
-              <p className=" font-semibold mb-[6px]">Expiry Date</p>
+              <p className=" font-semibold mb-[6px]">
+                Expiry Date<span className="text-red-500">*</span>
+              </p>
               <div className="w-full max-w-[100%]">
                 {/* <input
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -170,7 +176,9 @@ const AddCardPopup = ({
               </div>
             </div>
             <div className="flex-1">
-              <p className=" font-semibold mb-[6px]"> CVV</p>
+              <p className=" font-semibold mb-[6px]">
+                CVV<span className="text-red-500">*</span>
+              </p>
               <div className="w-full max-w-[100%]">
                 {/* <input
                   className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"

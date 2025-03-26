@@ -33,9 +33,14 @@ const HostBookingCard = ({
   endDate = moment(endDate).format("MMM DD YYYY");
 
   const monthsDifference = Math.ceil(
-    moment(endDate).diff(moment(startDate), "days") / 30
+    moment(endDate, "MMM DD YYYY").diff(
+      moment(startDate, "MMM DD YYYY"),
+      "months",
+      true
+    )
   );
 
+  console.log("monthsDifference:::");
   const { data: userData } = useGetUserQuery();
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
@@ -98,7 +103,11 @@ const HostBookingCard = ({
               <span className="font-semibold text-black">
                 Booking Confirmation:
               </span>{" "}
-              123456789
+              {booking._id}
+            </p>
+            <p className="text-[#959595] max-md:text-[14px]">
+              <span className="font-semibold text-black">From:</span>{" "}
+              {booking.renterId?.firstName} {booking.renterId?.lastName}
             </p>
             <div className="mt-auto flex items-center">
               <span className="flex gap-[5px] w-auto justify-center items-center fix-svg-height">

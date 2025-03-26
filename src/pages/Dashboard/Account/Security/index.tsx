@@ -61,7 +61,7 @@ const RenterSecurity = () => {
         <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="mb-[16px]">
             <div className="w-full max-w-[100%]">
-              <p className=" font-semibold mb-[6px]">Old Password</p>
+              <p className=" font-semibold mb-[6px]">Old Password<span className="text-red-500">*</span></p>
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <Password
                   classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
@@ -74,7 +74,7 @@ const RenterSecurity = () => {
               </div>
             </div>
             <div className="w-full max-w-[100%] mt-[20px]">
-              <p className=" font-semibold mb-[6px]">New Password</p>
+              <p className=" font-semibold mb-[6px]">New Password<span className="text-red-500">*</span></p>
               <div className="input-with-icon relative w-full max-w-[100%]">
                 <Password
                   classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"

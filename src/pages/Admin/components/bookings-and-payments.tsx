@@ -77,7 +77,7 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
             <span className="font-semibold text-black">
               Booking Confirmation:
             </span>{" "}
-            123456789
+            {booking._id}
           </p>
           <p className="text-[#959595] max-md:text-[16px]">
             <span className="font-semibold text-black">From:</span> {startDate}-{" "}

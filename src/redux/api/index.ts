@@ -15,11 +15,12 @@ const USER_TAG = "USER";
 const PAYMENT_TAG = "PAYMENT";
 const LISTING_TAG = "LISTING";
 const REVIEW_TAG = "REVIEW";
+const NOTIFICATIONS_TAG = "REVIEW";
 
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
   baseQuery,
-  tagTypes: [USER_TAG, PAYMENT_TAG, LISTING_TAG, REVIEW_TAG],
+  tagTypes: [USER_TAG, PAYMENT_TAG, LISTING_TAG, REVIEW_TAG, NOTIFICATIONS_TAG],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
       query: (body) => ({
@@ -121,7 +122,15 @@ export const lockedBoxApi = createApi({
         url: `user/dashboard`,
         method: "GET",
       }),
-      providesTags: [USER_TAG],
+      providesTags: [NOTIFICATIONS_TAG],
+    }),
+    readNotification: builder.mutation({
+      query: ({ notificationId, body = {} }) => ({
+        url: `user/notifications/${notificationId}/read`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [NOTIFICATIONS_TAG],
     }),
 
     // Payment apis
@@ -368,6 +377,7 @@ export const {
   useSendOTPMutation,
   useUpdateUserMutation,
   useDashboardHomeQuery,
+  useReadNotificationMutation,
   useUpdateUserProfileImageMutation,
   useAddPaymentMethodMutation,
   useAddStripeConnectMutation,

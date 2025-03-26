@@ -24,17 +24,11 @@ const Booking = () => {
   const { data: userData, isLoading } = useGetUserQuery();
   const [
     findRenterBookings,
-    {
-      data: renterData,
-      isFetching: isRentBookingFetching,
-    },
+    { data: renterData, isFetching: isRentBookingFetching },
   ] = useLazyFindRenterBookingsQuery();
   const [
     findHostBookings,
-    {
-      data: hostData,
-      isFetching: isHostBookingFetching,
-    },
+    { data: hostData, isFetching: isHostBookingFetching },
   ] = useLazyFindHostBookingsQuery();
 
   const [bookings, setBookings] = useState<BookingType>({
@@ -43,6 +37,9 @@ const Booking = () => {
     current: [],
     dispute: [],
   });
+  const [hasAnyBookings, setHasAnyBookings] = useState<boolean>(false);
+  const [currentBookingType, setCurrentBookingType] =
+    useState<string>("future");
   const [dashboardRole, setDashboardRole] = useState<string>("");
 
   useEffect(() => {
@@ -78,7 +75,14 @@ const Booking = () => {
     })();
   }, [dashboardRole]);
 
+  useEffect(() => {
+    const hasAnyBookings =
+      bookings.future.length || bookings.current.length || bookings.past.length;
+    setHasAnyBookings(hasAnyBookings ? true : false);
+  }, [bookings]);
+
   const findBookings = async (type: string) => {
+    setCurrentBookingType(type);
     if (bookings[type as keyof BookingType].length) {
       console.log("already fetched", bookings);
       return;
@@ -118,89 +122,72 @@ const Booking = () => {
           <Tab onClick={() => findBookings("dispute")}>Dispute</Tab>
         </TabList>
 
-        <TabPanel>
-          <div className=" flex flex-col gap-[16px]">
-            {bookings.future && bookings.future.length ? (
-              bookings.future.map((booking: any) =>
-                dashboardRole == "host" ? (
-                  <HostBookingCard
-                    booking={booking}
-                    refetch={refetchFutureBookings}
-                  />
-                ) : (
+        {hasAnyBookings ? (
+          <>
+            <TabPanel>
+              <div className=" flex flex-col gap-[16px]">
+                {bookings.future.map((booking: any) =>
+                  dashboardRole == "host" ? (
+                    <HostBookingCard
+                      booking={booking}
+                      refetch={refetchFutureBookings}
+                    />
+                  ) : (
+                    <BookingCard
+                      type="future"
+                      booking={booking}
+                      role={dashboardRole}
+                    />
+                  )
+                )}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className=" flex flex-col gap-[16px]">
+                {bookings.current.map((booking: any) =>
+                  dashboardRole == "host" ? (
+                    <HostBookingCard
+                      booking={booking}
+                      refetch={refetchFutureBookings}
+                    />
+                  ) : (
+                    <BookingCard
+                      type="current"
+                      booking={booking}
+                      role={dashboardRole}
+                    />
+                  )
+                )}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className=" flex flex-col gap-[16px]">
+                {bookings.past.map((booking: any) => (
                   <BookingCard
-                    type="future"
+                    type="past"
                     booking={booking}
                     role={dashboardRole}
                   />
-                )
-              )
-            ) : !(isHostBookingFetching || isRentBookingFetching) ? (
-              <NoBooking />
-            ) : (
-              <></>
-            )}
-          </div>
-        </TabPanel>
-        <TabPanel>
-          {/* if booking */}
-          <div className=" flex flex-col gap-[16px]">
-            {bookings.current && bookings.current.length ? (
-              bookings.current.map((booking: any) =>
-                dashboardRole == "host" ? (
-                  <HostBookingCard
-                    booking={booking}
-                    refetch={refetchFutureBookings}
-                  />
-                ) : (
+                ))}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className=" flex flex-col gap-[16px]">
+                {bookings.dispute.map((booking: any) => (
                   <BookingCard
-                    type="current"
+                    type="dispute"
                     booking={booking}
                     role={dashboardRole}
                   />
-                )
-              )
-            ) : !(isHostBookingFetching || isRentBookingFetching) ? (
-              <NoBooking />
-            ) : (
-              <></>
-            )}
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className=" flex flex-col gap-[16px]">
-            {bookings.past && bookings.past.length ? (
-              bookings.past.map((booking: any) => (
-                <BookingCard
-                  type="past"
-                  booking={booking}
-                  role={dashboardRole}
-                />
-              ))
-            ) : !(isHostBookingFetching || isRentBookingFetching) ? (
-              <NoBooking />
-            ) : (
-              <></>
-            )}
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className=" flex flex-col gap-[16px]">
-            {bookings.dispute && bookings.dispute.length ? (
-              bookings.dispute.map((booking: any) => (
-                <BookingCard
-                  type="dispute"
-                  booking={booking}
-                  role={dashboardRole}
-                />
-              ))
-            ) : !(isHostBookingFetching || isRentBookingFetching) ? (
-              <NoBooking />
-            ) : (
-              <></>
-            )}
-          </div>
-        </TabPanel>
+                ))}
+              </div>
+            </TabPanel>
+          </>
+        ) : !(isHostBookingFetching || isRentBookingFetching) ? (
+          <NoBooking type={currentBookingType} />
+        ) : (
+          <></>
+        )}
       </Tabs>
     </div>
   );

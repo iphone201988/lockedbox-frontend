@@ -4,10 +4,7 @@ import { useForm } from "../../../../hooks/useForm";
 import Input from "../../../../components/Input";
 import { handleError, handleInputChange } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
-import {
-  useGetUserQuery,
-  useUpdateUserMutation,
-} from "../../../../redux/api";
+import { useGetUserQuery, useUpdateUserMutation } from "../../../../redux/api";
 import { useEffect } from "react";
 import Loader from "../../../../components/Loader";
 import { toast } from "react-toastify";
@@ -85,7 +82,9 @@ const RenterBasicInfo = () => {
         </div>
         <div className=" max-w-[400px] w-full max-md:max-w-full">
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">First Name</p>
+            <p className=" font-semibold mb-[6px]">
+              First Name<span className="text-red-500">*</span>
+            </p>
             <div className="w-full max-w-[100%]">
               <Input
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -99,7 +98,9 @@ const RenterBasicInfo = () => {
             </div>
           </div>
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">Last Name</p>
+            <p className=" font-semibold mb-[6px]">
+              Last Name<span className="text-red-500">*</span>
+            </p>
             <div className="w-full max-w-[100%]">
               <Input
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -113,7 +114,7 @@ const RenterBasicInfo = () => {
             </div>
           </div>
           <div className="mb-[16px]">
-            <p className=" font-semibold mb-[6px]">Email</p>
+            <p className=" font-semibold mb-[6px]">Email<span className="text-red-500">*</span></p>
             <div className="w-full max-w-[100%]">
               {/* <Input
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
@@ -136,7 +137,7 @@ const RenterBasicInfo = () => {
             </div>
           </div>
           <div className="">
-            <p className=" font-semibold mb-[6px]">Phone</p>
+            <p className=" font-semibold mb-[6px]">Phone<span className="text-red-500">*</span></p>
             <div className="w-full max-w-[100%]">
               {/* <Phone
                 error={errors?.phone}

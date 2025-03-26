@@ -41,7 +41,7 @@ const Search = () => {
             Where are you located?
           </h2>
           <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
-            <MapInput value={formData?.address} setFormData={setFormData} />
+            <MapInput value={formData?.address} setFormData={setFormData} required={true}/>
             {errors?.address && (
               <span className="mx-2 text-red-500">{errors?.address}</span>
             )}

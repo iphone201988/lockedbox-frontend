@@ -5,6 +5,7 @@ import HostGraph from "./host-graph";
 import { useGetUserEarningsQuery } from "../../../../../redux/api";
 import { useEffect, useState } from "react";
 import Loader from "../../../../../components/Loader";
+import moment from "moment";
 
 const HostPerformance = () => {
   const [earnings, setEarnings] = useState({
@@ -14,6 +15,7 @@ const HostPerformance = () => {
   });
   const [graphData, setGraphData] = useState([]);
   const { data, isLoading } = useGetUserEarningsQuery();
+  const currentMonth = moment().format("MMMM");
   useEffect(() => {
     if (data?.success) {
       setEarnings({
@@ -33,7 +35,9 @@ const HostPerformance = () => {
       <div className="w-full flex flex-col gap-[16px]">
         <div className=" border border-[#EEEEEE] rounded-[8px] p-[16px] w-full max-w-[360px]">
           <div className="flex justify-between items-center">
-            <p className="text-[20px] font-semibold">Earning in December</p>
+            <p className="text-[20px] font-semibold">
+              Earning in {currentMonth}
+            </p>
             <span className="p-[6px] rounded-[4px] bg-[#235370]">
               <img src={EarningIcon} alt="" />
             </span>
@@ -43,7 +47,7 @@ const HostPerformance = () => {
               ${earnings.lastestMonthEarning}
             </p>
             <p className="text-[14px] text-[#959595]">
-              You earned ${earnings.lastestMonthEarning} in December
+              Current monthly earnings ${earnings.lastestMonthEarning}
             </p>
           </div>
         </div>

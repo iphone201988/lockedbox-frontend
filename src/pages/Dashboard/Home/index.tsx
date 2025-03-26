@@ -1,15 +1,29 @@
 import CommonListing from "../../../components/Dashboard/CommonListing";
-import { useDashboardHomeQuery, useGetUserQuery } from "../../../redux/api";
+import {
+  useDashboardHomeQuery,
+  useGetUserQuery,
+  useReadNotificationMutation,
+} from "../../../redux/api";
 import { useEffect, useState } from "react";
 import Loader from "../../../components/Loader";
-import { getHomeKeys } from "../../../utils/helper";
+import { getHomeKeys, handleError } from "../../../utils/helper";
 import NoListing from "../../../components/Dashboard/NoListing";
+import { useNavigate } from "react-router-dom";
 
 const RenterHome = () => {
+  const navigate = useNavigate();
   const { data } = useGetUserQuery();
   const [name, setName] = useState("");
   const { data: dashboardHome, isLoading } = useDashboardHomeQuery();
+  const [readNotification, { isLoading: loading }] =
+    useReadNotificationMutation();
   const [notifications, setNotifications] = useState<HomeNotifications[]>([]);
+
+  const handleReadNotification = async (id: string) => {
+    await readNotification({ notificationId: id }).catch((error: any) =>
+      handleError(error, navigate)
+    );
+  };
 
   useEffect(() => {
     if (data?.success && data?.userExists) {
@@ -48,7 +62,7 @@ const RenterHome = () => {
     }
   }, [dashboardHome]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading || loading) return <Loader />;
 
   return (
     <div className="px-[30px] max-lg:px-[20px]">
@@ -59,7 +73,11 @@ const RenterHome = () => {
       <div className="py-[24px] flex flex-col gap-[16px]">
         {notifications.length ? (
           notifications.map((notification) => (
-            <CommonListing key={notification.id} notification={notification} />
+            <CommonListing
+              key={notification.id}
+              notification={notification}
+              onClick={() => handleReadNotification(notification.id)}
+            />
           ))
         ) : (
           <NoListing type="requests" />

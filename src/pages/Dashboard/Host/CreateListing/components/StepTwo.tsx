@@ -13,6 +13,7 @@ const StepTwo = ({
   formData,
   setFormData,
   errors,
+  handleBack,
 }: ListingStepProp<StepTwoFormType>) => {
   const { id } = useParams();
   const { data: userData } = useGetUserQuery();
@@ -23,7 +24,7 @@ const StepTwo = ({
       <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Upload photos
+            Upload photos <span className="text-red-500">*</span>
           </p>
         </div>
         <MultiImageSelect
@@ -77,7 +78,8 @@ const StepTwo = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Write a short listing description
+            Write a short listing description{" "}
+            <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[600px] w-full max-md:max-w-full">
@@ -106,7 +108,9 @@ const StepTwo = ({
       {/* --- */}
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
-          <p className="text-[18px] text-[#235370] font-semibold">Policies</p>
+          <p className="text-[18px] text-[#235370] font-semibold">
+            Policies <span className="text-red-500">*</span>
+          </p>
         </div>
         <div className=" max-w-[600px] w-full max-md:max-w-full">
           <div className="">
@@ -139,7 +143,8 @@ const StepTwo = ({
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Display an access and frequency policy
+            Display an access and frequency policy{" "}
+            <span className="text-red-500">*</span>
           </p>
           <p>(flexible policies attract more renters)</p>
         </div>
@@ -179,7 +184,9 @@ const StepTwo = ({
       </div>
 
       <div className="flex gap-[12px] justify-end">
-        <button className="btn-sec mt-[24px]">Back</button>
+        <button className="btn-sec mt-[24px]" onClick={handleBack}>
+          Back
+        </button>
         <button className="btn-pri mt-[24px]" onClick={handleComplete}>
           {id
             ? "Update Listing"

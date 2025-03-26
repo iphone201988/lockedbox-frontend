@@ -41,7 +41,7 @@ const StepThree = ({ handleSubmit }: { handleSubmit: any }) => {
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Confirm your identity
+            Confirm your identity <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[460px] w-full max-md:max-w-full">

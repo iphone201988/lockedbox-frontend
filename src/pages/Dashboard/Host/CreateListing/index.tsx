@@ -31,6 +31,7 @@ export type ListingStepProp<T> = {
   isChecked?: boolean;
   checkboxError?: string;
   setIsChecked?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleBack?: () => void;
 };
 
 const StepOneInitialState: StepOneFormType = {
@@ -176,7 +177,6 @@ const CreateListing = () => {
 
   useEffect(() => {
     if (listingData?.success) {
-      console.log("listingData::::", listingData);
       const { listing } = listingData;
 
       const features = listing.features.map((item: any) => {
@@ -278,6 +278,7 @@ const CreateListing = () => {
             formData={stepTwo}
             setFormData={setStepTwo}
             errors={stepTwoErrors}
+            handleBack={() => setCurrentStep((prev) => prev - 1)}
           />
         </TabPanel>
         {!userData?.userExists.isStripeAccountConnected && (

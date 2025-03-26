@@ -21,7 +21,9 @@ const Listings = () => {
         </h2>
         <div className="grid grid-cols-4 gap-[26px] mt-10 max-lg:gap-[16px] max-lg:flex max-lg:flex-wrap max-lg:justify-center">
           {listings.length ? (
-            listings.map((listing: any) => <ListingBox listing={listing} />)
+            listings.map((listing: any, index: number) => (
+              <ListingBox listing={listing} key={index} />
+            ))
           ) : (
             <></>
           )}

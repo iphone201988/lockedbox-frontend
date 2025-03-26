@@ -5,7 +5,7 @@ import AttachIcon from "../../../../assets/icons/add-image.png";
 import SendIcon from "../../../../assets/icons/send-icn.png";
 import IncomingMessage from "../Message/incoming-message";
 import OutgoingMessage from "../Message/outging-message";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useGetUserQuery,
   useLazyFindMessagesQuery,
@@ -26,6 +26,7 @@ type ListingDetail = {
 };
 
 const MessageArea = () => {
+  const navigate = useNavigate();
   const [message, setMessage] = useState<string | null>();
   const { id } = useParams();
   if (!id) return <Navigate to="/" />;
@@ -36,6 +37,7 @@ const MessageArea = () => {
   const [conversation, setConversation] = useState<any>([]);
   const [listingDetails, setListingDetails] = useState<ListingDetail>();
   const [receiverId, setReceiverId] = useState();
+  const [listingId, setListingId] = useState();
 
   const {
     pagination,
@@ -53,7 +55,12 @@ const MessageArea = () => {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const uploadImageRef = useRef<any>(null);
 
-  const appendSingleMessage = (key: string, message: any) => {
+  const appendSingleMessage = (
+    key: string,
+    conversationId: string,
+    message: any
+  ) => {
+    if (conversationId != id) return;
     setConversation((prev: any) => {
       if (prev[key]) {
         return {
@@ -145,6 +152,7 @@ const MessageArea = () => {
       endDate = moment(endDate).format("MMM DD YYYY");
 
       appendMessages(groupedData(data?.conversationMessages));
+      setListingId(listing?._id);
 
       setListingDetails({
         image: listing.storageImages[0],
@@ -189,7 +197,7 @@ const MessageArea = () => {
 
     sendMessage(JSON.stringify(data));
     setMessage(null);
-    appendSingleMessage("today", {
+    appendSingleMessage("today", id, {
       content: message,
       senderDetails: { _id: userData.userExists._id },
       contentType: "text",
@@ -207,7 +215,10 @@ const MessageArea = () => {
             alt=""
           />
           <div className="">
-            <p className="text-[18px] font-semibold">
+            <p
+              className="text-[18px] font-semibold hover:underline cursor-pointer"
+              onClick={() => navigate(`/listing-details/${listingId}`)}
+            >
               {listingDetails?.spaceType} for storage in {listingDetails?.city}
             </p>
             <p className="text-[#959595]">

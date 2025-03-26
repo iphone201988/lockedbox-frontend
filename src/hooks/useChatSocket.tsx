@@ -3,7 +3,7 @@ import { useSocket } from "../providers/socket-provider";
 
 export const useChatSocket = (
   userId: string,
-  appendMessages: (key: string, message: any) => void
+  appendMessages: (key: string, conversationId: string, message: any) => void
 ) => {
   const { socket } = useSocket();
 
@@ -12,9 +12,8 @@ export const useChatSocket = (
 
     socket.on("receive_message", (data: any) => {
       console.log("Received message:", data, userId);
-      // onMessageReceived(conversationId, message);
       if (data.message.senderDetails._id.toString() != userId.toString()) {
-        appendMessages("today", data.message);
+        appendMessages("today", data.conversationId, data.message);
       }
     });
 
@@ -30,7 +29,6 @@ export const useChatSocket = (
 
   const sendMessage = useCallback(
     (data: string) => {
-      console.log("eneterd in send message");
       // if (!socket) return;
 
       socket.emit("send_message", data);

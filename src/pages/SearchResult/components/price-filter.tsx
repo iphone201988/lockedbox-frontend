@@ -36,7 +36,7 @@ const PriceFilter = ({
         id="range"
         type="range"
         min="0"
-        max="10000"
+        max="1000"
         step="1"
         value={tempPrice}
         onChange={(e) => setTempPrice(Number(e.target.value))}
