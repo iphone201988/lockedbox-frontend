@@ -21,6 +21,8 @@ import ContactUs from "../pages/ContactUs";
 import FAQ from "../pages/FAQ";
 import RenterBasics from "../pages/RenterBasics";
 import PageNotFound from "../pages/404";
+import TermsAndConditions from "../pages/TermsAndConditions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -200,6 +202,22 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loader />}>
         <FAQ />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/terms-and-conditions",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <TermsAndConditions />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/privacy-policy",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <PrivacyPolicy />
       </Suspense>
     ),
   },
