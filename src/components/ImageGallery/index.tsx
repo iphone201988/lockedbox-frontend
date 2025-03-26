@@ -76,7 +76,7 @@ const ImageGallery = ({ storageImages }: { storageImages: string[] }) => {
       {/* Modal overlay */}
       {selectedImageIndex !== null && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[#000000bf] bg-opacity-20 flex items-center justify-center z-50"
           onClick={(e) => {
             // Close modal only if click is on the overlay background
             if (e.target === e.currentTarget) {
@@ -84,10 +84,11 @@ const ImageGallery = ({ storageImages }: { storageImages: string[] }) => {
             }
           }}
         >
-          <div className="relative max-w-5xl max-h-[90vh]">
+         <div className="relative w-full h-full flex justify-center items-center">
+         <div className=" max-w-5xl max-h-[90vh]">
             <button
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-white text-4xl z-50 hover:opacity-75"
+              className="absolute top-4 right-4 text-white text-4xl z-50 hover:opacity-75 cursor-pointer"
             >
               &times;
             </button>
@@ -100,21 +101,24 @@ const ImageGallery = ({ storageImages }: { storageImages: string[] }) => {
 
             {storageImages.length > 1 && (
               <>
+                <div className="">
                 <button
                   onClick={goToPrevious}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75"
+                  className="flex justify-center items-center leading-[1] w-[56px] h-[56px] absolute left-16 top-1/2 -translate-y-1/2 text-white text-4xl bg-[#235370] bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 cursor-pointer max-mlg:bottom-[20px] max-mlg:top-auto"
                 >
                   &#8249;
                 </button>
                 <button
                   onClick={goToNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75"
+                  className="flex justify-center items-center leading-[1] w-[56px] h-[56px] absolute right-16 top-1/2 -translate-y-1/2 text-white text-4xl bg-[#235370] bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 cursor-pointer max-mlg:bottom-[20px] max-mlg:top-auto"
                 >
                   &#8250;
                 </button>
+                </div>
               </>
             )}
           </div>
+         </div>
         </div>
       )}
     </div>
