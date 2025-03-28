@@ -245,6 +245,7 @@ const CheckIn = () => {
             imageItems={imageItems}
             setImageItems={setImageItems}
             role={role}
+            bookingId={bookingId}
           />
         )}
         {showPopups.dispute && (
@@ -257,6 +258,7 @@ const CheckIn = () => {
             imageItems={imageItems}
             setImageItems={setImageItems}
             role={role}
+            bookingId={bookingId}
           />
         )}
         {showPopups.confirm && (

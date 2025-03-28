@@ -15,6 +15,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const RenterPayment = () => {
   const { data: userData } = useGetUserQuery();
+  console.log("reuserData::::", userData);
   const role = userData?.userExists?.dashboardRole;
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const { data, isLoading, refetch } = useGetPaymentMethodsQuery();

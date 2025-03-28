@@ -38,6 +38,7 @@ const CancelBooking = ({
   useEffect(() => {
     if (data?.success) {
       toast.success(ResponseMessages.BOOKING_CANCELED);
+      navigate("/dashboard/booking", { replace: true });
       onClose();
     }
   }, [data]);
@@ -73,7 +74,9 @@ const CancelBooking = ({
             </p>
             <ul className="flex flex-col gap-[6px] text-[#959595]">
               {policies.map((policy: string, index: number) => (
-                <li className=" text-[14px]" key={index}>{policy}</li>
+                <li className=" text-[14px]" key={index}>
+                  {policy}
+                </li>
               ))}
             </ul>
           </div>

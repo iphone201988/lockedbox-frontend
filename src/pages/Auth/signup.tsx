@@ -159,9 +159,9 @@ const Signup = () => {
               <p>
                 By continuing, you consent to receive calls and messages from
                 LockedBox in accordance with our{" "}
-                <a className="text-[#235370] underline" href="">
+                <Link className="text-[#235370] underline" to="/privacy-policy">
                   Privacy Policy
-                </a>
+                </Link>
               </p>
             </div>
             {checkboxError && <p className="text-red-500">{checkboxError}</p>}

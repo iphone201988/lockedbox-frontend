@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Loader from "../../../../../components/Loader";
 import {
   useGetBankAccountsQuery,
+  useGetUserQuery,
   useLazyGetLoginLinkQuery,
 } from "../../../../../redux/api";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,14 @@ import { handleError } from "../../../../../utils/helper";
 
 const BankAccounts = () => {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetBankAccountsQuery();
+  const { data: userData } = useGetUserQuery();
+  const isStripeAccountConnected =
+    userData?.userExists?.isStripeAccountConnected;
+
+  const { data, isLoading } = useGetBankAccountsQuery(undefined, {
+    skip: !isStripeAccountConnected,
+  });
+
   const [bankAccounts, setBankAccounts] = useState([]);
   const [
     getLoginLink,
@@ -69,12 +77,18 @@ const BankAccounts = () => {
               </div>
             ))}
           </div>
-          <button
-            className="btn-pri mt-[24px] ml-auto"
-            onClick={generateLoginLink}
-          >
-            Manage your accounts
-          </button>
+          {isStripeAccountConnected ? (
+            <button
+              className="btn-pri mt-[24px] ml-auto"
+              onClick={generateLoginLink}
+            >
+              Manage your accounts
+            </button>
+          ) : (
+            <p className="text-lg font-bold text-red-600">
+              Bank account not linked
+            </p>
+          )}
         </div>
       </div>
     </>
