@@ -9,7 +9,7 @@ const PriceInfo = ({
 }) => {
   const total = price * monthsDifference;
   const serviceFee = total * 0.12;
-  const taxes = total * 0.12 + serviceFee * 0.05;
+  const taxes = total * 0.12 + serviceFee * 0.12;
   const grandTotal = (total + serviceFee + taxes).toFixed(2);
   return (
     <div className="">

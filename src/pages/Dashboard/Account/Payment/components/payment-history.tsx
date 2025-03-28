@@ -27,6 +27,7 @@ const PaymentHistory = () => {
   });
 
   useEffect(() => {
+    setTransactions([]);
     getTransactions({ page: 1, sort: selectedFilter });
   }, [selectedFilter]);
 

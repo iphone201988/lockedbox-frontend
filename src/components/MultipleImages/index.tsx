@@ -22,11 +22,23 @@ const MultiImageSelect = ({
   // Initialize with existing images from the `images` prop
   useEffect(() => {
     console.log("formData::::", formData);
-    const initialItems = formData.map((url: string) => ({
-      id: url,
-      url: import.meta.env.VITE_BACKEND_URL + url,
-      isNew: false,
-    }));
+    const initialItems = formData.map((url: string | File) => {
+      if (url instanceof File) {
+        const generatedUrl = URL.createObjectURL(url);
+        return {
+          id: generatedUrl,
+          url: generatedUrl,
+          isNew: true,
+          file: url,
+        };
+      } else {
+        return {
+          id: url,
+          url: import.meta.env.VITE_BACKEND_URL + url,
+          isNew: false,
+        };
+      }
+    });
     setImageItems(initialItems);
   }, []);
 

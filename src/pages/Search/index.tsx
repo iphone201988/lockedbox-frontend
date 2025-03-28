@@ -25,12 +25,14 @@ const Search = () => {
     initialState
   );
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (formData.address == "") return;
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
 
     navigate("/search-results", { state: { formData } });
-  };  
+  };
 
   return (
     <div>
@@ -40,51 +42,60 @@ const Search = () => {
           <h2 className="text-[42px] text-center font-bold max-lg:text-[36px] max-sm:text-[26px]">
             Where are you located?
           </h2>
-          <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
-            <MapInput value={formData?.address} setFormData={setFormData} required={true}/>
-            {errors?.address && (
-              <span className="mx-2 text-red-500">{errors?.address}</span>
-            )}
-          </div>
-          <h2 className="text-[42px] text-center font-bold max-lg:text-[36px] max-sm:text-[26px]">
-            What size do require?
-          </h2>
-          <div className="flex items-center">
-            <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
-              <Input
-                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                type="text"
-                name="length"
-                value={formData?.length}
-                onChange={(e: any) => handleInputChange(e, setFormData)}
-                placeholder="ft"
-                error={errors?.length}
+          <form
+            className="w-full flex flex-col justify-center items-center"
+            onSubmit={handleSubmit}
+          >
+            <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
+              <MapInput
+                value={formData?.address}
+                setFormData={setFormData}
+                required={true}
               />
-              <span className=" absolute right-[16px] top-[20px]">
-                <SizeIcon />
-              </span>
+              {errors?.address && (
+                <span className="mx-2 text-red-500">{errors?.address}</span>
+              )}
             </div>
-            <p className="text-[26px] font-semibold px-[20px] leading-[26px]">
-              X
-            </p>
-            <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
-              <Input
-                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                type="text"
-                name="width"
-                value={formData?.width}
-                onChange={(e: any) => handleInputChange(e, setFormData)}
-                placeholder="ft"
-                error={errors?.width}
-              />
-              <span className=" absolute right-[16px] top-[20px]">
-                <SizeIcon />
-              </span>
+            <h2 className="text-[42px] text-center font-bold max-lg:text-[36px] max-sm:text-[26px]">
+              What size do require?
+            </h2>
+            <div className="flex items-center">
+              <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="length"
+                  value={formData?.length}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="ft"
+                  error={errors?.length}
+                />
+                <span className=" absolute right-[16px] top-[20px]">
+                  <SizeIcon />
+                </span>
+              </div>
+              <p className="text-[26px] font-semibold px-[20px] leading-[26px]">
+                X
+              </p>
+              <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[170px] max-md:mt-[16px] max-md:mb-[24px]">
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="width"
+                  value={formData?.width}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="ft"
+                  error={errors?.width}
+                />
+                <span className=" absolute right-[16px] top-[20px]">
+                  <SizeIcon />
+                </span>
+              </div>
             </div>
-          </div>
-          <button className="btn-pri cursor-pointer" onClick={handleSubmit}>
-            Start Search
-          </button>
+            <button className="btn-pri cursor-pointer" type="submit">
+              Start Search
+            </button>
+          </form>
         </div>
       </div>
     </div>

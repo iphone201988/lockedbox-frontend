@@ -20,7 +20,9 @@ const BannerHome = () => {
     initialState
   );
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: any) => {
+    e.preventDefault();
+    if (formData.address == "") return;
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
 
@@ -32,20 +34,25 @@ const BannerHome = () => {
         <h1 className="text-[52px] font-bold max-lg:text-[36px] max-sm:text-[28px]">
           Find your Space
         </h1>
-        <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
-          <MapInput
-            value={formData?.address}
-            setFormData={setFormData}
-            showLabel={false}
-            placeholder="Search Location"
-          />
-          {errors?.address && (
-            <span className="mx-2 text-red-500">{errors?.address}</span>
-          )}
-        </div>
-        <button className="btn-pri cursor-pointer" onClick={handleSearch}>
-          Search Nearby
-        </button>
+        <form
+          className="w-full flex flex-col justify-center items-center"
+          onSubmit={handleSearch}
+        >
+          <div className="input-with-icon relative mt-[30px] mb-[40px] w-full max-w-[540px] max-md:mt-[16px] max-md:mb-[24px]">
+            <MapInput
+              value={formData?.address}
+              setFormData={setFormData}
+              showLabel={false}
+              placeholder="Search Location"
+            />
+            {errors?.address && (
+              <span className="mx-2 text-red-500">{errors?.address}</span>
+            )}
+          </div>
+          <button className="btn-pri cursor-pointer" type="submit">
+            Search Nearby
+          </button>
+        </form>
       </div>
       <div className="right-side w-full">
         <img

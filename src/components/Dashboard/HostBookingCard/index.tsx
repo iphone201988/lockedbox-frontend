@@ -15,6 +15,7 @@ import { getUrl, handleError } from "../../../utils/helper";
 import { useEffect, useState } from "react";
 import { ResponseMessages } from "../../../constants/api-responses";
 import CancelBooking from "../../Popups/CancelBooking";
+import CheckInPopup from "../../Popups/CheckInPopUp";
 
 const HostBookingCard = ({
   booking,
@@ -24,6 +25,8 @@ const HostBookingCard = ({
   refetch: any;
 }) => {
   const navigate = useNavigate();
+  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
+  const [disputePopup, setDisputePopup] = useState(false);
   const [cancelBookingPopup, setCancelBookingPopup] = useState(false);
   if (!booking || !booking.listingId) return <Navigate to="/" />;
 
@@ -40,8 +43,8 @@ const HostBookingCard = ({
     )
   );
 
-  console.log("monthsDifference:::");
   const { data: userData } = useGetUserQuery();
+  const role = userData?.userExists?.dashboardRole;
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
 
@@ -81,6 +84,25 @@ const HostBookingCard = ({
     <div className="border border-[#EEEEEE] rounded-[16px] ">
       {isLoading && <Loader />}
       <div className="p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
+        {booking.isCheckIn && (
+          <button
+            className="text-red-500 font-semibold underline absolute top-[10px] right-[60px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"
+            onClick={() => setDisputePopup(true)}
+          >
+            Raise a Dispute
+          </button>
+        )}
+        {disputePopup && (
+          <CheckInPopup
+            listing={listing}
+            handleClose={() => setDisputePopup(false)}
+            dispute={true}
+            imageItems={imageItems}
+            setImageItems={setImageItems}
+            role={role}
+            bookingId={booking._id}
+          />
+        )}
         {canUserCancelBooking && (
           <button
             className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"

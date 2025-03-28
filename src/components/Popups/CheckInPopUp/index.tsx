@@ -3,7 +3,7 @@ import CloseIcon from "../../../assets/icons/close-icn.png";
 import DeleteIcon from "../../../assets/icons/delete-icn.png";
 import { useBookingDisputeMutation } from "../../../redux/api";
 import Loader from "../../Loader";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getUrl, handleError } from "../../../utils/helper";
 import { toast } from "react-toastify";
 
@@ -17,10 +17,10 @@ const CheckInPopup = ({
   imageItems,
   setImageItems,
   role,
+  bookingId,
 }: CheckInPopup) => {
   const imageRef = useRef<HTMLInputElement>(null);
   const [issue, setIssue] = useState<string>("");
-  const { bookingId } = useParams();
   const navigate = useNavigate();
 
   const [bookingDispute, { data, isLoading }] = useBookingDisputeMutation();
@@ -87,6 +87,7 @@ const CheckInPopup = ({
   useEffect(() => {
     if (data?.success) {
       navigate("/dashboard/booking");
+      handleClose();
     }
   }, [data]);
 

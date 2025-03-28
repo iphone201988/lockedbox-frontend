@@ -14,7 +14,7 @@ const ListingReviews = ({ listing }: { listing: any }) => {
               <StarIcon />
               {listing.averageRating ? (
                 <b className="text-[16px] font-normal">
-                  {Number(listing.averageRating).toFixed(2)}
+                  {Number(listing.averageRating).toFixed(1)}
                 </b>
               ) : (
                 <></>

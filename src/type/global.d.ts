@@ -170,6 +170,7 @@ type CheckInPopup = {
   imageItems: ImageItem[];
   setImageItems: React.Dispatch<React.SetStateAction<ImageItem[]>>;
   role: string;
+  bookingId: string;
 };
 
 type ChatProfileProps = {

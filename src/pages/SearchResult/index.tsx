@@ -5,7 +5,7 @@ import Loader from "../../components/Loader";
 import Map from "../../components/Map";
 import SearchListing from "./components/search-listing";
 import { useGetUserQuery, useLazyFindListingQuery } from "../../redux/api";
-import { handleError } from "../../utils/helper";
+import { getToken, handleError } from "../../utils/helper";
 import ItemsFilter from "./components/items-filter";
 import PriceFilter from "./components/price-filter";
 import SortFilter from "./components/sort-filter";
@@ -31,7 +31,13 @@ const SearchResult = () => {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState<
     boolean | null
   >(null);
-  const { data: userData } = useGetUserQuery();
+
+  let userData: any = null;
+  const token = getToken();
+  if (token) {
+    const { data } = useGetUserQuery();
+    userData = data;
+  }
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -143,7 +149,7 @@ const SearchResult = () => {
 
     findListing(filters)
       .unwrap()
-      .catch((error) => handleError(error, navigate));
+      .catch((error: any) => handleError(error, navigate));
   };
 
   useEffect(() => {

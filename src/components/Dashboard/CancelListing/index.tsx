@@ -32,7 +32,7 @@ const CancelListing = ({
               Are you sure you want to <br /> cancel your listing?
             </p>
             <p className="mb-[6px]">
-              Your Listing will be canceled and renters will be refunded.
+              Your Listing will be cancelled and renters will be refunded.
             </p>
           </div>
           <div className="flex gap-[20px] items-center justify-center">

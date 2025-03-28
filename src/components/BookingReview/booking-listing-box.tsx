@@ -13,7 +13,7 @@ const BookingListingBox = ({ listing }: { listing: any }) => {
         <span className="flex gap-[4px] items-center">
           <WhiteStarIcon />
           {listing.averageRating ? (
-            <b>{Number(listing.averageRating).toFixed(2)}</b>
+            <b>{Number(listing.averageRating).toFixed(1)}</b>
           ) : (
             <></>
           )}

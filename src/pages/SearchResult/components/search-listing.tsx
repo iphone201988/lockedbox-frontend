@@ -27,7 +27,7 @@ const SearchListing = ({
           <span className="flex gap-[4px] items-center">
             <StarIcon />
             {averageRating ? (
-              <b className="text-[13px] font-normal">{averageRating}</b>
+              <b className="text-[13px] font-normal">{averageRating.toFixed(1)}</b>
             ) : (
               <></>
             )}

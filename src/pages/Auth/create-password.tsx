@@ -1,6 +1,6 @@
 import SignupBgImg from "../../assets/signup-img.png";
 import BackButton from "../../components/BackButton";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CreatePasswordSchema } from "../../schema";
 import * as yup from "yup";
@@ -119,13 +119,16 @@ const CreatePassword = () => {
               <p>
                 {" "}
                 You must agree to{" "}
-                <a className="text-[#235370] underline" href="">
-                the Privacy Policy
-                </a>{" "}
+                <Link className="text-[#235370] underline" to="/privacy-policy">
+                  the Privacy Policy
+                </Link>{" "}
                 &{" "}
-                <a className="text-[#235370] underline" href="">
-                Terms of Service
-                </a>
+                <Link
+                  className="text-[#235370] underline"
+                  to="/terms-and-conditions"
+                >
+                  Terms of Service
+                </Link>
                 .{" "}
               </p>
             </div>

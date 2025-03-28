@@ -83,10 +83,10 @@ const Booking = () => {
 
   const findBookings = async (type: string) => {
     setCurrentBookingType(type);
-    if (bookings[type as keyof BookingType].length) {
-      console.log("already fetched", bookings);
-      return;
-    }
+    // if (bookings[type as keyof BookingType].length) {
+    //   console.log("already fetched", bookings);
+    //   return;
+    // }
 
     if (dashboardRole == "rent") {
       await findRenterBookings({ type })

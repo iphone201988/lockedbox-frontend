@@ -5,8 +5,11 @@ import { Link, Navigate } from "react-router-dom";
 import { getUrl } from "../../../utils/helper";
 import { useState } from "react";
 import CancelBooking from "../../Popups/CancelBooking";
+import CheckInPopup from "../../Popups/CheckInPopUp";
 
 const BookingCard = ({ booking, type, role }: BookingCard) => {
+  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
+  const [disputePopup, setDisputePopup] = useState(false);
   const showReceipt =
     (type == "future" && booking.status == "approve") || type == "current";
 
@@ -25,6 +28,9 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
   });
 
   const isHost = role == "host";
+  const from = isHost
+    ? booking.hostId?.firstName + " " + booking.hostId?.lastName
+    : booking.renterId?.firstName + " " + booking.renterId?.lastName;
 
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -41,6 +47,26 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
 
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
+      {booking.isCheckIn && type == "current" && (
+        <button
+          className="text-red-500 font-semibold underline absolute top-[10px] right-[60px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]"
+          onClick={() => setDisputePopup(true)}
+        >
+          Raise a Dispute
+        </button>
+      )}
+      {disputePopup && (
+        <CheckInPopup
+          listing={listing}
+          handleClose={() => setDisputePopup(false)}
+          dispute={true}
+          imageItems={imageItems}
+          setImageItems={setImageItems}
+          role={role}
+          bookingId={booking._id}
+        />
+      )}
+
       <button className=" absolute top-[10px] right-[10px] cursor-pointer max-md:bg-white max-md:p-[4px] rounded-bl-[4px]">
         {showReceipt && canUserCancelBooking && (
           <img
@@ -68,8 +94,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
             {booking._id}
           </p>
           <p className="text-[#959595] max-md:text-[14px]">
-            <span className="font-semibold text-black">From:</span>{" "}
-            {booking.renterId?.firstName} {booking.renterId?.lastName}
+            <span className="font-semibold text-black">From:</span> {from}
           </p>
           {!isHost && (
             <p className="text-[#959595] max-md:text-[16px]">
@@ -114,7 +139,7 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
         )}
 
         {booking.status == "reject" && (
-          <button className="btn-red">Canceled</button>
+          <button className="btn-red">Cancelled</button>
         )}
       </div>
 
@@ -126,6 +151,9 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           >
             View Receipt
           </Link>
+          {booking.isCheckIn && (
+            <button className="btn-red">Raise a Dispute</button>
+          )}
           {canUserCheckIn &&
             (isCheckInAllowed ? (
               <Link

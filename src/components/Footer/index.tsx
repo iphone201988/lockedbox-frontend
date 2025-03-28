@@ -50,12 +50,26 @@ const Footer = () => {
         <div className=" flex items-center justify-between py-10 max-md:py-[24px] max-sm:flex-col max-sm:gap-[16px]">
           <p className=" max-md:text-14px">© 2024 LockedBox Ltd.</p>
           <div className="social-media flex gap-4 cursor-pointer max-md:gap-[8px]">
-            <FacebookIcon />
-            <InstagramIcon />
-            <LinkedInIcon />
+            <Link
+              to="https://www.facebook.com/profile.php?id=61574821676938"
+              target="__blank"
+            >
+              <FacebookIcon />
+            </Link>
+            <Link to="https://www.instagram.com/lockedboxca/" target="__blank">
+              <InstagramIcon />
+            </Link>
+            <Link
+              to="https://www.linkedin.com/company/lockedbox-storage-sharing"
+              target="__blank"
+            >
+              <LinkedInIcon />
+            </Link>
           </div>
-          <p className=" max-md:text-14px">
-            <Link to="">Privacy | Terms | Help</Link>
+          <p className="max-md:text-14px">
+            <Link to="/privacy-policy">Privacy</Link> |
+            <Link to="/terms-and-conditions"> Terms </Link>|{" "}
+            <Link to="/contact-us">Help</Link>
           </p>
         </div>
       </div>

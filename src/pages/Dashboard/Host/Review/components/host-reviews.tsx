@@ -28,7 +28,7 @@ const HostReviews = () => {
               <img className="w-[24px] h-[24px]" src={StarIcon} alt="" />
             </span>
             <p className="text-[18px] font-semibold">
-              {Number(reviewsData?.averageRating).toFixed(2)} (
+              {Number(reviewsData?.averageRating).toFixed(1)} (
               {reviewsData?.reviews.length} reviews)
             </p>
           </div>

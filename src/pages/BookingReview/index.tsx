@@ -82,9 +82,7 @@ const BookingReview = () => {
 
     const amount = listing.price * monthsDifference;
     const serviceFee = amount * 0.12;
-    const tax = amount * 0.12 + serviceFee * 0.05;
-    // const grandTotal =
-    //   amount + serviceFee + tax + (selectedPlan ? selectedPlan?.price : 0);
+    const tax = amount * 0.12 + serviceFee * 0.12;
     const grandTotal = amount + serviceFee + tax;
 
     await requestBooking({
@@ -102,6 +100,7 @@ const BookingReview = () => {
       totalAmount: grandTotal.toFixed(2),
       isCurrentDate:
         moment(startDate).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD"),
+      totalMonthCount: monthsDifference,
     })
       .unwrap()
       .catch((error: any) => handleError(error, navigate));
