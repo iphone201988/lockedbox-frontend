@@ -22,7 +22,7 @@ const NavBar = () => {
             </Link>
           ))}
         </div>
-        <div className="flex gap-x-4 max-md:gap-[8px]">
+        <div className="flex gap-x-4 max-md:gap-[8px] items-center">
           {!token && (
             <>
               <Link to="/signin" className="btn-sec">

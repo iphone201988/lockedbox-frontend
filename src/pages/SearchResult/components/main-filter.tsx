@@ -43,7 +43,7 @@ const MainFilter = ({
     <div
       className={`${
         showFilters ? "flex" : "hidden"
-      } flex-col items-stretch gap-[16px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]`}
+      } flex-col items-stretch gap-[12px] shadow rounded-[16px] border border-[#EEEEEE] absolute right-0 top-[48px] bg-white z-[999] w-max p-[12px]`}
       onClick={(e) => e.stopPropagation()}
     >
       {spaceFeatures.map((feature) => (
@@ -62,7 +62,7 @@ const MainFilter = ({
             }}
             className="sr-only peer"
           />
-          <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-[#BCBCBC] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-[#235370] peer-checked:bg-[#235370] dark:peer-checked:bg-[#235370]"></div>
+          <div className="relative w-[36px] h-[20px] bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-[#BCBCBC] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[16px] after:w-[16px] after:transition-all dark:border-[#235370] peer-checked:bg-[#235370] dark:peer-checked:bg-[#235370]"></div>
         </label>
       ))}
       <button
