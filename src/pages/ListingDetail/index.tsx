@@ -48,7 +48,7 @@ const ListingDetail = () => {
           {userData?.userExists?.dashboardRole == "rent" && (
             <div className="py-[16px] w-full max-w-[370px]">
               {listing && (
-                <DatePicker price={listing?.price} id={listing?._id} />
+                <DatePicker price={listing?.price} id={listing?._id} bookingDates={listing?.bookingDates}/>
               )}
             </div>
           )}

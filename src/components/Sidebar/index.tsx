@@ -3,7 +3,10 @@ import Logo from "../../assets/logo.png";
 import NoUser from "../../assets/icons/if-no-user.png";
 import { HostRoutes, RenterRoutes } from "../../constants";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { useGetUserQuery } from "../../redux/api";
+import {
+  useGetTotalNotificationsQuery,
+  useGetUserQuery,
+} from "../../redux/api";
 import Loader from "../Loader";
 import ProfileSubMenu from "../ProfileSubMenu";
 import { getUrl } from "../../utils/helper";
@@ -12,13 +15,20 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
   const location = useLocation();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [role, setRole] = useState<any>("rent");
-  const [unreadMessages, setUnreadMessages] = useState<any>();
+  const [notifications, setNotifications] = useState({
+    totalUnGiveReview: 0,
+    totalUnderReviewBooking: 0,
+    totalUnreadMessage: 0,
+  });
   const sidebarRef = useRef<HTMLButtonElement>(null);
   const {
     data: userData,
     isLoading: isUserLoading,
     isError,
   } = useGetUserQuery();
+
+  const { data: notificationsData, isLoading: notificationsLoading } =
+    useGetTotalNotificationsQuery();
 
   const routesMap: any = {
     host: HostRoutes,
@@ -27,12 +37,22 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
 
   useEffect(() => {
     if (userData?.success) {
-      const { totalUnreadMessage } = userData;
       const { dashboardRole } = userData?.userExists;
       setRole(dashboardRole);
-      setUnreadMessages(totalUnreadMessage);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (notificationsData?.success) {
+      const { totalUnGiveReview, totalUnderReviewBooking, totalUnreadMessage } =
+        notificationsData;
+      setNotifications({
+        totalUnGiveReview,
+        totalUnderReviewBooking,
+        totalUnreadMessage,
+      });
+    }
+  }, [notificationsData]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,7 +68,7 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (isUserLoading) return <Loader />;
+  if (isUserLoading || notificationsLoading) return <Loader />;
   if (isError) return <Navigate to="/logout" />;
 
   return (
@@ -70,20 +90,18 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
             >
               {item.icon}
               {item.name}
-              {/* <div className="flex justify-between items-center w-full">
-                {item.name == "Messages" && (
-                  <>
-                    {unreadMessages ? (
-                      <span className="bg-[#235370] text-white rounded-full text-xs w-[20px] h-[20px] flex justify-center items-center">
-                        {unreadMessages}
-                      </span>
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                )}
-              </div> */}
-              {unreadMessages && item.name == "Messages" ? (
+              {notifications.totalUnreadMessage && item.name == "Messages" ? (
+                <i className="notify-dot"></i>
+              ) : (
+                ""
+              )}
+              {notifications.totalUnderReviewBooking &&
+              item.name == "Bookings" ? (
+                <i className="notify-dot"></i>
+              ) : (
+                ""
+              )}
+              {notifications.totalUnGiveReview && item.name == "Reviews" ? (
                 <i className="notify-dot"></i>
               ) : (
                 ""

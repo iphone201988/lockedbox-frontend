@@ -132,6 +132,13 @@ export const lockedBoxApi = createApi({
       }),
       invalidatesTags: [NOTIFICATIONS_TAG],
     }),
+    getTotalNotifications: builder.query<any, void>({
+      query: () => ({
+        url: `user/total_notification`,
+        method: "GET",
+      }),
+      providesTags: [NOTIFICATIONS_TAG],
+    }),
 
     // Payment apis
     addPaymentMethod: builder.mutation({
@@ -145,6 +152,20 @@ export const lockedBoxApi = createApi({
     getPaymentMethods: builder.query<any, void>({
       query: () => ({
         url: `user/payment_method`,
+        method: "GET",
+      }),
+      providesTags: [PAYMENT_TAG],
+    }),
+    getBankAccounts: builder.query<any, void>({
+      query: () => ({
+        url: `user/stripe_bank_account`,
+        method: "GET",
+      }),
+      providesTags: [PAYMENT_TAG],
+    }),
+    getLoginLink: builder.query<any, void>({
+      query: () => ({
+        url: `user/stripe_account_login`,
         method: "GET",
       }),
       providesTags: [PAYMENT_TAG],
@@ -377,12 +398,15 @@ export const {
   useSendOTPMutation,
   useUpdateUserMutation,
   useDashboardHomeQuery,
+  useGetTotalNotificationsQuery,
   useReadNotificationMutation,
   useUpdateUserProfileImageMutation,
   useAddPaymentMethodMutation,
   useAddStripeConnectMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
+  useGetBankAccountsQuery,
+  useLazyGetLoginLinkQuery,
   useLazyGetTransactionsQuery,
   useCreateListingMutation,
   useGetAllListingsQuery,

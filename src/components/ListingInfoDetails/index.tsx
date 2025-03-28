@@ -49,7 +49,7 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
               </svg>
               {listing.averageRating ? (
                 <b className="text-[16px] font-normal max-md:text-[14px]">
-                  {Number(listing.averageRating).toFixed(2)}
+                  {Number(listing.averageRating).toFixed(1)}
                 </b>
               ) : (
                 <></>

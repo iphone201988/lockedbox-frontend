@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CheckInConfirmPopup from "../../../components/Popups/ConfirmCheckIn";
 import CheckInPopup from "../../../components/Popups/CheckInPopUp";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useBookingCheckInMutation,
   useGetListingByIdQuery,
@@ -70,7 +70,7 @@ const CheckIn = () => {
 
     await bookingCheckIn(formData)
       .unwrap()
-      .catch((error) => handleError(error, navigate));
+      .catch((error: any) => handleError(error, navigate));
   };
 
   useEffect(() => {
@@ -101,7 +101,8 @@ const CheckIn = () => {
           <div className="flex border-b border-[#EEEEEE] pb-[24px] max-md:flex-col max-md:gap-[20px]">
             <div className="max-w-[380px] w-full max-md:max-w-full">
               <p className="text-[18px] text-[#235370] font-semibold">
-                Step 1: Confirm {role == "rent" ? "Host" : "Renter"} Space <span className="text-red-500">*</span>
+                Step 1: Confirm {role == "rent" ? "Host" : "Renter"} Space{" "}
+                <span className="text-red-500">*</span>
               </p>
             </div>
             <div className=" max-w-[440px] w-full max-md:max-w-full">
@@ -115,14 +116,22 @@ const CheckIn = () => {
                   />
                   <p>
                     I confirm that I have read and understood the{" "}
-                    <a className="text-[#235370] underline" href="#">
+                    <Link
+                      className="text-[#235370] underline"
+                      to="/terms-and-conditions"
+                    >
                       Safe Storage
-                    </a>{" "}
+                    </Link>{" "}
                     and{" "}
-                    <a className="text-[#235370] underline" href="#">
+                    <Link
+                      className="text-[#235370] underline"
+                      to="/privacy-policy"
+                    >
                       Prohibited Items Policy
-                    </a>
-                    {role == "rent" ? ". I agree that I am satisfied with the host's storage space and that the items I am storing comply fully with the prohibited items policy." : ". I agree that I am satisfied with the items the renter will store in my space and that the items the renter is storing comply fully with the prohibited items policy."}
+                    </Link>
+                    {role == "rent"
+                      ? ". I agree that I am satisfied with the host's storage space and that the items I am storing comply fully with the prohibited items policy."
+                      : ". I agree that I am satisfied with the items the renter will store in my space and that the items the renter is storing comply fully with the prohibited items policy."}
                   </p>
                 </label>
               </div>
@@ -191,9 +200,9 @@ const CheckIn = () => {
                 space is adequate before completing renter check in. Problem
                 with the {role == "rent" ? "Host" : "Renter"}'s space? Please
                 see our{" "}
-                <a href="" className="text-[#235370] underline">
+                <Link to="/faq" className="text-[#235370] underline">
                   FAQ
-                </a>{" "}
+                </Link>{" "}
                 page for dispute options.
               </p>
             </div>

@@ -54,8 +54,10 @@ const Footer = () => {
             <InstagramIcon />
             <LinkedInIcon />
           </div>
-          <p className=" max-md:text-14px">
-            <Link to="">Privacy | Terms | Help</Link>
+          <p className="max-md:text-14px">
+            <Link to="/privacy-policy">Privacy</Link> |
+            <Link to="/terms-and-conditions"> Terms </Link>|{" "}
+            <Link to="">Help</Link>
           </p>
         </div>
       </div>

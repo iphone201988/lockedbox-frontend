@@ -34,7 +34,7 @@ const ListingBox = ({ listing }: { listing: any }) => {
               strokeLinejoin="round"
             />
           </svg>{" "}
-          <b>{listing.averageRating}</b>
+          <b>{listing.averageRating.toFixed(1)}</b>
         </span>
         <p className="text-[14px] mt-[-2px]">
           ({listing.totalReviews} reviews)

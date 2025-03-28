@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import ProfileNavbar from "../../components/ProfileNavbar";
 
 const TermsAndConditions = () => {
+    useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   return (
     <div>
          <ProfileNavbar />
