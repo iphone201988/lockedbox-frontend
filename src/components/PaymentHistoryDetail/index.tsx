@@ -1,5 +1,6 @@
 import moment from "moment";
 import { getUrl } from "../../utils/helper";
+import { Link } from "react-router-dom";
 
 const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
   const { listingId: listing } = transaction;
@@ -45,6 +46,12 @@ const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
           ${transaction?.amount?.toFixed(2)}
         </p>
         <button className="btn-green capitalize">{transaction?.status}</button>
+        <Link
+          className=" inline-block text-[14px] text-[#235370] underline font-semibold  cursor-pointer"
+          to={`/booking/${booking._id}/receipt`}
+        >
+          View Receipt
+        </Link>
       </div>
     </div>
   );
