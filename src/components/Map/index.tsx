@@ -239,6 +239,13 @@ const Map = ({
               lat: userLocation.latitude,
               lng: userLocation.longitude,
             }}
+            draggable={true}
+            onDragEnd={(e: any) => {
+              const lat = e.latLng.lat();
+              const lng = e.latLng.lng();
+              setUserLocation({ latitude: lat, longitude: lng });
+              geocodeLatLng(lat, lng);
+            }}
           />
         )}
         {markers.map((marker, index) => (
