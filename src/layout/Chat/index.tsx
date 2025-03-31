@@ -62,7 +62,7 @@ const ChatLayout = () => {
     <div className="h-full flex max-md:flex-col">
       {chats.length ? (
         <>
-          <div className="px-[30px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b overflow-auto">
+          <div className="pl-[30px] pr-[20px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b overflow-auto">
             <div className="flex flex-col gap-[10px]">
               {chats.map((chat: ChatProfileProps, index: number) => (
                 <ChatProfile key={index} chat={chat} setChats={setChats} />

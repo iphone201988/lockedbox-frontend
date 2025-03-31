@@ -21,10 +21,11 @@ const ChatProfile = ({
   };
   return (
     <div
-      className="active flex gap-[8px] p-[12px] rounded-[12px] border border-[#EEEEEE] hover:bg-[#EEEEEE] cursor-pointer items-center bg-[#EEEEEE]"
+      className="active flex gap-[8px] p-[12px] rounded-[12px] border border-[#EEEEEE] hover:bg-[#EEEEEE] cursor-pointer items-center bg-[#EEEEEE] relative"
       // onClick={() => navigate(`/dashboard/message/${chat.conversationId}`)}
       onClick={() => handleReadAllMessages(chat.conversationId)}
     >
+      <p className=" absolute top-[4px] right-[10px] text-[12px] text-[#afafaf] whitespace-nowrap">2:05 pm</p>
       <img
         className="w-[48px] h-[48px] object-cover rounded-full"
         src={

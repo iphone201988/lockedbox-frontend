@@ -46,10 +46,10 @@ const IncomingMessage = ({
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex items-start mt-[16px] gap-[8px] flex-col">
-        <div className="flex gap-[8px]">
+      <div className="flex items-start mt-[24px] gap-[8px] flex-col">
+        <div className="flex gap-[8px] relative">
           <img src={image} alt="" className="w-[34px] h-[34px] rounded-full" />
-          <div className="bg-[#EEEEEE] p-[12px] max-w-[480px]  rounded-[8px] ">
+          <div className="bg-[#EEEEEE] p-[10px] max-w-[480px]  rounded-[8px] ">
             {isImage ? (
               <ImageModal
                 url={getUrl(message)}
@@ -59,6 +59,7 @@ const IncomingMessage = ({
               <p className="">{message}</p>
             )}
           </div>
+          <p className=" absolute left-[42px] bottom-[-16px] text-[12px] text-[#afafaf] whitespace-nowrap">2:05 pm</p>
         </div>
         {bookingStatus == "under_review" && (
           <div className="flex gap-[12px] ml-[50px]">

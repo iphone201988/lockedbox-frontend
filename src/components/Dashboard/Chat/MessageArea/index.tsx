@@ -238,7 +238,7 @@ const MessageArea = () => {
           Object.keys(conversation).map((key, index) => {
             return (
               <div key={index}>
-                <div className="text-center">
+                <div className="text-center mt-[10px]">
                   <span className=" inline-block text-[14px] px-[10px] py-[4px] border border-[#EEEEEE] rounded-[4px] text-[#959595] mx-auto capitalize">
                     {key}
                   </span>
