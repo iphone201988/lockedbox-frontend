@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const PoliciesInfo = ({ listing }: { listing: any }) => {
   console.log("listing here", listing);
   return (
@@ -25,9 +27,9 @@ const PoliciesInfo = ({ listing }: { listing: any }) => {
           100%. Bookings that are cancelled within 4 days are refunded 75% minus
           service fee. Cancellations of ongoing rentals must be completed before
           the monthly continuation date for 100% refund.{" "}
-          <a className="text-[#235370] underline" href="">
+          <Link className="text-[#235370] underline" to="/faq">
             Learn more
-          </a>
+          </Link>
         </p>
       </div>
 

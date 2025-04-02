@@ -7,6 +7,8 @@ import IncomingMessage from "../Message/incoming-message";
 import OutgoingMessage from "../Message/outging-message";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
+  SIDEBAR_TAG,
+  lockedBoxApi,
   useGetUserQuery,
   useLazyFindMessagesQuery,
 } from "../../../../redux/api";
@@ -16,6 +18,7 @@ import { getUrl, groupedData } from "../../../../utils/helper";
 import { useChatSocket } from "../../../../hooks/useChatSocket";
 import { usePagination } from "../../../../hooks/usePagination";
 import uploadImage from "../UploadImage";
+import { useDispatch } from "react-redux";
 
 type ListingDetail = {
   image: string;
@@ -27,6 +30,7 @@ type ListingDetail = {
 
 const MessageArea = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [message, setMessage] = useState<string | null>();
   const { id } = useParams();
   if (!id) return <Navigate to="/" />;
@@ -182,6 +186,10 @@ const MessageArea = () => {
     restoreScrollPosition();
   }, [conversation]);
 
+  useEffect(() => {
+    dispatch(lockedBoxApi.util.invalidateTags([SIDEBAR_TAG]));
+  }, [pagination.totalPages]);
+
   const handleSendMessage = (e: any) => {
     e.preventDefault();
     if (message && !message.trim()) {
@@ -250,6 +258,7 @@ const MessageArea = () => {
                         <OutgoingMessage
                           message={message.content}
                           contentType={message.contentType}
+                          createdAt={message.createdAt}
                         />
                       );
                     } else {
@@ -264,6 +273,7 @@ const MessageArea = () => {
                           bookingId={message.bookingId?._id}
                           status={message.bookingId?.status}
                           contentType={message.contentType}
+                          createdAt={message.createdAt}
                         />
                       );
                     }

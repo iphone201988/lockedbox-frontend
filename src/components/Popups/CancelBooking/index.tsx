@@ -21,10 +21,10 @@ const CancelBooking = ({
 }) => {
   const navigate = useNavigate();
   const { data: userData } = useGetUserQuery();
-  const policies =
-    userData?.userExists?.dashboardRole == "host"
-      ? HostCancellationPolicies
-      : RenterCancellationPolicies;
+  const isHost = userData?.userExists?.dashboardRole == "host";
+  const policies = isHost
+    ? HostCancellationPolicies
+    : RenterCancellationPolicies;
   const [cancelBooking, { data, isLoading }] = useCancelBookingMutation();
 
   const handleCancelBoking = async () => {
@@ -70,7 +70,8 @@ const CancelBooking = ({
               Are you sure you want to <br /> cancel your Booking?
             </p>
             <p className="mb-[6px]">
-              The renter is entitled to the following cancellation policies:-
+              The {isHost ? "host" : "renter"} is entitled to the following
+              cancellation policies:-
             </p>
             <ul className="flex flex-col gap-[6px] text-[#959595]">
               {policies.map((policy: string, index: number) => (

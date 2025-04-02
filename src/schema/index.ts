@@ -147,7 +147,7 @@ export const StepTwoSchema = yup.object({
   storageImages: yup
     .array()
     .of(yup.mixed())
-    .min(2)
+    .min(1, "You must have to upload 1 image")
     .required("Storage images are required"),
 });
 

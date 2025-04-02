@@ -82,8 +82,9 @@ const BookingReview = () => {
 
     const amount = listing.price * monthsDifference;
     const serviceFee = amount * 0.12;
-    const tax = amount * 0.12 + serviceFee * 0.12;
-    const grandTotal = amount + serviceFee + tax;
+    // const tax = amount * 0.12 + serviceFee * 0.12;
+    // const grandTotal = amount + serviceFee + tax;
+    const grandTotal = amount + serviceFee;
 
     await requestBooking({
       listingId: id,
@@ -95,7 +96,8 @@ const BookingReview = () => {
       currency: "cad",
       // insuranceId: selectedPlan.id,
       amount: amount.toFixed(2),
-      tax: tax.toFixed(2),
+      // tax: tax.toFixed(2),
+      tax: 0,
       serviceFee: serviceFee.toFixed(2),
       totalAmount: grandTotal.toFixed(2),
       isCurrentDate:

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "../../../Loader";
 import ImageModal from "../../../ImageModal";
+import moment from "moment-timezone";
 
 const IncomingMessage = ({
   image,
@@ -12,14 +13,15 @@ const IncomingMessage = ({
   bookingId,
   status,
   contentType,
+  createdAt,
 }: {
   image: any;
   message: string;
   bookingId: string;
   status: string;
   contentType: string;
+  createdAt: string;
 }) => {
-  console.log("contentType:::",contentType)
   const navigate = useNavigate();
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
@@ -36,6 +38,9 @@ const IncomingMessage = ({
       .unwrap()
       .catch((error: any) => handleError(error, navigate));
   };
+
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const formattedTime = moment.utc(createdAt).tz(userTimezone).format("h:mm A");
 
   useEffect(() => {
     if (data?.success) {
@@ -59,10 +64,12 @@ const IncomingMessage = ({
               <p className="">{message}</p>
             )}
           </div>
-          <p className=" absolute left-[42px] bottom-[-16px] text-[12px] text-[#afafaf] whitespace-nowrap">2:05 pm</p>
+          <p className="absolute left-[42px] bottom-[-16px] text-[12px] text-[#afafaf] whitespace-nowrap">
+            {formattedTime}
+          </p>
         </div>
         {bookingStatus == "under_review" && (
-          <div className="flex gap-[12px] ml-[50px]">
+          <div className="flex gap-[12px] ml-[50px] mt-3">
             <button className="btn-pri" onClick={() => handleUpdate("approve")}>
               Accept
             </button>

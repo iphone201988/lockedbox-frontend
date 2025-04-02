@@ -37,7 +37,8 @@ const CreatePassword = () => {
   const [createPassword, { data, isLoading }] = useCreatePasswordMutation();
   const id = location.state.id;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     const hasErrors: boolean = await validate();
 
     if (hasErrors) return;
@@ -88,58 +89,67 @@ const CreatePassword = () => {
             access. <br className=" max-mlg:hidden" /> Choose a unique and
             memorable password to ensure your data remains secure.
           </p>
-          <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-            <div className="input-with-icon relative  w-full max-w-[540px]">
-              <Password
-                classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                name="password"
-                value={formData?.password}
-                error={errors?.password}
-                placeholder="Password"
-                setFormData={setFormData}
-              />
-            </div>
-            <div className="input-with-icon relative  w-full max-w-[540px]">
-              <Password
-                classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                name="confirmPassword"
-                value={formData?.confirmPassword}
-                error={errors?.confirmPassword}
-                placeholder="Confirm Password"
-                setFormData={setFormData}
-              />
-            </div>
-            <div className="input-with-icon relative  w-full max-w-[540px] flex gap-[6px]">
-              <input
-                className="border border-[#235370] rounded-2xl w-[24px] h-[24px] min-w-[24px] cursor-pointer"
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => setIsChecked(!isChecked)}
-              />
-              <p>
-                {" "}
-                You must agree to{" "}
-                <Link className="text-[#235370] underline" to="/privacy-policy">
-                  the Privacy Policy
-                </Link>{" "}
-                &{" "}
-                <Link
-                  className="text-[#235370] underline"
-                  to="/terms-and-conditions"
-                >
-                  Terms of Service
-                </Link>
-                .{" "}
-              </p>
-            </div>
-            {checkboxError && <p className="text-red-500">{checkboxError}</p>}
-          </div>
-          <button
-            className="btn-pri mt-[40px] cursor-pointer"
-            onClick={handleSubmit}
+          <form
+            className="flex flex-col items-center justify-center w-full"
+            onSubmit={handleSubmit}
           >
-            Confirm
-          </button>
+            <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
+              <div className="input-with-icon relative  w-full max-w-[540px]">
+                <Password
+                  classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  name="password"
+                  value={formData?.password}
+                  error={errors?.password}
+                  placeholder="Password"
+                  setFormData={setFormData}
+                />
+              </div>
+              <div className="input-with-icon relative  w-full max-w-[540px]">
+                <Password
+                  classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  name="confirmPassword"
+                  value={formData?.confirmPassword}
+                  error={errors?.confirmPassword}
+                  placeholder="Confirm Password"
+                  setFormData={setFormData}
+                />
+              </div>
+              <div className="input-with-icon relative  w-full max-w-[540px] flex gap-[6px]">
+                <input
+                  className="border border-[#235370] rounded-2xl w-[24px] h-[24px] min-w-[24px] cursor-pointer"
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={() => setIsChecked(!isChecked)}
+                />
+                <p>
+                  {" "}
+                  You must agree to{" "}
+                  <Link
+                    className="text-[#235370] underline"
+                    to="/privacy-policy"
+                  >
+                    the Privacy Policy
+                  </Link>{" "}
+                  &{" "}
+                  <Link
+                    className="text-[#235370] underline"
+                    to="/terms-and-conditions"
+                  >
+                    Terms of Service
+                  </Link>
+                  .{" "}
+                </p>
+              </div>
+              {checkboxError && <p className="text-red-500">{checkboxError}</p>}
+            </div>
+            <button
+              className="btn-pri mt-[40px] cursor-pointer"
+              // onClick={handleSubmit}
+              type="submit"
+            >
+              Confirm
+            </button>
+          </form>
         </div>
       </div>
     </div>

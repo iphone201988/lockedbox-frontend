@@ -44,7 +44,8 @@ const SignIn = () => {
     phone: false,
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     const hasErrors: boolean = await validate();
     if (hasErrors) return;
     try {
@@ -83,64 +84,69 @@ const SignIn = () => {
           <h1 className="text-[52px] font-bold max-lg:text-[36px] text-center">
             Log-In
           </h1>
-          <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-            <SignUpMethod
-              signupMethod={signupMethod}
-              setSignupMethod={setSignupMethod}
-            />
-
-            {signupMethod.email && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                  type="email"
-                  name="email"
-                  value={formData?.email}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Email"
-                  error={errors?.email}
-                />
-              </div>
-            )}
-            {signupMethod.phone && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Phone
-                  error={errors?.email}
-                  value={formData?.phone}
-                  onChange={(phone: any, data: any) =>
-                    setFormData({
-                      ...formData,
-                      phone: phone == data.dialCode ? "" : phone,
-                      countryCode: `+${data.dialCode}`,
-                    })
-                  }
-                />
-              </div>
-            )}
-
-            <div className="input-with-icon relative  w-full max-w-[540px]">
-              <Password
-                classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                name="password"
-                value={formData?.password}
-                error={errors?.password}
-                placeholder="Password"
-                setFormData={setFormData}
-              />
-              <Link
-                className="text-right block mt-[4px] text-[#235370] "
-                to="/forgot-password"
-              >
-                Forgot Password?
-              </Link>
-            </div>
-          </div>
-          <button
-            className="btn-pri mt-[40px] cursor-pointer"
-            onClick={handleSubmit}
+          <form
+            className="w-full flex flex-col justify-center items-center"
+            onSubmit={handleSubmit}
           >
-            Continue
-          </button>
+            <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
+              <SignUpMethod
+                signupMethod={signupMethod}
+                setSignupMethod={setSignupMethod}
+              />
+              {signupMethod.email && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Input
+                    className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                    type="email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Email"
+                    error={errors?.email}
+                  />
+                </div>
+              )}
+              {signupMethod.phone && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Phone
+                    error={errors?.email}
+                    value={formData?.phone}
+                    onChange={(phone: any, data: any) =>
+                      setFormData({
+                        ...formData,
+                        phone: phone == data.dialCode ? "" : phone,
+                        countryCode: `+${data.dialCode}`,
+                      })
+                    }
+                  />
+                </div>
+              )}
+
+              <div className="input-with-icon relative  w-full max-w-[540px]">
+                <Password
+                  classes="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  name="password"
+                  value={formData?.password}
+                  error={errors?.password}
+                  placeholder="Password"
+                  setFormData={setFormData}
+                />
+                <Link
+                  className="text-right block mt-[4px] text-[#235370] "
+                  to="/forgot-password"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+            </div>
+            <button
+              className="btn-pri mt-[40px] cursor-pointer"
+              // onClick={handleSubmit}
+              type="submit"
+            >
+              Continue
+            </button>
+          </form>
           <p className="mt-[40px]">
             Don’t have an account?{" "}
             <Link className="text-[#235370] font-semibold" to="/signup">

@@ -1,10 +1,14 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import ChatProfile from "../../components/Dashboard/Chat/ChatProfile";
-import { useFindConversationsQuery, useGetUserQuery } from "../../redux/api";
+import {
+  useFindConversationsQuery,
+  useGetUserQuery,
+} from "../../redux/api";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import NoListing from "../../components/Dashboard/NoListing";
-import { useChatNotification } from "../../hooks/useChatNotification";
+// import { useChatNotification } from "../../hooks/useChatNotification";
+import moment from "moment-timezone";
 
 const ChatLayout = () => {
   const navigate = useNavigate();
@@ -14,31 +18,36 @@ const ChatLayout = () => {
   const { data, isLoading } = useFindConversationsQuery();
   const [chats, setChats] = useState<ChatProfileProps[]>([]);
 
-  const handleUpdateLatestMessages = (
-    conversationId: string,
-    lastMessage: string
-  ) => {
-    if (conversationId == id) return;
+  // const handleUpdateLatestMessages = (
+  //   conversationId: string,
+  //   lastMessage: string
+  // ) => {
+  //   if (conversationId == id) return;
 
-    setChats((prev: ChatProfileProps[]) => {
-      return prev.map((chat) =>
-        chat.conversationId === conversationId
-          ? { ...chat, totalUnread: chat.totalUnread + 1, lastMessage }
-          : chat
-      );
-    });
-  };
+  //   setChats((prev: ChatProfileProps[]) => {
+  //     return prev.map((chat) =>
+  //       chat.conversationId === conversationId
+  //         ? { ...chat, totalUnread: chat.totalUnread + 1, lastMessage }
+  //         : chat
+  //     );
+  //   });
+  // };
 
-  useChatNotification(handleUpdateLatestMessages);
+  // useChatNotification(handleUpdateLatestMessages);
 
   useEffect(() => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (data?.success && userData) {
       const chats: ChatProfileProps[] = data.conversations.map(
-        (conversation: any) => ({
+        (conversation: any, index: number) => ({
           conversationId: conversation._id,
           lastMessage: conversation.lastMessage,
           lastMessageType: conversation.lastMessageType,
-          totalUnread: conversation.totalUnread,
+          totalUnread: index == 0 ? 0 : conversation.totalUnread,
+          updatedAt: moment
+            .utc(conversation.updatedAt)
+            .tz(userTimezone)
+            .format("h:mm A"),
           profile: conversation.participants.find((user: any) => {
             if (user._id != userData.userExists._id) {
               return {
@@ -53,8 +62,9 @@ const ChatLayout = () => {
 
       setChats(chats);
 
-      if (chats.length)
+      if (chats.length) {
         navigate(`/dashboard/message/${chats[0].conversationId}`);
+      }
     }
   }, [data]);
   if (isLoading) return <Loader />;

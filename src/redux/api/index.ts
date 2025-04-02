@@ -15,8 +15,10 @@ const USER_TAG = "USER";
 const PAYMENT_TAG = "PAYMENT";
 const LISTING_TAG = "LISTING";
 const REVIEW_TAG = "REVIEW";
-const NOTIFICATIONS_TAG = "REVIEW";
+const NOTIFICATIONS_TAG = "NOTIFICATION";
 const BOOKINGS_TAG = "BOOKING";
+export const SIDEBAR_TAG = "SIDEBAR";
+export const CONVERSATION_TAG = "CONVERSATION";
 
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
@@ -28,6 +30,8 @@ export const lockedBoxApi = createApi({
     REVIEW_TAG,
     NOTIFICATIONS_TAG,
     BOOKINGS_TAG,
+    SIDEBAR_TAG,
+    CONVERSATION_TAG,
   ],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
@@ -145,6 +149,7 @@ export const lockedBoxApi = createApi({
         url: `user/total_notification`,
         method: "GET",
       }),
+      providesTags: [SIDEBAR_TAG],
     }),
 
     // Payment apis
@@ -182,6 +187,7 @@ export const lockedBoxApi = createApi({
         url: `user/transaction?page=${page}&sort=${sort}`,
         method: "GET",
       }),
+      providesTags: [PAYMENT_TAG, LISTING_TAG],
     }),
     removePaymentMethod: builder.mutation({
       query: (paymentMethodId) => ({
@@ -308,7 +314,7 @@ export const lockedBoxApi = createApi({
         method: "PUT",
         body,
       }),
-      invalidatesTags: [BOOKINGS_TAG],
+      invalidatesTags: [BOOKINGS_TAG, SIDEBAR_TAG],
     }),
     bookingCheckIn: builder.mutation({
       query: (body) => ({
@@ -355,7 +361,7 @@ export const lockedBoxApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [REVIEW_TAG],
+      invalidatesTags: [REVIEW_TAG, SIDEBAR_TAG],
     }),
     findHostReviews: builder.query<any, void>({
       query: () => ({
@@ -377,6 +383,7 @@ export const lockedBoxApi = createApi({
         url: `user/conversation`,
         method: "GET",
       }),
+      providesTags: [CONVERSATION_TAG],
     }),
     findMessages: builder.query<any, any>({
       query: ({ conversationId, page }) => ({

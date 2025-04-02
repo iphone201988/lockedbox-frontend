@@ -20,7 +20,7 @@ const CommonListing = ({
         />
         <div className="storage-details flex flex-col gap-[4px] max-mlg:max-w-[280px]">
           <p className="text-[18px] font-semibold max-md:text-[16px]">
-            {notification.spaceType} for storage in {notification.city}
+            {notification?.spaceType} for storage in {notification.city}
           </p>
           <p className="text-[20px] max-md:text-[16px]">
             {notification.description}

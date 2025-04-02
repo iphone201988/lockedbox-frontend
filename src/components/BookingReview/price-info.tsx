@@ -9,8 +9,9 @@ const PriceInfo = ({
 }) => {
   const total = price * monthsDifference;
   const serviceFee = total * 0.12;
-  const taxes = total * 0.12 + serviceFee * 0.12;
-  const grandTotal = (total + serviceFee + taxes).toFixed(2);
+  // const taxes = total * 0.12 + serviceFee * 0.12;
+  // const grandTotal = (total + serviceFee + taxes).toFixed(2);
+  const grandTotal = (total + serviceFee).toFixed(2);
   return (
     <div className="">
       <p className="text-[20px] font-semibold">Price summary</p>
@@ -28,15 +29,25 @@ const PriceInfo = ({
             ${serviceFee.toFixed(2)} CAD
           </p>
         </div>
-        <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
+        {/* <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
           <p className="text-left text-[#959595]">Taxes</p>
           <p className="text-right font-semibold">${taxes.toFixed(2)} CAD</p>
-        </div>
-        <div className="flex justify-between py-[16px] ">
-          <p className="text-left text-[#235370] font-bold">Total (CAD)</p>
-          <p className="text-right text-[#235370] font-bold">
-            ${grandTotal} CAD
-          </p>
+        </div> */}
+        <div className="flex flex-col justify-between py-[16px] gap-2">
+          <div className="flex justify-between">
+            <p className="text-left text-[#235370] font-bold">Total (CAD)</p>
+            <p className="text-right text-[#235370] font-bold">
+              ${grandTotal} CAD
+            </p>
+          </div>
+          <div className="flex justify-between">
+            <p className="text-left text-[#235370] font-bold">
+              Monthly Payout (CAD)
+            </p>
+            <p className="text-right text-[#235370] font-bold">
+              ${(total / monthsDifference).toFixed(2)} CAD
+            </p>
+          </div>
         </div>
       </div>
     </div>

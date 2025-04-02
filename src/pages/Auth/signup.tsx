@@ -44,7 +44,8 @@ const Signup = () => {
     phone: false,
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     const hasErrors: boolean = await validate();
 
     if (hasErrors) return;
@@ -90,88 +91,96 @@ const Signup = () => {
           <h1 className="text-[52px] font-bold max-lg:text-[36px] text-center">
             Create an account
           </h1>
-
-          <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-            <SignUpMethod
-              signupMethod={signupMethod}
-              setSignupMethod={setSignupMethod}
-            />
-            <div className="flex gap-[16px] relative w-full max-w-[540px] mb-[10px]">
-              <div className="w-full">
-                <Input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                  type="text"
-                  name="firstName"
-                  value={formData?.firstName}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Enter First name"
-                  error={errors?.firstName}
-                />
-              </div>
-              <div className="w-full">
-                <Input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                  type="text"
-                  name="lastName"
-                  value={formData?.lastName}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Enter Last name"
-                  error={errors?.lastName}
-                />
-              </div>
-            </div>
-            {signupMethod.email && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                  type="email"
-                  name="email"
-                  value={formData?.email}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Email"
-                  error={errors?.email}
-                />
-              </div>
-            )}
-            {signupMethod.phone && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Phone
-                  error={errors?.phone}
-                  value={formData?.phone}
-                  onChange={(phone: any, data: any) =>
-                    setFormData({
-                      ...formData,
-                      phone: phone == data.dialCode ? "" : phone,
-                      countryCode: `+${data.dialCode}`,
-                    })
-                  }
-                />
-              </div>
-            )}
-
-            <div className="input-with-icon relative w-full max-w-[540px] flex gap-[6px]">
-              <input
-                className="border border-[#235370] rounded-2xl w-[24px] h-[24px] min-w-[24px] cursor-pointer"
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => setIsChecked(!isChecked)}
-              />
-              <p>
-                By continuing, you consent to receive calls and messages from
-                LockedBox in accordance with our{" "}
-                <Link className="text-[#235370] underline" to="/privacy-policy">
-                  Privacy Policy
-                </Link>
-              </p>
-            </div>
-            {checkboxError && <p className="text-red-500">{checkboxError}</p>}
-          </div>
-          <button
-            className="btn-pri mt-[40px] cursor-pointer"
-            onClick={handleSubmit}
+          <form
+            className="flex flex-col justify-center items-center w-full"
+            onSubmit={handleSubmit}
           >
-            Next
-          </button>
+            <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
+              <SignUpMethod
+                signupMethod={signupMethod}
+                setSignupMethod={setSignupMethod}
+              />
+              <div className="flex gap-[16px] relative w-full max-w-[540px] mb-[10px]">
+                <div className="w-full">
+                  <Input
+                    className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                    type="text"
+                    name="firstName"
+                    value={formData?.firstName}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Enter First name"
+                    error={errors?.firstName}
+                  />
+                </div>
+                <div className="w-full">
+                  <Input
+                    className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                    type="text"
+                    name="lastName"
+                    value={formData?.lastName}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Enter Last name"
+                    error={errors?.lastName}
+                  />
+                </div>
+              </div>
+              {signupMethod.email && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Input
+                    className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                    type="email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Email"
+                    error={errors?.email}
+                  />
+                </div>
+              )}
+              {signupMethod.phone && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Phone
+                    error={errors?.phone}
+                    value={formData?.phone}
+                    onChange={(phone: any, data: any) =>
+                      setFormData({
+                        ...formData,
+                        phone: phone == data.dialCode ? "" : phone,
+                        countryCode: `+${data.dialCode}`,
+                      })
+                    }
+                  />
+                </div>
+              )}
+
+              <div className="input-with-icon relative w-full max-w-[540px] flex gap-[6px]">
+                <input
+                  className="border border-[#235370] rounded-2xl w-[24px] h-[24px] min-w-[24px] cursor-pointer"
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={() => setIsChecked(!isChecked)}
+                />
+                <p>
+                  By continuing, you consent to receive calls and messages from
+                  LockedBox in accordance with our{" "}
+                  <Link
+                    className="text-[#235370] underline"
+                    to="/privacy-policy"
+                  >
+                    Privacy Policy
+                  </Link>
+                </p>
+              </div>
+              {checkboxError && <p className="text-red-500">{checkboxError}</p>}
+            </div>
+            <button
+              className="btn-pri mt-[40px] cursor-pointer"
+              // onClick={handleSubmit}
+              type="submit"
+            >
+              Next
+            </button>
+          </form>
           <p className="mt-[40px]">
             Already have an account?{" "}
             <Link className="text-[#235370] font-semibold" to="/signin">

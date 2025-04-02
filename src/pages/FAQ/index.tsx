@@ -1,20 +1,27 @@
 import { useState } from "react";
 import BreadCrumbs from "../../components/BreadCrumb";
 import ProfileNavbar from "../../components/ProfileNavbar";
-import { FAQS } from "../../constants";
+import { RenterFAQS, HostFAQS } from "../../constants";
 
 const FAQ = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [filteredFaqs, setFilteredFaqs] = useState(FAQS);
+  const [filteredRenterFaqs, setFilteredRenterFaqs] = useState(RenterFAQS);
+  const [filteredHostFaqs, setFilteredHostFaqs] = useState(HostFAQS);
 
   const handleSearch = () => {
-    const filteredFaqs = FAQS.filter(
+    const filteredRenterFaqs = RenterFAQS.filter(
       (faq) =>
         faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
         faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredFaqs(filteredFaqs);
+    const filteredHostFaqs = HostFAQS.filter(
+      (faq) =>
+        faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRenterFaqs(filteredRenterFaqs);
+    setFilteredHostFaqs(filteredHostFaqs);
   };
 
   return (
@@ -31,15 +38,39 @@ const FAQ = () => {
           <h4 className="text-[36px] font-semibold max-lg:text-[28px]">
             Frequently Asked Questions
           </h4>
+          <h5 className="text-[30px] font-bold max-lg:text-[22px] mt-5">
+            Renters
+          </h5>
 
           {/* FAQ Content */}
           <div className="mt-6">
-            {filteredFaqs.length === 0 ? (
+            {filteredRenterFaqs.length === 0 ? (
               <p className="text-center text-[#7A7A7A] mt-8">
                 No results found for "{searchTerm}"
               </p>
             ) : (
-              filteredFaqs.map((faq, index) => (
+              filteredRenterFaqs.map((faq, index) => (
+                <div key={index}>
+                  <p className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
+                    {faq.question}
+                  </p>
+                  <p className="text-[16px] text-[#7A7A7A]">{faq.answer}</p>
+                </div>
+              ))
+            )}
+          </div>
+          <h5 className="text-[30px] font-bold max-lg:text-[22px] mt-5">
+            Hosts
+          </h5>
+
+          {/* FAQ Content */}
+          <div className="mt-6">
+            {filteredHostFaqs.length === 0 ? (
+              <p className="text-center text-[#7A7A7A] mt-8">
+                No results found for "{searchTerm}"
+              </p>
+            ) : (
+              filteredHostFaqs.map((faq, index) => (
                 <div key={index}>
                   <p className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
                     {faq.question}

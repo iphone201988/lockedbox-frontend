@@ -36,7 +36,8 @@ const ForgotPassword = () => {
   });
   const [sendOTP, { data, isLoading }] = useSendOTPMutation();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     const hasErrors: boolean = await validate();
 
     if (hasErrors) return;
@@ -78,46 +79,52 @@ const ForgotPassword = () => {
           <p className="text-center mt-[16px]">
             Enter Email/Phone number to get OTP
           </p>
-          <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-            <SignUpMethod
-              signupMethod={signupMethod}
-              setSignupMethod={setSignupMethod}
-            />
-            {signupMethod.email && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Input
-                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
-                  type="email"
-                  name="email"
-                  value={formData?.email}
-                  onChange={(e: any) => handleInputChange(e, setFormData)}
-                  placeholder="Email"
-                  error={errors?.email}
-                />
-              </div>
-            )}
-            {signupMethod.phone && (
-              <div className="input-with-icon relative w-full max-w-[540px]">
-                <Phone
-                  error={errors?.email}
-                  value={formData?.phone}
-                  onChange={(phone: any, data: any) =>
-                    setFormData({
-                      ...formData,
-                      phone: phone == data.dialCode ? "" : phone,
-                      countryCode: `+${data.dialCode}`,
-                    })
-                  }
-                />
-              </div>
-            )}
-          </div>
-          <button
-            className="btn-pri mt-[40px] cursor-pointer"
-            onClick={handleSubmit}
+          <form
+            className="w-full flex flex-col justify-center items-center"
+            onSubmit={handleSubmit}
           >
-            Continue
-          </button>
+            <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
+              <SignUpMethod
+                signupMethod={signupMethod}
+                setSignupMethod={setSignupMethod}
+              />
+              {signupMethod.email && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Input
+                    className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                    type="email"
+                    name="email"
+                    value={formData?.email}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Email"
+                    error={errors?.email}
+                  />
+                </div>
+              )}
+              {signupMethod.phone && (
+                <div className="input-with-icon relative w-full max-w-[540px]">
+                  <Phone
+                    error={errors?.email}
+                    value={formData?.phone}
+                    onChange={(phone: any, data: any) =>
+                      setFormData({
+                        ...formData,
+                        phone: phone == data.dialCode ? "" : phone,
+                        countryCode: `+${data.dialCode}`,
+                      })
+                    }
+                  />
+                </div>
+              )}
+            </div>
+            <button
+              className="btn-pri mt-[40px] cursor-pointer"
+              // onClick={handleSubmit}
+              type="submit"
+            >
+              Continue
+            </button>
+          </form>
         </div>
       </div>
     </div>

@@ -94,7 +94,16 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
             {booking._id}
           </p>
           <p className="text-[#959595] max-md:text-[14px]">
-            <span className="font-semibold text-black">From:</span> {from}
+            {role == "host" ? (
+              <>
+                <span className="font-semibold text-black">Address:</span>{" "}
+                {listing?.address}
+              </>
+            ) : (
+              <>
+                <span className="font-semibold text-black">From:</span> {from}
+              </>
+            )}
           </p>
           {!isHost && (
             <p className="text-[#959595] max-md:text-[16px]">

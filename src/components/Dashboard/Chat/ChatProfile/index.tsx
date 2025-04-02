@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import NoUser from "../../../../assets/icons/if-no-user.png";
 import { getUrl } from "../../../../utils/helper";
+import { useDispatch } from "react-redux";
+import { SIDEBAR_TAG, lockedBoxApi } from "../../../../redux/api";
 
 const ChatProfile = ({
   chat,
@@ -10,6 +12,7 @@ const ChatProfile = ({
   setChats: any;
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleReadAllMessages = (id: string) => {
     setChats((prev: ChatProfileProps[]) => {
@@ -18,6 +21,7 @@ const ChatProfile = ({
       );
     });
     navigate(`/dashboard/message/${id}`);
+    dispatch(lockedBoxApi.util.invalidateTags([SIDEBAR_TAG]));
   };
   return (
     <div
@@ -25,7 +29,9 @@ const ChatProfile = ({
       // onClick={() => navigate(`/dashboard/message/${chat.conversationId}`)}
       onClick={() => handleReadAllMessages(chat.conversationId)}
     >
-      <p className=" absolute top-[4px] right-[10px] text-[12px] text-[#afafaf] whitespace-nowrap">2:05 pm</p>
+      <p className=" absolute top-[4px] right-[10px] text-[12px] text-[#afafaf] whitespace-nowrap">
+        {chat.updatedAt}
+      </p>
       <img
         className="w-[48px] h-[48px] object-cover rounded-full"
         src={

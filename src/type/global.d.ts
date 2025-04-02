@@ -178,6 +178,7 @@ type ChatProfileProps = {
   lastMessage: string;
   totalUnread: number;
   lastMessageType: "text" | "image";
+  updatedAt: string;
   profile: {
     firstName: string;
     lastName: string;

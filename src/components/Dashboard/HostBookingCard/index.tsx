@@ -128,8 +128,9 @@ const HostBookingCard = ({
               {booking._id}
             </p>
             <p className="text-[#959595] max-md:text-[14px]">
-              <span className="font-semibold text-black">From:</span>{" "}
-              {booking.renterId?.firstName} {booking.renterId?.lastName}
+              <span className="font-semibold text-black">Address:</span>{" "}
+              {/* {booking.renterId?.firstName} {booking.renterId?.lastName}  */}
+              {listing?.address}
             </p>
             <div className="mt-auto flex items-center">
               <span className="flex gap-[5px] w-auto justify-center items-center fix-svg-height">
@@ -145,7 +146,7 @@ const HostBookingCard = ({
             ${listing.price}/month
           </p>
           <p className="text-[18px] text-[#235370] max-mlg:text-[16px] font-semibold">
-            ${booking.totalAmount.toFixed(2)}
+            ${(booking.totalAmount * 0.97).toFixed(2)}
           </p>
         </div>
 
@@ -155,7 +156,7 @@ const HostBookingCard = ({
               <img src={UserIcon} /> {userData?.firstName}
             </p>
           )}
-          <p className="text-[#235370] font-semibold flex gap-[6px] items-center">
+          <p className="text-[#235370] font-semibold flex gap-[6px] items-center relative">
             <img src={DateIcon} /> {monthsDifference}{" "}
             {monthsDifference > 1 ? "Months" : "Month"}
           </p>

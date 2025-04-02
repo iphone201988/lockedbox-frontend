@@ -3,6 +3,8 @@ import { getUrl } from "../../utils/helper";
 import { Link } from "react-router-dom";
 
 const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
+  const isRefund = transaction.transactionFor == "refund";
+  const status = isRefund ? "Refunded" : transaction?.status;
   const { listingId: listing } = transaction;
   const { bookingId: booking } = transaction;
 
@@ -45,7 +47,7 @@ const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
         <p className="text-[20px] font-semibold max-md:text-[18px]">
           ${transaction?.amount?.toFixed(2)}
         </p>
-        <button className="btn-green capitalize">{transaction?.status}</button>
+        <button className="btn-green capitalize">{status}</button>
         <Link
           className=" inline-block text-[14px] text-[#235370] underline font-semibold  cursor-pointer"
           to={`/booking/${booking._id}/receipt`}

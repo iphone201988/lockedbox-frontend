@@ -89,23 +89,31 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
               key={index}
             >
               {item.icon}
-              {item.name}
-              {notifications.totalUnreadMessage && item.name == "Messages" ? (
-                <i className="notify-dot"></i>
-              ) : (
-                ""
-              )}
-              {notifications.totalUnderReviewBooking &&
-              item.name == "Bookings" ? (
-                <i className="notify-dot"></i>
-              ) : (
-                ""
-              )}
-              {notifications.totalUnGiveReview && item.name == "Reviews" ? (
-                <i className="notify-dot"></i>
-              ) : (
-                ""
-              )}
+              <div className="flex w-full justify-between">
+                {item.name}
+                {notifications.totalUnreadMessage && item.name == "Messages" ? (
+                  <span className="bg-[#235370] text-white rounded-full text-xs flex justify-center items-center w-[20px] h-[20px]">
+                    {notifications.totalUnreadMessage}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {notifications.totalUnderReviewBooking &&
+                item.name == "Bookings" ? (
+                  <span className="bg-[#235370] text-white rounded-full text-xs flex justify-center items-center w-[20px] h-[20px]">
+                    {notifications.totalUnderReviewBooking}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {notifications.totalUnGiveReview && item.name == "Reviews" ? (
+                  <span className="bg-[#235370] text-white rounded-full text-xs flex justify-center items-center w-[20px] h-[20px]">
+                    {notifications.totalUnGiveReview}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </div>
             </Link>
           ))}
         </div>

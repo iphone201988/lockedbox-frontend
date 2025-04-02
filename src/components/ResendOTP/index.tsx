@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const ResendOTP = ({ formData, type }: { formData: any; type: number }) => {
   const navigate = useNavigate();
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(180);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [sendOTP, { isLoading, data }] = useSendOTPMutation();
 

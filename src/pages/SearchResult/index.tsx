@@ -359,8 +359,9 @@ const SearchResult = () => {
               onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
             >
               {properties.length ? (
-                properties.map((property: Properties) => (
+                properties.map((property: Properties, index: number) => (
                   <SearchListing
+                    key={index}
                     id={property.id}
                     title={property.title}
                     price={property.price}

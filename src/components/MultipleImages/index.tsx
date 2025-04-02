@@ -195,7 +195,7 @@ const MultiImageSelect = ({
                   Click here to add pics for your listing
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
-                  Minimum 2 photos required (max {maxImages})
+                  Minimum 1 photo required (max {maxImages})
                 </p>
               </div>
             </div>

@@ -1,11 +1,14 @@
 import { useEffect, useCallback } from "react";
 import { useSocket } from "../providers/socket-provider";
+import { useDispatch } from "react-redux";
+import { CONVERSATION_TAG, lockedBoxApi } from "../redux/api";
 
 export const useChatSocket = (
   userId: string,
   appendMessages: (key: string, conversationId: string, message: any) => void
 ) => {
   const { socket } = useSocket();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!socket) return;
@@ -15,6 +18,8 @@ export const useChatSocket = (
       if (data.message.senderDetails._id.toString() != userId.toString()) {
         appendMessages("today", data.conversationId, data.message);
       }
+      // For updating Chat profiles last message and time
+      dispatch(lockedBoxApi.util.invalidateTags([CONVERSATION_TAG]));
     });
 
     socket.on("error", (message: string) => {
