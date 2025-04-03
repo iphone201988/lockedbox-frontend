@@ -378,9 +378,9 @@ export const lockedBoxApi = createApi({
     }),
 
     // Chat apis
-    findConversations: builder.query<any, void>({
-      query: () => ({
-        url: `user/conversation`,
+    findConversations: builder.query<any, any>({
+      query: (page) => ({
+        url: `user/conversation?page=${page}`,
         method: "GET",
       }),
       providesTags: [CONVERSATION_TAG],
@@ -452,6 +452,7 @@ export const {
   useFetchPendingReviewsByRenterQuery,
   useGiveReviewToHostMutation,
   useFindConversationsQuery,
+  useLazyFindConversationsQuery,
   useFindMessagesQuery,
   useLazyFindMessagesQuery,
   useCancelListingMutation,

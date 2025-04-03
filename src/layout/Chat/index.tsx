@@ -1,22 +1,36 @@
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ChatProfile from "../../components/Dashboard/Chat/ChatProfile";
 import {
-  useFindConversationsQuery,
   useGetUserQuery,
+  useLazyFindConversationsQuery,
 } from "../../redux/api";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import NoListing from "../../components/Dashboard/NoListing";
 // import { useChatNotification } from "../../hooks/useChatNotification";
 import moment from "moment-timezone";
+import { usePagination } from "../../hooks/usePagination";
 
 const ChatLayout = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log("id:::", id);
   const { data: userData } = useGetUserQuery();
-  const { data, isLoading } = useFindConversationsQuery();
+  // const { data, isLoading } = useFindConversationsQuery();
+  const [findConversations, { data, isLoading, isFetching }] =
+    useLazyFindConversationsQuery();
   const [chats, setChats] = useState<ChatProfileProps[]>([]);
+
+  const {
+    pagination,
+    setPagnation,
+    scrollableRef,
+    handleScroll,
+    // restoreScrollPosition,
+  } = usePagination({
+    scrollDown: false,
+    fetchData: () => {
+      findConversations(pagination.page);
+    },
+  });
 
   // const handleUpdateLatestMessages = (
   //   conversationId: string,
@@ -36,8 +50,13 @@ const ChatLayout = () => {
   // useChatNotification(handleUpdateLatestMessages);
 
   useEffect(() => {
+    findConversations(pagination.page);
+  }, []);
+
+  useEffect(() => {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (data?.success && userData) {
+      const { pagination } = data;
       const chats: ChatProfileProps[] = data.conversations.map(
         (conversation: any, index: number) => ({
           conversationId: conversation._id,
@@ -60,9 +79,14 @@ const ChatLayout = () => {
         })
       );
 
-      setChats(chats);
+      setPagnation((prev: any) => ({
+        ...prev,
+        totalPages: pagination.totalPages,
+      }));
 
-      if (chats.length) {
+      setChats((prev) => [...prev, ...chats]);
+
+      if (chats.length && pagination.page == 1) {
         navigate(`/dashboard/message/${chats[0].conversationId}`);
       }
     }
@@ -72,7 +96,11 @@ const ChatLayout = () => {
     <div className="h-full flex max-md:flex-col">
       {chats.length ? (
         <>
-          <div className="pl-[30px] pr-[20px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b overflow-auto">
+          <div
+            className="pl-[30px] pr-[20px] py-[24px] max-w-[310px] min-w-[310px] border-r border-[#EEEEEE] h-full max-lg:px-[20px] max-md:max-w-full max-md:overflow-auto max-md:border-b overflow-auto"
+            ref={scrollableRef}
+            onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
+          >
             <div className="flex flex-col gap-[10px]">
               {chats.map((chat: ChatProfileProps, index: number) => (
                 <ChatProfile key={index} chat={chat} setChats={setChats} />

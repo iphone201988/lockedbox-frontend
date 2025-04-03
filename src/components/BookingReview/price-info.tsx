@@ -40,14 +40,14 @@ const PriceInfo = ({
               ${grandTotal} CAD
             </p>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <p className="text-left text-[#235370] font-bold">
               Monthly Payout (CAD)
             </p>
             <p className="text-right text-[#235370] font-bold">
               ${(total / monthsDifference).toFixed(2)} CAD
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
