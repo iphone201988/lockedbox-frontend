@@ -121,7 +121,7 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-[10px]">
             <img
-              className="w-[48px] h-[48px] object-cover rounded-full"
+              className="w-[42px] h-[42px] object-cover rounded-full"
               src={
                 userData?.userExists.profileImage
                   ? getUrl(userData?.userExists.profileImage)
@@ -129,7 +129,7 @@ const SideBar = ({ showSidebar }: { showSidebar: boolean }) => {
               }
               alt=""
             />
-            <h5 className="text-[20px] font-semibold">
+            <h5 className="text-[16px] font-semibold">
               {userData?.userExists.firstName}
             </h5>
           </div>

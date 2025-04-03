@@ -40,11 +40,11 @@ const AdminSidebar = () => {
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-[10px]">
             <img
-              className="w-[48px] h-[48px] object-cover"
+              className="w-[42px] h-[42px] object-cover"
               src={NoUser}
               alt=""
             />
-            <h5 className="text-[20px] font-semibold capitalize">
+            <h5 className="text-[16px] font-semibold capitalize">
               {data?.userExists?.firstName}
             </h5>
           </div>
