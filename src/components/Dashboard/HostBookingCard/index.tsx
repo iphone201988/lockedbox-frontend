@@ -161,6 +161,7 @@ const HostBookingCard = ({
             {monthsDifference > 1 ? "Months" : "Month"}
           </p>
         </div>
+        <a href="" className=" inline-block text-[14px] text-[#235370] underline font-semibold  cursor-pointer absolute bottom-[10px] right-[10px]">View Receipt</a>
       </div>
       <div className="border-t border-[#EEEEEE] py-[10px] mx-[10px] flex items-center max-md:flex-col-reverse max-md:gap-[12px]">
         {booking.type == "future" && booking.status == "under_review" && (
