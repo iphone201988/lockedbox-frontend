@@ -147,8 +147,12 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           <button className="btn-green">Confirmed</button>
         )}
 
-        {booking.status == "reject" && (
+        {booking.status == "reject" && booking.isBookingConfirmed && (
           <button className="btn-red">Cancelled</button>
+        )}
+
+        {booking.status == "reject" && !booking.isBookingConfirmed && (
+          <button className="btn-red">Rejected</button>
         )}
       </div>
 
@@ -160,9 +164,6 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
           >
             View Receipt
           </Link>
-          {booking.isCheckIn && (
-            <button className="btn-red">Raise a Dispute</button>
-          )}
           {canUserCheckIn &&
             (isCheckInAllowed ? (
               <Link

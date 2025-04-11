@@ -201,6 +201,14 @@ export const lockedBoxApi = createApi({
         url: `user/create_stripe_account`,
         method: "POST",
       }),
+      invalidatesTags: [USER_TAG],
+    }),
+    updateStripeConnect: builder.mutation({
+      query: () => ({
+        url: `user/update_stripe_account`,
+        method: "POST",
+      }),
+      invalidatesTags: [USER_TAG],
     }),
 
     // Host listing page
@@ -210,7 +218,7 @@ export const lockedBoxApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [LISTING_TAG],
+      invalidatesTags: [LISTING_TAG, USER_TAG],
     }),
     updateListing: builder.mutation({
       query: ({ id, body }) => ({
@@ -423,6 +431,7 @@ export const {
   useUpdateUserProfileImageMutation,
   useAddPaymentMethodMutation,
   useAddStripeConnectMutation,
+  useUpdateStripeConnectMutation,
   useGetPaymentMethodsQuery,
   useRemovePaymentMethodMutation,
   useGetBankAccountsQuery,

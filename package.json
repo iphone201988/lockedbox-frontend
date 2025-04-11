@@ -1,5 +1,6 @@
 {
   "name": "lockedbox",
+  "homepage": "https://lockedbox.ca/",
   "private": true,
   "version": "0.0.0",
   "type": "module",

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   useAddStripeConnectMutation,
   useGetUserQuery,
+  useUpdateStripeConnectMutation,
   useUpdateUserMutation,
   useUpdateUserProfileImageMutation,
 } from "../../../../redux/api";
@@ -24,6 +25,7 @@ import VerifyPhonePopup from "../../../../components/Popups/Phone";
 import VerificationCodePopup from "../../../../components/Popups/Verify";
 import VerifEmailPopup from "../../../../components/Popups/Email";
 import MapInput from "../../../../components/MapInput";
+import { InfoIcon } from "../../../../icons";
 
 type ProfileFormType = yup.InferType<typeof ProfileSchema>;
 
@@ -53,6 +55,7 @@ const RenterProfile = () => {
     isEmailVerified: "",
     isPhoneVerified: "",
     isStripeAccountConnected: "",
+    stripeAccountVerification: "",
     createdAt: "",
   });
   const { data: userData, refetch } = useGetUserQuery();
@@ -114,9 +117,22 @@ const RenterProfile = () => {
     { data: stripeConnectData, isLoading: stripeConnectLoading },
   ] = useAddStripeConnectMutation();
 
+  const [
+    updateStripeConnect,
+    { data: updateStripeData, isLoading: updateStripeLoading },
+  ] = useUpdateStripeConnectMutation();
+
   const verifyIdentity = async () => {
     try {
       await addStripeConnect({}).unwrap();
+    } catch (error) {
+      handleError(error, navigate);
+    }
+  };
+
+  const updateIdentity = async () => {
+    try {
+      await updateStripeConnect({}).unwrap();
     } catch (error) {
       handleError(error, navigate);
     }
@@ -133,6 +149,16 @@ const RenterProfile = () => {
   }, [stripeConnectData]);
 
   useEffect(() => {
+    if (updateStripeData?.success) {
+      const { url } = updateStripeData?.accountLink;
+
+      if (url) {
+        window.open(url, "_blank");
+      }
+    }
+  }, [updateStripeData]);
+
+  useEffect(() => {
     if (userData?.success) {
       const {
         _id: id,
@@ -144,6 +170,7 @@ const RenterProfile = () => {
         isEmailVerified,
         isPhoneVerified,
         stripeAccountId,
+        stripeAccountVerification,
         isStripeAccountConnected,
       } = userData.userExists;
       if (profileImage) {
@@ -170,6 +197,7 @@ const RenterProfile = () => {
           createdAt: formattedDate,
           isEmailVerified,
           isPhoneVerified,
+          stripeAccountVerification,
           isStripeAccountConnected: stripeAccountId && isStripeAccountConnected,
         });
       }
@@ -182,7 +210,7 @@ const RenterProfile = () => {
 
   return (
     <div className="flex flex-col">
-      {(isLoading || stripeConnectLoading) && <Loader />}
+      {(isLoading || stripeConnectLoading || updateStripeLoading) && <Loader />}
       {showPopup.phone && <VerifyPhonePopup setShowPopup={setShowPopup} />}
       {showPopup.email && <VerifEmailPopup setShowPopup={setShowPopup} />}
       {showPopup.verification && (
@@ -365,14 +393,35 @@ const RenterProfile = () => {
               />
             )}
           </div>
-          <div className="flex justify-between relative">
-            <p className=" font-semibold">Identification</p>
-            {data.isStripeAccountConnected ? (
-              <span className="text-[#0BB82B] font-semibold">Verified</span>
-            ) : (
-              <NotVerified handleClick={verifyIdentity} />
-            )}
-          </div>
+          {userData.userExists.dashboardRole == "host" && (
+            <>
+              <div className="flex justify-between relative">
+                <p className=" font-semibold">Identification</p>
+                {data.isStripeAccountConnected ? (
+                  <div className="">
+                    <span className="text-[#0BB82B] font-semibold">
+                      Verified
+                    </span>
+                  </div>
+                ) : (
+                  <NotVerified handleClick={verifyIdentity} />
+                )}
+              </div>
+              {!data.stripeAccountVerification && (
+                <div className=" flex items-center gap-1 text-xs mt-2 text-[#c1bcbc]">
+                  <InfoIcon />
+                  Please{" "}
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={updateIdentity}
+                  >
+                    verify your documents
+                  </span>{" "}
+                  for continue using your bank account
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 

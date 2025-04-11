@@ -214,7 +214,12 @@ export const RenterFAQS = [
   {
     question: "Is it safe?",
     answer:
-      "You get 100% free cancellation 5 days or more prior to reservation start. If you cancel within 4 days of the reservation start date, you get a 75% refund.\n\nIf a monthly contract has started, the day you start your contract is the “anniversary date”. In order to cancel the rest of your contract free of charge, you must cancel before this date. If you cancel after your anniversary date, you forfeit the current month and service fee.\n\nExample - If you book storage from May 1st to August 1st, your “anniversary date” is the first of every month. May 1st, June 1st, July 1st.  We assume on May 15th, you decide you want to move to a larger space. You cancel on May 15th. You will receive a full refund for June 1 - August 1, or two unused months.\n\nIf you decide to cancel on June 3rd instead, you will get a refund July 1 - August 1. There is no refund for the month of June despite removing your items.",
+      "All hosts are vetted and storage spaces are often monitored by the hosts themselves. Some listings may offer additional security features such as cameras, locks, or gated access. You view each listing's security details before booking.",
+  },
+  {
+    question: "What is the cancellation policy?",
+    answer:
+      `You get 100% free cancellation 5 days or more prior to reservation start. If you cancel within 4 days of the reservation start date, you get a 75% refund.\n\nIf a monthly contract has started, the day you start your contract is the “anniversary date”. In order to cancel the rest of your contract free of charge, you must cancel before this date. If you cancel after your anniversary date, you forfeit the current month and service fee.\n\nExample - If you book storage from May 1st to August 1st, your “anniversary date” is the first of every month. May 1st, June 1st, July 1st.  We assume on May 15th, you decide you want to move to a larger space. You cancel on May 15th. You will receive a full refund for June 1 - August 1, or two unused months.\n\nIf you decide to cancel on June 3rd instead, you will get a refund July 1 - August 1. There is no refund for the month of June despite removing your items.`,
   },
   {
     question: "Is my property/items insured?",

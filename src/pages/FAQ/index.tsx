@@ -54,7 +54,9 @@ const FAQ = () => {
                   <p className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
                     {faq.question}
                   </p>
-                  <p className="text-[16px] text-[#7A7A7A]">{faq.answer}</p>
+                  <p className="text-[16px] text-[#7A7A7A] whitespace-pre-line">
+                    {faq.answer}
+                  </p>
                 </div>
               ))
             )}
