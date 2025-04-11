@@ -21,7 +21,7 @@ const RefundAmountPopup = ({
 }) => {
   const { id } = useParams();
   const [makeRefund, { data, isLoading }] = useMakeRefundMutation();
-  const [amount, setAmount] = useState<any>();
+  const [amount, setAmount] = useState<number>();
 
   const handleMakeRefund = async () => {
     if (!amount) {
@@ -77,7 +77,7 @@ const RefundAmountPopup = ({
                 className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
                 placeholder="Enter price"
                 value={amount}
-                onChange={(e: any) => setAmount(e.target.value)}
+                onChange={(e: any) => setAmount(Number(e.target.value))}
               />
             </div>
           </div>

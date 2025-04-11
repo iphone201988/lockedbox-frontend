@@ -83,14 +83,15 @@ const BookingsAndPayments = ({ booking }: { booking: any }) => {
             <span className="font-semibold text-black">From:</span> {startDate}-{" "}
             {endDate}
           </p>
-          {transaction?.cardLast4Digits && (
-            <p className="mt-auto text-[#959595]">
-              Paid on {transactionDate} with card{" "}
-              <span className="text-[#235370]">
-                XXXX XXXX XXXX {transaction?.cardLast4Digits}
-              </span>
-            </p>
-          )}
+          {booking?.disputeRiseRole == "rent" &&
+            transaction?.cardLast4Digits && (
+              <p className="mt-auto text-[#959595]">
+                Paid on {transactionDate} with card{" "}
+                <span className="text-[#235370]">
+                  XXXX XXXX XXXX {transaction?.cardLast4Digits}
+                </span>
+              </p>
+            )}
         </div>
       </div>
       <div className=" flex items-center gap-[40px] ml-auto mr-[50px] max-mlg:mr-[20px] max-mlg:gap-[20px] max-md:mr-0">

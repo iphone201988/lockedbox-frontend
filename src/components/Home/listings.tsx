@@ -11,6 +11,9 @@ const Listings = () => {
       setListings(data?.listings);
     }
   }, [data]);
+
+  if (isLoading) return <Loader />;
+  if (!listings.length) return <></>;
   return (
     <div className="bg-[#EEEEEE] py-[60px] max-lg:py-[40px]">
       {isLoading && <Loader />}

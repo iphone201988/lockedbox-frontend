@@ -1,6 +1,7 @@
 import moment from "moment";
 import { getUrl } from "../../utils/helper";
 import { Link } from "react-router-dom";
+import { useGetUserQuery } from "../../redux/api";
 
 const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
   const isRefund = transaction.transactionFor == "refund";
@@ -13,6 +14,8 @@ const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
   endDate = moment(endDate).format("MMM DD YYYY");
 
   const transactionDate = moment(transaction?.createdAt).format("MMM DD YYYY");
+
+  const { data } = useGetUserQuery();
 
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px]">
@@ -35,12 +38,14 @@ const PaymentHistoryDetail = ({ transaction }: { transaction: any }) => {
           <p className="text-[#959595] max-md:text-[16px]">
             {startDate} - {endDate}
           </p>
-          <p className="text-[#959595] text-[14px] mt-auto">
-            Paid on {transactionDate} with card{" "}
-            <span className="text-[#235370]">
-              XXXX XXXX XXXX {transaction?.cardLast4Digits}
-            </span>
-          </p>
+          {data?.userExists?.dashboardRole == "rent" && (
+            <p className="text-[#959595] text-[14px] mt-auto">
+              Paid on {transactionDate} with card{" "}
+              <span className="text-[#235370]">
+                XXXX XXXX XXXX {transaction?.cardLast4Digits}
+              </span>
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-[6px] items-end max-md:ml-auto">

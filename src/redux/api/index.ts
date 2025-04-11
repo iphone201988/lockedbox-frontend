@@ -201,7 +201,6 @@ export const lockedBoxApi = createApi({
         url: `user/create_stripe_account`,
         method: "POST",
       }),
-      invalidatesTags: [USER_TAG],
     }),
     updateStripeConnect: builder.mutation({
       query: () => ({
