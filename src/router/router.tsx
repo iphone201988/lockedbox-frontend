@@ -23,6 +23,7 @@ import RenterBasics from "../pages/RenterBasics";
 import PageNotFound from "../pages/404";
 import TermsAndConditions from "../pages/TermsAndConditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import AboutUs from "../pages/AboutUs";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -47,18 +48,14 @@ const RenterAccount = lazy(() => import("../pages/Dashboard/Account"));
 const RenterBasicInfo = lazy(
   () => import("../pages/Dashboard/Account/BasicInfo")
 );
-const RenterProfile = lazy(
-  () => import("../pages/Dashboard/Account/Profile")
-);
+const RenterProfile = lazy(() => import("../pages/Dashboard/Account/Profile"));
 const RenterSecurity = lazy(
   () => import("../pages/Dashboard/Account/Security")
 );
 const RenterNotification = lazy(
   () => import("../pages/Dashboard/Account/Notification")
 );
-const RenterPayment = lazy(
-  () => import("../pages/Dashboard/Account/Payment")
-);
+const RenterPayment = lazy(() => import("../pages/Dashboard/Account/Payment"));
 const Booking = lazy(() => import("../pages/Dashboard/Booking"));
 const ReviewYourHost = lazy(
   () => import("../pages/Dashboard/Renter/GiveReview")
@@ -202,6 +199,14 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loader />}>
         <FAQ />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/about-us",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <AboutUs />
       </Suspense>
     ),
   },

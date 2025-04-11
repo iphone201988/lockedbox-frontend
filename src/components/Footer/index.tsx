@@ -40,7 +40,7 @@ const Footer = () => {
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">
                 Company
               </p>
-              <Link to="#">About</Link>
+              <Link to="/about-us">About</Link>
               <Link to="#">Press</Link>
               <Link to="#">Job Openings</Link>
               <Link to="#">Partners</Link>
