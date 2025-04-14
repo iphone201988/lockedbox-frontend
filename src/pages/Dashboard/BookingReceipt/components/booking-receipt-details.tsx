@@ -8,6 +8,9 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
   endDate = moment(endDate).format("MMM DD YYYY");
 
   const { transactionRentId: transaction } = booking;
+  const { listingId: listing } = booking;
+
+  console.log("listing:::", booking);
   return (
     <div className="p-[20px]">
       <div className="">
@@ -16,7 +19,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
       <div className="py-[20px]">
         <PriceInfo
           monthsDifference={booking.totalMonth}
-          price={booking.amount}
+          price={listing.price}
           // selectedPlan={0}
         />
       </div>

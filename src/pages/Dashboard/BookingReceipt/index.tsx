@@ -22,7 +22,7 @@ const BookingReceipt = () => {
   useEffect(() => {
     if (data?.success) {
       setListing(data?.booking?.listingId);
-      setBooking({ ...data.booking, listingId: undefined });
+      setBooking({ ...data.booking });
     }
   }, [data]);
   return (
