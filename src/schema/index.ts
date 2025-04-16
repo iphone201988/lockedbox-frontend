@@ -121,14 +121,15 @@ export const StepOneSchema = yup.object({
   spaceType: yup.string().required("Space type is required"),
   features: yup
     .array()
+    .optional()
     .of(
       yup.object().shape({
         id: yup.string().required("Feature ID is required"),
         name: yup.string().required("Feature name is required"),
       })
-    )
-    .required("Features are required")
-    .min(1, "At least one feature is required"),
+    ),
+  // .required("Features are required")
+  // .min(1, "At least one feature is required"),
   allowedStorage: yup
     .array()
     .of(yup.string())
