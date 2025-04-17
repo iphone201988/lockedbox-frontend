@@ -1,6 +1,7 @@
 import { Tab, Tabs, TabList } from "react-tabs";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import AdminAllUser from "./AdminAllUser";
 
 const tabRoutes = [
   "/admin/home/account",
@@ -49,6 +50,7 @@ const AdminHome = () => {
         </TabList>
       </Tabs>
       <Outlet />
+      <AdminAllUser/>
     </div>
   );
 };
