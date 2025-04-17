@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import {
   useGetListingByIdQuery,
+  useGetUserQuery,
   useRequestBookingMutation,
 } from "../../redux/api";
 import Loader from "../../components/Loader";
@@ -30,6 +31,7 @@ const BookingReview = () => {
   const [content, setContent] = useState<string>("");
   // const [insuranceError, setInsuranceError] = useState<string>("");
   const paymentRef = useRef<any>(null);
+  const { data: userData } = useGetUserQuery();
 
   const [requestBooking, { data: bookingData, isLoading: requestLoading }] =
     useRequestBookingMutation();
@@ -126,6 +128,7 @@ const BookingReview = () => {
               <PriceInfo
                 monthsDifference={monthsDifference}
                 price={listing?.price}
+                role={userData?.userExists?.dashboardRole}
                 // selectedPlan={selectedPlan}
               />
             </div>

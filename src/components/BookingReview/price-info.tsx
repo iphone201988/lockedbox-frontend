@@ -1,17 +1,28 @@
 const PriceInfo = ({
   monthsDifference,
   price,
+  role,
 }: // selectedPlan,
 {
   monthsDifference: number;
   price: number;
+  role: string;
   // selectedPlan: any;
 }) => {
   const total = price * monthsDifference;
-  const serviceFee = total * 0.12;
+  const isHost = role == "host";
+  let serviceFee, grandTotal;
+  if (isHost) {
+    serviceFee = total * 0.03;
+    grandTotal = (total - serviceFee).toFixed(2);
+  } else {
+    serviceFee = total * 0.12;
+    grandTotal = (total + serviceFee).toFixed(2);
+  }
+
   // const taxes = total * 0.12 + serviceFee * 0.12;
   // const grandTotal = (total + serviceFee + taxes).toFixed(2);
-  const grandTotal = (total + serviceFee).toFixed(2);
+
   return (
     <div className="">
       <p className="text-[20px] font-semibold">Price summary</p>

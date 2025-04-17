@@ -1,6 +1,7 @@
 import moment from "moment";
 import StartEndDate from "../../../../components/BookingReview/start-end-date";
 import PriceInfo from "../../../../components/BookingReview/price-info";
+import { useGetUserQuery } from "../../../../redux/api";
 
 const BookingReceiptDetails = ({ booking }: { booking: any }) => {
   let { startDate, endDate } = booking;
@@ -9,6 +10,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
 
   const { transactionRentId: transaction } = booking;
   const { listingId: listing } = booking;
+  const { data: userData } = useGetUserQuery();
 
   console.log("listing:::", booking);
   return (
@@ -20,6 +22,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
         <PriceInfo
           monthsDifference={booking.totalMonth}
           price={listing.price}
+          role={userData?.userExists?.dahboardRole}
           // selectedPlan={0}
         />
       </div>

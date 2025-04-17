@@ -120,9 +120,11 @@ const CreateListing = () => {
       if (Array.isArray(value)) {
         if (key == "features") {
           const features = stepOne.features?.map((item: any) => item.id);
-          if (!features?.includes("10")) features?.push("10");
-          if (!features?.includes("11")) features?.push("11");
-          if (!features?.includes("12")) features?.push("12");
+          if (!features?.length) {
+            if (!features?.includes("10")) features?.push("10");
+            if (!features?.includes("11")) features?.push("11");
+            if (!features?.includes("12")) features?.push("12");
+          }
           formData.append("features", JSON.stringify(features));
         } else {
           formData.append(key, JSON.stringify(value));
