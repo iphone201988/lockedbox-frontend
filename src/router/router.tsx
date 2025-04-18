@@ -10,11 +10,11 @@ import MessageArea from "../components/Dashboard/Chat/MessageArea";
 import AdminLogin from "../pages/Admin/Auth";
 import AdminHome from "../pages/Admin/Home";
 import AdminDashboardLayout from "../layout/Admin";
-import AdminAccount from "../pages/Admin/Home/Account";
-import AdminListing from "../pages/Admin/Home/Listing";
-import AdminBooking from "../pages/Admin/Home/Booking";
-import AdminDispute from "../pages/Admin/Home/Dispute";
-import AdminCheckIN from "../pages/Admin/Home/CheckIn";
+import AdminAccount from "../pages/Admin/Home/User/Account";
+import AdminListing from "../pages/Admin/Home/User/Listing";
+import AdminBooking from "../pages/Admin/Home/User/Booking";
+import AdminDispute from "../pages/Admin/Home/User/Dispute";
+import AdminCheckIN from "../pages/Admin/Home/User/CheckIn";
 import AdminLogout from "../pages/Admin/Logout";
 import BookingReceipt from "../pages/Dashboard/BookingReceipt";
 import ContactUs from "../pages/ContactUs";
@@ -24,6 +24,7 @@ import PageNotFound from "../pages/404";
 import TermsAndConditions from "../pages/TermsAndConditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import AboutUs from "../pages/AboutUs";
+import AdminUserHome from "../pages/Admin/Home/User";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -241,6 +242,10 @@ const Router = createBrowserRouter([
       {
         path: "home",
         element: <AdminHome />,
+      },
+      {
+        path: "user",
+        element: <AdminUserHome />,
         children: [
           { path: "account/:id?", element: <AdminAccount /> },
           { path: "listings/:id?", element: <AdminListing /> },

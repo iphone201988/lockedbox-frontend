@@ -24,7 +24,8 @@ const AdminHeader = () => {
   //   }
   // }, [searchQuery, searchUser]);
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: any) => {
+    e.preventDefault();
     if (searchQuery.length < 3) {
       toast.warning("Please search with atleast 3 characters");
       setUsers([]);
@@ -50,49 +51,51 @@ const AdminHeader = () => {
         User Management
       </h2>
       <div className="flex items-center w-full">
-        <div className="flex ml-auto w-[100%] justify-end gap-[12px] max-lg:mr-[12px] max-md:justify-start">
-          <div className="flex justify-between border border-[#EEEEEE] rounded-[16px] px-[16px] py-[18px] max-w-[400px] w-full max-lg:max-w-[250px] relative">
-            <input
-              className="w-full outline-none"
-              type="text"
-              placeholder="Search User ID / Name / Phone"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <img src={SearchIcon} alt="" />
+        <form className="w-full" onSubmit={handleSearch}>
+          <div className="flex ml-auto w-[100%] justify-end gap-[12px] max-lg:mr-[12px] max-md:justify-start">
+            <div className="flex justify-between border border-[#EEEEEE] rounded-[16px] px-[16px] py-[18px] max-w-[400px] w-full max-lg:max-w-[250px] relative">
+              <input
+                className="w-full outline-none"
+                type="text"
+                placeholder="Search User ID / Name / Phone"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <img src={SearchIcon} alt="" />
 
-            {users.length ? (
-              <div className="search-result flex flex-col gap-[8px] absolute bg-white border border-[#EEEEEE] rounded-[16px] p-[12px] w-full left-[0] top-[70px]">
-                {users.map((user: any) => (
-                  <div
-                    className="flex gap-[8px] items-center cursor-pointer"
-                    onClick={() => {
-                      setUsers([]);
-                      setSearchQuery("");
-                      navigate(`/admin/home/account/${user._id}`);
-                    }}
-                  >
-                    <img
-                      className="w-[36px] h-[36px] rounded-full"
-                      src={
-                        user.profileImage ? getUrl(user.profileImage) : NoUser
-                      }
-                      alt=""
-                    />
-                    <p className=" font-semibold">
-                      {user.firstName} {user.lastName} ({user._id})
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <></>
-            )}
+              {users.length ? (
+                <div className="search-result flex flex-col gap-[8px] absolute bg-white border border-[#EEEEEE] rounded-[16px] p-[12px] w-full left-[0] top-[70px]">
+                  {users.map((user: any) => (
+                    <div
+                      className="flex gap-[8px] items-center cursor-pointer"
+                      onClick={() => {
+                        setUsers([]);
+                        setSearchQuery("");
+                        navigate(`/admin/user/account/${user._id}`);
+                      }}
+                    >
+                      <img
+                        className="w-[36px] h-[36px] rounded-full"
+                        src={
+                          user.profileImage ? getUrl(user.profileImage) : NoUser
+                        }
+                        alt=""
+                      />
+                      <p className=" font-semibold">
+                        {user.firstName} {user.lastName} ({user._id})
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+            <button className="btn-pri" type="submit">
+              Search User
+            </button>
           </div>
-          <button className="btn-pri" onClick={handleSearch}>
-            Search User
-          </button>
-        </div>
+        </form>
         <div className="hidden max-lg:block relative">
           <button className="cursor-pointer w-[48px] h-[48px] relative">
             <img src={NoUser} alt="" />

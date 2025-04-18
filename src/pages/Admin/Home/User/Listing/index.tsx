@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import ListingManagement from "../../components/listing-management";
-import { useLazyGetUserListingsQuery } from "../../../../redux/api/admin";
-import Loader from "../../../../components/Loader";
-import { usePagination } from "../../../../hooks/usePagination";
+import ListingManagement from "../../../components/listing-management";
+import { useLazyGetUserListingsQuery } from "../../../../../redux/api/admin";
+import Loader from "../../../../../components/Loader";
+import { usePagination } from "../../../../../hooks/usePagination";
 import { useEffect, useState } from "react";
-import { allowedStorage as allowedStorageType } from "../../../../constants/index";
+import { allowedStorage as allowedStorageType } from "../../../../../constants/index";
 
 const AdminListing = () => {
   const { id } = useParams();

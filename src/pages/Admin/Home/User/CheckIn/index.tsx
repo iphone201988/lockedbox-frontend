@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import CheckInPhotos from "../../components/check-in-photos";
+import CheckInPhotos from "../../../components/check-in-photos";
 import { useEffect, useState } from "react";
-import { useLazyGetUserCheckInsQuery } from "../../../../redux/api/admin";
-import { usePagination } from "../../../../hooks/usePagination";
-import Loader from "../../../../components/Loader";
+import { useLazyGetUserCheckInsQuery } from "../../../../../redux/api/admin";
+import { usePagination } from "../../../../../hooks/usePagination";
+import Loader from "../../../../../components/Loader";
 
 const AdminCheckIN = () => {
   const { id } = useParams();

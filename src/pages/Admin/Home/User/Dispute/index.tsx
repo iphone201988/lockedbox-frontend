@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import DisputeResolution from "../../components/dispute-resolution";
+import DisputeResolution from "../../../components/dispute-resolution";
 import { useEffect, useState } from "react";
-import { useLazyGetUserDisputesQuery } from "../../../../redux/api/admin";
-import { usePagination } from "../../../../hooks/usePagination";
-import Loader from "../../../../components/Loader";
+import { useLazyGetUserDisputesQuery } from "../../../../../redux/api/admin";
+import { usePagination } from "../../../../../hooks/usePagination";
+import Loader from "../../../../../components/Loader";
 
 const AdminDispute = () => {
   const { id } = useParams();

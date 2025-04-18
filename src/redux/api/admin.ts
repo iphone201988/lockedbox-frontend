@@ -31,6 +31,13 @@ export const adminApi = createApi({
       }),
       providesTags: [ADMIN_TAG],
     }),
+    getAllUsers: builder.query<any, any>({
+      query: (page = 1) => ({
+        url: `admin/user/all?page=${page}`,
+        method: "GET",
+      }),
+      providesTags: [ADMIN_TAG],
+    }),
     searchUser: builder.query<any, any>({
       query: (search) => ({
         url: `admin/user/${search}`,
@@ -108,6 +115,7 @@ export const adminApi = createApi({
 export const {
   useAdminLoginMutation,
   useGetUserQuery,
+  useLazyGetAllUsersQuery,
   useLazySearchUserQuery,
   useGetUserDetailsQuery,
   useBanUserMutation,

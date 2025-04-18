@@ -32,10 +32,12 @@ const AdminSidebar = () => {
           <img className="max-w-[158px] mx-auto" src={Logo} alt="" />
         </Link>
         <div className="side-bar flex flex-col gap-[6px] w-full">
-          <div className="profile-link active">
-            <HomeIcon />
-            Home
-          </div>
+          <Link to="/admin/home">
+            <div className="profile-link active">
+              <HomeIcon />
+              Home
+            </div>
+          </Link>
         </div>
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-[10px]">

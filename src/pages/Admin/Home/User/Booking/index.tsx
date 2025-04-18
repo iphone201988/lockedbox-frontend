@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import BookingsAndPayments from "../../components/bookings-and-payments";
+import BookingsAndPayments from "../../../components/bookings-and-payments";
 import { useEffect, useState } from "react";
-import { useLazyGetUserBookingQuery } from "../../../../redux/api/admin";
-import { usePagination } from "../../../../hooks/usePagination";
-import Loader from "../../../../components/Loader";
+import { useLazyGetUserBookingQuery } from "../../../../../redux/api/admin";
+import { usePagination } from "../../../../../hooks/usePagination";
+import Loader from "../../../../../components/Loader";
 
 const AdminBooking = () => {
   const { id } = useParams();
