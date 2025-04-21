@@ -4,24 +4,20 @@ import { useLazyGetAllUsersQuery } from "../../../redux/api/admin";
 import { usePagination } from "../../../hooks/usePagination";
 import Loader from "../../../components/Loader";
 import { getUrl } from "../../../utils/helper";
+import NoUser from "../../../assets/icons/if-no-user.png";
 
 const AllUsers = () => {
   const [users, setUsers] = useState<any>([]);
   const [getAllUsers, { data, isLoading, isFetching }] =
     useLazyGetAllUsersQuery();
 
-  const {
-    pagination,
-    setPagnation,
-    scrollableRef,
-    handleScroll,
-    restoreScrollPosition,
-  } = usePagination({
-    scrollDown: true,
-    fetchData: () => {
-      getAllUsers(pagination.page);
-    },
-  });
+  const { pagination, setPagnation, scrollableRef, handleScroll } =
+    usePagination({
+      scrollDown: false,
+      fetchData: () => {
+        getAllUsers(pagination.page);
+      },
+    });
 
   useEffect(() => {
     getAllUsers(pagination.page);
@@ -40,10 +36,16 @@ const AllUsers = () => {
   }, [data]);
 
   if (isLoading) return <Loader />;
+
   return (
-    <div className="h-[calc(100%-100px)]">
+    <div className="">
       <h1 className="text-[26px] text-[#235370] font-semibold">All Users</h1>
-      <div className="overflow-x-auto">
+      {isFetching && <Loader />}
+      <div
+        className="overflow-auto max-h-[500px] min-h-[600px] h-[600px]"
+        ref={scrollableRef}
+        onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
+      >
         <div className="relative">
           <table className="mt-[24px] w-full table-auto border-collapse bg-white border border-[#EEEEEE]">
             <thead className="bg-[#EEEEEE]">
@@ -69,12 +71,14 @@ const AllUsers = () => {
                   <td className="px-4 py-2">
                     <img
                       className="w-[42px] h-[42px] object-cover rounded-full"
-                      src={getUrl(user.profileImage)}
+                      src={
+                        user.profileImage ? getUrl(user.profileImage) : NoUser
+                      }
                       alt=""
                     />
                   </td>
                   <td className="px-4 py-2">
-                    {user.firstName + user.lastName}
+                    {user.firstName ? user.firstName + user.lastName : ""}
                   </td>
                   <td className="px-4 py-2 text-[#235370] font-semibold underline text-right cursor-pointer">
                     <Link to={`/admin/user/account/${user._id}`}>
