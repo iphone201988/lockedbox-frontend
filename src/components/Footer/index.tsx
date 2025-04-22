@@ -34,7 +34,7 @@ const Footer = () => {
               </p>
               <Link to="/faq">FAQ</Link>
               <Link to="/contact-us">Contact Us</Link>
-              <Link to="#">Support Centre</Link>
+              <Link to="/support-centre">Support Centre</Link>
             </div>
             <div className=" flex flex-col gap-2 max-sm:max-w-[150px] max-sm:w-full">
               <p className="text-[18px] text-[#235370] font-semibold monts-font max-md:text-[16px]">

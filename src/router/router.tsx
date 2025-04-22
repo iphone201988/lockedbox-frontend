@@ -25,6 +25,7 @@ import TermsAndConditions from "../pages/TermsAndConditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import AboutUs from "../pages/AboutUs";
 import AdminUserHome from "../pages/Admin/Home/User";
+import SupportCentre from "../pages/SupportCentre";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -224,6 +225,14 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loader />}>
         <PrivacyPolicy />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/support-centre",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <SupportCentre />
       </Suspense>
     ),
   },

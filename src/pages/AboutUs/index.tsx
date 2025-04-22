@@ -1,8 +1,12 @@
 import ProfileNavbar from "../../components/ProfileNavbar";
 import AboutImg1 from "../../../src/assets/about-2.png";
 import AboutImg2 from "../../../src/assets/about-1.png";
+import { useEffect } from "react";
 
 const AboutUs = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <ProfileNavbar />

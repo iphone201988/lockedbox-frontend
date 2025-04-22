@@ -1,4 +1,5 @@
 import NoUser from "../../assets/icons/if-no-user.png";
+import { useGetUserQuery } from "../../redux/api";
 import { getUrl } from "../../utils/helper";
 
 const MessageHost = ({
@@ -10,6 +11,8 @@ const MessageHost = ({
   setContent: any;
   listing: any;
 }) => {
+  const { data } = useGetUserQuery();
+  const isHost = data?.userExists?.dashboardRole == "host";
   return (
     <div className="py-[16px]">
       <p className="text-[20px] font-semibold mb-[6px]">Message Host</p>
@@ -51,7 +54,13 @@ const MessageHost = ({
           </div> */}
         </div>
       </div>
-      <button className="btn-pri ml-auto !block" onClick={handleRequestBooking}>
+      <button
+        className={`btn-pri ml-auto !block ${
+          isHost ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
+        }`}
+        onClick={handleRequestBooking}
+        disabled={isHost}
+      >
         Request Booking
       </button>
     </div>

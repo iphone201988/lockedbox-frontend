@@ -79,7 +79,7 @@ const SearchResult = () => {
     handleScroll,
     restoreScrollPosition,
   } = usePagination({
-    scrollDown: true,
+    scrollDown: false,
     fetchData: () => {
       fetchListings();
     },
@@ -176,7 +176,7 @@ const SearchResult = () => {
         totalPages: pagination.totalPages,
       }));
       restoreScrollPosition();
-      setProperties(mappedProperties);
+      setProperties((prev: any) => [...prev, ...mappedProperties]);
     }
   }, [data]);
 
@@ -348,15 +348,17 @@ const SearchResult = () => {
               </button>
             </div>
           </div>
-          <div className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto">
+          <div
+            className="h-[calc(100%-78px)] overflow-auto no-scrollbar max-lg:h-auto"
+            ref={scrollableRef}
+            onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
+          >
             <div
               className={`grid ${
                 showGrid
                   ? "grid-cols-[repeat(3,_1fr)] max-mlg:grid-cols-[repeat(3,_1fr)] "
                   : "grid-cols-[repeat(6,_1fr)] max-2xl:grid-cols-[repeat(5,_1fr)] max-mlg:grid-cols-[repeat(4,_1fr)]"
               } gap-[16px] pb-[20px]  max-lg:grid-cols-[repeat(3,_1fr)] max-md:grid-cols-[repeat(2,_1fr)] max-sm:grid-cols-[repeat(1,_1fr)] `}
-              ref={scrollableRef}
-              onScroll={!isLoading && !isFetching ? handleScroll : () => {}}
             >
               {properties.length ? (
                 properties.map((property: Properties, index: number) => (

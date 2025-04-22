@@ -1,4 +1,7 @@
-import { allowedStorage as allowedStorageType } from "../../constants/index";
+import {
+  allowedStorage as allowedStorageType,
+  spaceFeatures,
+} from "../../constants/index";
 import NoUser from "../../assets/icons/if-no-user.png";
 import { getUrl } from "../../utils/helper";
 
@@ -9,6 +12,12 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
       if (allowedStorage.name == storage) return allowedStorage;
     });
   });
+
+  const featuresObj = listing?.features?.map((feature: string) =>
+    spaceFeatures.find((i) => i.id == feature)
+  );
+
+  const features = featuresObj?.map((feature: any) => <li>{feature.name}</li>);
   return (
     <div className="">
       <div className="flex justify-between items-center py-[16px] border-b border-[#EEEEEE]">
@@ -16,7 +25,9 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
           <p className="text-[26px] font-semibold max-md:text-[20px] max-sm:text-[18px]">
             {listing?.spaceType} for Storage
           </p>
-          <p className="location text-[18px] text-[#959595] max-sm:text-[16px]">{listing?.city}</p>
+          <p className="location text-[18px] text-[#959595] max-sm:text-[16px]">
+            {listing?.city}
+          </p>
         </div>
         <div className="">
           <div className="flex justify-center items-center">
@@ -95,9 +106,7 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
           Additional features
         </p>
         <ul className="list-disc list-inside flex flex-col gap-[6px]">
-          <li>Climate Control</li>
-          <li>Security</li>
-          <li>Cameras</li>
+          {...features}
         </ul>
       </div>
 

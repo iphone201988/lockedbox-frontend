@@ -31,7 +31,7 @@ const PriceInfo = ({
           <p className="text-left text-[#959595]">
             ${price} x {monthsDifference} months
           </p>
-          <p className="text-right font-semibold">${total} CAD</p>
+          <p className="text-right font-semibold">${total.toFixed(2)} CAD</p>
         </div>
         <div className="flex justify-between py-[16px] border-b border-[#EEEEEE]">
           <p className="text-left text-[#959595]">Service fee</p>

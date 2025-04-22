@@ -147,11 +147,11 @@ const DatePicker = ({
         <div className="flex items-center justify-between">
           <p className="text-[26px] font-semibold">${price}/month</p>
           {/* <div className="dots"> */}
-            {/* <div className="flex items-center gap-[5px]">
+          {/* <div className="flex items-center gap-[5px]">
               <div className="rounded-full w-[10px] h-[10px] bg-[#008000]"></div>
               <span className="text-xs">Booked</span>
             </div> */}
-            {/* <div className="flex items-center gap-[5px]">
+          {/* <div className="flex items-center gap-[5px]">
               <div className="rounded-full w-[10px] h-[10px] bg-[#ff0000]"></div>
               <span className="text-xs">Booked</span>
             </div> */}

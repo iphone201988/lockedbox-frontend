@@ -121,6 +121,11 @@ const BookingReview = () => {
       {(isLoading || requestLoading) && <Loader />}
       <ProfileNavbar />
       <div className="max-w-[1120px]  mx-auto mt-[24px] max-mlg:px-[20px]">
+        {userData?.userExists?.dashboardRole == "host" && (
+          <div className="text-red-500 text-center font-bold text-lg my-2 w-full">
+            Please switch to rent mode for sending a request
+          </div>
+        )}
         <div className=" flex border border-[#EEEEEE] rounded-[16px] max-md:flex-col">
           <div className="w-[50%] max-lg:w-[40%] max-md:w-[100%]">
             {listing && <BookingInfo listing={listing} />}

@@ -3,7 +3,7 @@ import ImageGallery from "../../components/ImageGallery";
 import ListingInfoDetails from "../../components/ListingInfoDetails";
 import PoliciesInfo from "../../components/PoliciesInfo";
 import ProfileNavbar from "../../components/ProfileNavbar";
-import { useGetListingByIdQuery, useGetUserQuery } from "../../redux/api";
+import { useGetListingByIdQuery } from "../../redux/api";
 import Loader from "../../components/Loader";
 import { useEffect, useState } from "react";
 import DatePicker from "../../components/DatePicker";
@@ -17,7 +17,7 @@ const ListingDetail = () => {
   const [listing, setListing] = useState<any>();
   if (!id) return <Navigate to="/" />;
   const { data, isLoading } = useGetListingByIdQuery(id);
-  const { data: userData } = useGetUserQuery();
+  // const { data: userData } = useGetUserQuery();
 
   useEffect(() => {
     if (data?.success) {
@@ -45,13 +45,17 @@ const ListingDetail = () => {
           <div className="max-w-[700px] max-lg:max-w-[100%] w-full">
             {listing && <ListingInfoDetails listing={listing} />}
           </div>
-          {userData?.userExists?.dashboardRole == "rent" && (
-            <div className="py-[16px] w-full max-w-[370px]">
-              {listing && (
-                <DatePicker price={listing?.price} id={listing?._id} bookingDates={listing?.bookingDates}/>
-              )}
-            </div>
-          )}
+          {/* {userData?.userExists?.dashboardRole == "rent" && ( */}
+          <div className="py-[16px] w-full max-w-[370px]">
+            {listing && (
+              <DatePicker
+                price={listing?.price}
+                id={listing?._id}
+                bookingDates={listing?.bookingDates}
+              />
+            )}
+          </div>
+          {/* )} */}
         </div>
         <div className="flex gap-[24px] justify-between max-lg:flex-col-reverse max-lg:gap-0">
           <div className="max-w-[520px]">
