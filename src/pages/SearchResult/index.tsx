@@ -153,6 +153,11 @@ const SearchResult = () => {
   };
 
   useEffect(() => {
+    setPagnation({
+      page: 1,
+      totalPages: 1,
+    });
+    setProperties([]);
     fetchListings();
   }, [userLocation, findListing, navigate, dimensions]);
 
