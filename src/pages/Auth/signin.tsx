@@ -10,7 +10,7 @@ import {
   handleInputChange,
   setToken,
 } from "../../utils/helper";
-import SignUpMethod from "../../components/SignUpMethod";
+// import SignUpMethod from "../../components/SignUpMethod";
 import { SignInSchema } from "../../schema";
 import * as yup from "yup";
 import Logo from "../../components/Logo";
@@ -39,7 +39,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const [loginUser, { isLoading, data }] = useLoginUserMutation();
 
-  const [signupMethod, setSignupMethod] = useState<AuthType>({
+  const [signupMethod, _] = useState<AuthType>({
     email: true,
     phone: false,
   });
@@ -89,10 +89,10 @@ const SignIn = () => {
             onSubmit={handleSubmit}
           >
             <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-              <SignUpMethod
+              {/* <SignUpMethod
                 signupMethod={signupMethod}
                 setSignupMethod={setSignupMethod}
-              />
+              /> */}
               {signupMethod.email && (
                 <div className="input-with-icon relative w-full max-w-[540px]">
                   <Input

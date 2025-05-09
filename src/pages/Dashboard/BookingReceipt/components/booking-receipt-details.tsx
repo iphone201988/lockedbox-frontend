@@ -12,7 +12,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
   const { listingId: listing } = booking;
   const { data: userData } = useGetUserQuery();
 
-  console.log("listing:::", booking);
+  console.log("listing:::", userData);
   return (
     <div className="p-[20px]">
       <div className="">
@@ -22,7 +22,7 @@ const BookingReceiptDetails = ({ booking }: { booking: any }) => {
         <PriceInfo
           monthsDifference={booking.totalMonth}
           price={listing.price}
-          role={userData?.userExists?.dahboardRole}
+          role={userData?.userExists?.dashboardRole}
           // selectedPlan={0}
         />
       </div>

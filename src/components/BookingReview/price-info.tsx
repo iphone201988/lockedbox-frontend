@@ -11,6 +11,7 @@ const PriceInfo = ({
 }) => {
   const total = price * monthsDifference;
   const isHost = role == "host";
+  console.log("role:::", role,isHost);
   let serviceFee, grandTotal;
   if (isHost) {
     serviceFee = total * 0.03;

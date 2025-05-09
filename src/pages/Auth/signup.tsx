@@ -9,7 +9,7 @@ import {
   handleError,
   handleInputChange,
 } from "../../utils/helper";
-import SignUpMethod from "../../components/SignUpMethod";
+// import SignUpMethod from "../../components/SignUpMethod";
 import Phone from "../../components/Phone";
 import Logo from "../../components/Logo";
 import { useSignUpUserMutation } from "../../redux/api";
@@ -39,7 +39,7 @@ const Signup = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");
 
-  const [signupMethod, setSignupMethod] = useState<AuthType>({
+  const [signupMethod, _] = useState<AuthType>({
     email: true,
     phone: false,
   });
@@ -96,10 +96,10 @@ const Signup = () => {
             onSubmit={handleSubmit}
           >
             <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-              <SignUpMethod
+              {/* <SignUpMethod
                 signupMethod={signupMethod}
                 setSignupMethod={setSignupMethod}
-              />
+              /> */}
               <div className="flex gap-[16px] relative w-full max-w-[540px] mb-[10px]">
                 <div className="w-full">
                   <Input

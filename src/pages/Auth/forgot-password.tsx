@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LoginBgImg from "../../assets/login-img.png";
 import BackButton from "../../components/BackButton";
-import SignUpMethod from "../../components/SignUpMethod";
+// import SignUpMethod from "../../components/SignUpMethod";
 import Input from "../../components/Input";
 import { handleError, handleInputChange } from "../../utils/helper";
 import Phone from "../../components/Phone";
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     initialState
   );
 
-  const [signupMethod, setSignupMethod] = useState<AuthType>({
+  const [signupMethod, _] = useState<AuthType>({
     email: true,
     phone: false,
   });
@@ -84,10 +84,10 @@ const ForgotPassword = () => {
             onSubmit={handleSubmit}
           >
             <div className="w-full mt-[30px] flex flex-col gap-[20px] items-center">
-              <SignUpMethod
+              {/* <SignUpMethod
                 signupMethod={signupMethod}
                 setSignupMethod={setSignupMethod}
-              />
+              /> */}
               {signupMethod.email && (
                 <div className="input-with-icon relative w-full max-w-[540px]">
                   <Input

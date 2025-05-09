@@ -41,17 +41,18 @@ const StepThree = ({ handleSubmit }: { handleSubmit: any }) => {
       <div className="flex border-b border-[#EEEEEE] py-[24px] max-md:flex-col max-md:gap-[20px]">
         <div className="max-w-[380px] w-full max-md:max-w-full">
           <p className="text-[18px] text-[#235370] font-semibold">
-            Confirm your identity <span className="text-red-500">*</span>
+            Confirm your identity & <br/>
+            connect bank account{" "}
+            <span className="text-red-500">*</span>
           </p>
         </div>
         <div className=" max-w-[460px] w-full max-md:max-w-full">
           <div className="">
             {!isConnected ? (
               <p>
-                We request all hosts complete an identity verification through
-                Stripe to build trust and ensure security within the community.
-                This step reassures renters that their belongings are stored
-                with a credible and accountable individual.
+                To build trust and ensure security, all hosts must complete
+                identity verification through Stripe. You'll also connect your
+                bank account to receive automatic payments securely.
               </p>
             ) : (
               <p className=" text-green-600 font-bold">

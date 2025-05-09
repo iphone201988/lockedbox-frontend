@@ -417,7 +417,7 @@ const RenterProfile = () => {
                   >
                     verify your documents
                   </span>{" "}
-                  for continue using your bank account
+                  to complete connecting your bank account.
                 </div>
               )}
             </>
