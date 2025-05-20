@@ -6,6 +6,7 @@ import { allowedStorage as allowedStorageType } from "../../../constants/index";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import moment from "moment-timezone";
 import {
+  useAddStripeConnectMutation,
   useGetUserQuery,
   useUpdateBookingStatusMutation,
 } from "../../../redux/api";
@@ -47,6 +48,8 @@ const HostBookingCard = ({
   const role = userData?.userExists?.dashboardRole;
   const [updateBookingStatus, { isLoading, data }] =
     useUpdateBookingStatusMutation();
+  const [addStripeConnect, { isLoading: stripeLoading }] =
+    useAddStripeConnectMutation();
 
   const icons = listing.allowedStorage.map((storage: string) => {
     return allowedStorageType.map((allowedStorage: any) => {
@@ -54,14 +57,33 @@ const HostBookingCard = ({
     });
   });
 
+  const updateBookingHandler = async (status: string) => {
+    updateBookingStatus({ bookingId: booking._id, body: { status } })
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
+  };
+
   const handleUpdate = async (status: string) => {
     if (!status || !["approve", "reject"].includes(status)) {
       toast.error("Please approve or reject the booking");
     }
 
-    await updateBookingStatus({ bookingId: booking._id, body: { status } })
-      .unwrap()
-      .catch((error: any) => handleError(error, navigate));
+    if (!userData?.userExists.isStripeAccountConnected) {
+      const response = await addStripeConnect({});
+
+      if (response?.data?.success) {
+        const { url, stripeAccountId, isStripeAccountConnected } =
+          response?.data.accountLink;
+
+        if (stripeAccountId && isStripeAccountConnected) {
+          updateBookingHandler(status);
+          return;
+        }
+        if (url) window.open(url, "_blank");
+      }
+      return;
+    }
+    updateBookingHandler(status);
   };
 
   useEffect(() => {
@@ -82,7 +104,7 @@ const HostBookingCard = ({
 
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] ">
-      {isLoading && <Loader />}
+      {(isLoading || stripeLoading) && <Loader />}
       <div className="p-[10px] flex items-center justify-between max-md:flex-col max-md:gap-[16px] relative">
         {booking.isCheckIn && (
           <button

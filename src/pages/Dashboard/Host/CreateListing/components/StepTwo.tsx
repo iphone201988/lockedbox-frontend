@@ -6,7 +6,7 @@ import { DropDownIcon } from "../../../../../icons";
 import { handleInputChange } from "../../../../../utils/helper";
 import MultiImageSelect from "../../../../../components/MultipleImages";
 import { useParams } from "react-router-dom";
-import { useGetUserQuery } from "../../../../../redux/api";
+// import { useGetUserQuery } from "../../../../../redux/api";
 
 const StepTwo = ({
   handleComplete,
@@ -16,7 +16,7 @@ const StepTwo = ({
   handleBack,
 }: ListingStepProp<StepTwoFormType>) => {
   const { id } = useParams();
-  const { data: userData } = useGetUserQuery();
+  // const { data: userData } = useGetUserQuery();
 
   return (
     <div className="flex flex-col">
@@ -195,11 +195,7 @@ const StepTwo = ({
           Back
         </button>
         <button className="btn-pri mt-[24px]" onClick={handleComplete}>
-          {id
-            ? "Update Listing"
-            : userData?.userExists.isStripeAccountConnected
-            ? "Create Listing"
-            : "Next"}
+          {id ? "Update Listing" : "Create Listing"}
         </button>
       </div>
     </div>

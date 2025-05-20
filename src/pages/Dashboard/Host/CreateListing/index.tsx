@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import StepOne from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
-import StepThree from "./components/StepThree";
+// import StepThree from "./components/StepThree";
 import { useForm } from "../../../../hooks/useForm";
 import { StepOneSchema, StepTwoSchema } from "../../../../schema";
 import * as yup from "yup";
@@ -104,11 +104,12 @@ const CreateListing = () => {
     if (step === 2) {
       const hasErrors: boolean = await stepTwoValidate();
       if (hasErrors) return;
+      handleSubmit();
 
-      if (userData?.userExists.isStripeAccountConnected) {
-        handleSubmit();
-        return;
-      }
+      // if (userData?.userExists.isStripeAccountConnected) {
+      //   handleSubmit();
+      //   return;
+      // }
     }
     setCurrentStep(step);
   };
@@ -235,23 +236,23 @@ const CreateListing = () => {
                 1
               </div>
               <div>
-                <p className="step-count !font-normal">Step 1/3</p>
+                <p className="step-count !font-normal">Step 1/2</p>
                 <p className="font-semibold">Basic Information</p>
               </div>
             </div>
           </Tab>
           <Tab onClick={() => handleNextStep(1)}>
-            <div className="step-button flex items-center gap-[12px] border-l border-r border-[#EEEEEE] max-md:border-0">
+            <div className="step-button flex items-center gap-[12px] border-l  border-[#EEEEEE] max-md:border-0">
               <div className="step-number w-[56px] h-[56px] rounded-full text-white flex items-center justify-center text-[20px] !font-semibold">
                 2
               </div>
               <div className="">
-                <p className="step-count !font-normal">Step 2/3</p>
+                <p className="step-count !font-normal">Step 2/2</p>
                 <p className="font-semibold">Description</p>
               </div>
             </div>
           </Tab>
-          {!userData?.userExists.isStripeAccountConnected && (
+          {/* {!userData?.userExists.isStripeAccountConnected && (
             <Tab onClick={() => handleNextStep(2)}>
               <div className="step-button flex items-center gap-[12px]">
                 <div className="step-number w-[56px] h-[56px] rounded-full text-white flex items-center justify-center text-[20px] !font-semibold">
@@ -263,7 +264,7 @@ const CreateListing = () => {
                 </div>
               </div>
             </Tab>
-          )}
+          )} */}
         </TabList>
 
         <TabPanel>
@@ -286,11 +287,11 @@ const CreateListing = () => {
             handleBack={() => setCurrentStep((prev) => prev - 1)}
           />
         </TabPanel>
-        {!userData?.userExists.isStripeAccountConnected && (
+        {/* {!userData?.userExists.isStripeAccountConnected && (
           <TabPanel>
             <StepThree handleSubmit={handleSubmit} />
           </TabPanel>
-        )}
+        )} */}
       </Tabs>
     </div>
   );

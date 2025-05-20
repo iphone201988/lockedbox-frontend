@@ -1,5 +1,9 @@
 import { toast } from "react-toastify";
-import { useUpdateBookingStatusMutation } from "../../../../redux/api";
+import {
+  useAddStripeConnectMutation,
+  useGetUserQuery,
+  useUpdateBookingStatusMutation,
+} from "../../../../redux/api";
 import { getUrl, handleError } from "../../../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -29,14 +33,37 @@ const IncomingMessage = ({
 
   const isImage = contentType == "image";
 
+  const { data: userData } = useGetUserQuery();
+
+  const [addStripeConnect, { isLoading: stripeLoading }] =
+    useAddStripeConnectMutation();
+
+  const updateBookingHandler = async (status: string) => {
+    updateBookingStatus({ bookingId, body: { status } })
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
+  };
+
   const handleUpdate = async (status: string) => {
     if (!status || !["approve", "reject"].includes(status)) {
       toast.error("Please approve or reject the booking");
     }
+    if (!userData?.userExists.isStripeAccountConnected) {
+      const response = await addStripeConnect({});
 
-    await updateBookingStatus({ bookingId, body: { status } })
-      .unwrap()
-      .catch((error: any) => handleError(error, navigate));
+      if (response?.data?.success) {
+        const { url, stripeAccountId, isStripeAccountConnected } =
+          response?.data.accountLink;
+
+        if (stripeAccountId && isStripeAccountConnected) {
+          updateBookingHandler(status);
+          return;
+        }
+        if (url) window.open(url, "_blank");
+      }
+      return;
+    }
+    updateBookingHandler(status);
   };
 
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -50,7 +77,7 @@ const IncomingMessage = ({
 
   return (
     <>
-      {isLoading && <Loader />}
+      {(isLoading || stripeLoading) && <Loader />}
       <div className="flex items-start mt-[24px] gap-[8px] flex-col">
         <div className="flex gap-[8px] relative">
           <img src={image} alt="" className="w-[34px] h-[34px] rounded-full" />

@@ -35,13 +35,12 @@ const SupportCentre = () => {
           </p>
 
           <h6 className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
-            What safety measures are in place for both hosts and renters?
+            What safety measures are in place for renters?
           </h6>
           <p className="text-[16px] text-[#7A7A7A]">
-            To ensure a safe experience for all users, LockedBox implements user
-            verification for individuals who sign up and utilize our service.
-            This process helps confirm the identity of each user on the platform
-            and ensure only verified users can host or rent.
+            To ensure a safe experience for renters, LockedBox requires all
+            hosts to complete identity verification. Bookings are only made with
+            verified hosts, providing added peace of mind for users.
           </p>
 
           <h6 className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
@@ -96,14 +95,14 @@ const SupportCentre = () => {
             select the “Reviews” link from the dropdown menu.
           </p>
 
-          <h6 className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
+          {/* <h6 className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
             How can I verify the legitimacy of a host or renter?
           </h6>
           <p className="text-[16px] text-[#7A7A7A]">
             All users—both hosts and renters—must verify their identity before
             they can create or book a listing. We use a trusted third-party
             service, Stripe, to securely handle the ID verification process.
-          </p>
+          </p> */}
 
           <h6 className="text-[20px] max-lg:text-[18px] font-semibold mt-[24px] mb-[10px]">
             What should I do if I suspect fraudulent activity or a scam?

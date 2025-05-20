@@ -28,7 +28,7 @@ const Store = () => {
             ))}
           </div>
           <p className="max-w-[340px]">
-            Search from certified storage hosts nearby that will safeguard your
+            Search for storage hosts nearby that will safeguard your
             items.
           </p>
         </div>

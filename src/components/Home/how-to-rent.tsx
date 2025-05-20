@@ -70,7 +70,7 @@ const HowToRent = () => {
                 Book your space
               </h5>
               <p className="text-[24px] text-left max-w-[240px] max-lg:text-[16px]">
-                All hosts are identity verified.
+                All bookings are with identity verified hosts.
               </p>
             </div>
           </div>

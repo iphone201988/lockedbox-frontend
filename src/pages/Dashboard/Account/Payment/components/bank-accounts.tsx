@@ -60,7 +60,7 @@ const BankAccounts = () => {
         </div>
         <div className="max-w-[100%] w-full">
           <div className=" max-w-[100%] w-full flex gap-[20px] flex-wrap">
-            {bankAccounts.length &&
+            {bankAccounts.length ? (
               bankAccounts.map((account: any) => (
                 <div className="flex gap-[4px] flex-col w-full max-w-[400px] border border-[#EEEEEE] p-[16px] rounded-[16px]">
                   <div className="flex justify-between">
@@ -76,7 +76,10 @@ const BankAccounts = () => {
                     <b>XXXX XXXX XXXX {account.last4}</b>
                   </div>
                 </div>
-              ))}
+              ))
+            ) : (
+              <></>
+            )}
           </div>
           {isStripeAccountConnected ? (
             <button

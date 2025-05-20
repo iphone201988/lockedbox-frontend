@@ -87,12 +87,12 @@ const HostWithUs = () => {
             </svg>
 
             <h5 className="text-[26px] font-bold mt-[16px] mb-[12px] max-lg:text-[20px]">
-              Verified <br />
-              Renters
+              Email verified <br />
+              renters
             </h5>
             <p className="text-[20px] max-lg:text-[16px]">
-              Renters on LockedBox are identity-verified through phone and email,
-              giving you added security and confidence when sharing your space
+              Renters on LockedBox are verified through email, giving you added
+              security and confidence when sharing your space.
             </p>
           </div>
         </div>
