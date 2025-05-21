@@ -18,6 +18,7 @@ import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { ResponseMessages } from "../../constants/api-responses";
 import * as yup from "yup";
+import usePageTracking from "../../hooks/usePageTracking";
 
 type SignUpFormType = yup.InferType<typeof SignUpSchema>;
 const initialState: SignUpFormType = {
@@ -34,7 +35,7 @@ const Signup = () => {
     SignUpSchema,
     initialState
   );
-
+  usePageTracking();
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState("");

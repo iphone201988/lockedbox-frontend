@@ -10,11 +10,12 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useLazyGetUserQuery } from "../../redux/api";
 import { getToken } from "../../utils/helper";
+import usePageTracking from "../../hooks/usePageTracking";
 
 const Home = () => {
   const location = useLocation();
   const token = getToken();
-
+  usePageTracking();
   const [findUser, { data }] = useLazyGetUserQuery();
 
   useEffect(() => {
@@ -41,9 +42,7 @@ const Home = () => {
       <Store />
       <HowToRent />
       <HostWithUs />
-      {(!token || data?.userExists?.dashboardRole === "rent") && (
-        <JoinHost />
-      )}
+      {(!token || data?.userExists?.dashboardRole === "rent") && <JoinHost />}
       <Footer />
     </>
   );

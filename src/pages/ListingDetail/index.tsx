@@ -10,6 +10,7 @@ import DatePicker from "../../components/DatePicker";
 import ListingReviews from "../../components/ListingReviews";
 import { getUrl } from "../../utils/helper";
 import LocationMap from "../../components/LocationMap";
+import usePageTracking from "../../hooks/usePageTracking";
 
 const ListingDetail = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const ListingDetail = () => {
   if (!id) return <Navigate to="/" />;
   const { data, isLoading } = useGetListingByIdQuery(id);
   // const { data: userData } = useGetUserQuery();
-
+  usePageTracking();
   useEffect(() => {
     if (data?.success) {
       if (!data?.listing) {
