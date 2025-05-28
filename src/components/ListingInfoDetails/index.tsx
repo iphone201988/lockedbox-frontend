@@ -4,6 +4,7 @@ import {
 } from "../../constants/index";
 import NoUser from "../../assets/icons/if-no-user.png";
 import { getUrl } from "../../utils/helper";
+import { DatePickerIcon } from "../../icons";
 
 const ListingInfoDetails = ({ listing }: { listing: any }) => {
   console.log("listing::::", listing);
@@ -25,9 +26,18 @@ const ListingInfoDetails = ({ listing }: { listing: any }) => {
           <p className="text-[26px] font-semibold max-md:text-[20px] max-sm:text-[18px]">
             {listing?.spaceType} for Storage
           </p>
-          <p className="location text-[18px] text-[#959595] max-sm:text-[16px]">
-            {listing?.city}
-          </p>
+          <div className="flex gap-[15px]">
+            <p className="location text-[18px] text-[#959595] max-sm:text-[16px]">
+              {listing?.city}
+            </p>
+            <div className="text-[#959595] max-md:text-[14px] flex items-center">
+              <DatePickerIcon />{" "}
+              <span>
+                {listing?.totalMonthRented}{" "}
+                {listing?.totalMonthRented > 1 ? "months" : "month"} booked
+              </span>
+            </div>
+          </div>
         </div>
         <div className="">
           <div className="flex justify-center items-center">

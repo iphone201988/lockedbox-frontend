@@ -14,7 +14,9 @@ const NavBar = () => {
           {routes.map((link: any, index: number) => (
             <Link
               className="hover:text-[#235370]"
-              to={link.path}
+              to={
+                !token && link.path == "/dashboard/home" ? "/signup" : link.path
+              }
               key={index}
               state={link.name == "How it Works" ? { scrollTo: "rent" } : {}}
             >

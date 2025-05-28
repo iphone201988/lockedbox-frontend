@@ -127,14 +127,14 @@ const SearchResult = () => {
     }
   }, []);
 
-  const fetchListings = async () => {
+  const fetchListings = async (page?: number) => {
     if (!userLocation.latitude || !userLocation.longitude) return;
 
     const filters: any = {
       latitude: userLocation.latitude,
       longitude: userLocation.longitude,
       userId: userData?.userExists?._id,
-      page: pagination.page,
+      page: page ? page : pagination.page,
       _cacheBuster: Date.now(),
     };
 
@@ -158,8 +158,8 @@ const SearchResult = () => {
       totalPages: 1,
     });
     setProperties([]);
-    fetchListings();
-  }, [userLocation, findListing, navigate, dimensions]);
+    fetchListings(1);
+  }, [userLocation, findListing, navigate, dimensions, selectedFilters]);
 
   useEffect(() => {
     if (data?.success) {
@@ -174,6 +174,7 @@ const SearchResult = () => {
         image: item.storageImages[0],
         totalReviews: item.totalReviews,
         averageRating: item.averageRating,
+        totalMonthRented: item.totalMonthRented,
       }));
 
       setPagnation((prev: any) => ({
@@ -185,9 +186,9 @@ const SearchResult = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    fetchListings();
-  }, [selectedFilters]);
+  // useEffect(() => {
+  //   fetchListings();
+  // }, [selectedFilters]);
 
   const handleItemsFilterChange = (itemName: string) => {
     setSelectedFilters((prev: any) => {
@@ -376,6 +377,7 @@ const SearchResult = () => {
                     image={property.image}
                     totalReviews={property.totalReviews}
                     averageRating={property.averageRating}
+                    totalMonthRented={property.totalMonthRented}
                   />
                 ))
               ) : (

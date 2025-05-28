@@ -154,6 +154,7 @@ type Properties = {
   price: number;
   totalReviews: number;
   averageRating: number;
+  totalMonthRented: number;
 };
 
 interface ImageItem {

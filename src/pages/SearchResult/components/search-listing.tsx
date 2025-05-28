@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { StarIcon } from "../../../icons";
 import { getUrl } from "../../../utils/helper";
+import DateIcon from "../../../assets/icons/date-picker-icn.png";
 
 const SearchListing = ({
   id,
@@ -10,11 +11,12 @@ const SearchListing = ({
   price,
   totalReviews,
   averageRating,
+  totalMonthRented,
 }: Properties) => {
   const navigate = useNavigate();
   return (
     <div
-      className="cursor-pointer max-w-[300px] h-[260px] max-sm:max-w-full"
+      className="cursor-pointer max-w-[300px] h-[260px] max-sm:max-w-full my-3"
       onClick={() => navigate(`/listing-details/${id}`)}
     >
       <div className="relative h-[calc(100%-30px)]">
@@ -27,7 +29,9 @@ const SearchListing = ({
           <span className="flex gap-[4px] items-center">
             <StarIcon />
             {averageRating ? (
-              <b className="text-[13px] font-normal">{averageRating.toFixed(1)}</b>
+              <b className="text-[13px] font-normal">
+                {averageRating.toFixed(1)}
+              </b>
             ) : (
               <></>
             )}
@@ -47,9 +51,19 @@ const SearchListing = ({
         >
           {title} space
         </a>
+      </div>
+      <div className="w-full flex justify-between mt-1">
         <span className="text-[#235370] max-md:text-[14px]">
           ${price}/ month
         </span>
+        <div className="text-[#235370] max-md:text-[14px] flex items-center">
+          <img src={DateIcon} alt="" className="w-[18px] h-[18px]" />
+          <span>
+            {" "}
+            {totalMonthRented} {totalMonthRented > 1 ? "months" : "month"}{" "}
+            booked
+          </span>
+        </div>
       </div>
     </div>
   );
