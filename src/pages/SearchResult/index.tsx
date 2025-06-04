@@ -12,6 +12,7 @@ import SortFilter from "./components/sort-filter";
 import { FiltersIcon, PropertyIcon } from "../../icons";
 import MainFilter from "./components/main-filter";
 import { usePagination } from "../../hooks/usePagination";
+import usePageTracking from "../../hooks/usePageTracking";
 
 const initialState = {
   items: false,
@@ -39,6 +40,7 @@ const SearchResult = () => {
     userData = data;
   }
 
+  usePageTracking();
   const location = useLocation();
   const navigate = useNavigate();
   const customLocation =

@@ -1,8 +1,10 @@
-import {  RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import router from "./router/router";
 import { useGetUserQuery } from "./redux/api";
 import { getToken, removeToken } from "./utils/helper";
 import Loader from "./components/Loader";
+import { useEffect } from "react";
+import { initGA } from "./GoogleAnalytics";
 
 const App = () => {
   const token = getToken();
@@ -16,6 +18,10 @@ const App = () => {
       window.location.href = "/";
     }
   }
+
+  useEffect(() => {
+    initGA();
+  }, []);
 
   return (
     <>
