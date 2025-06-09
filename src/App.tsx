@@ -8,20 +8,30 @@ import { initGA } from "./GoogleAnalytics";
 
 const App = () => {
   const token = getToken();
-  if (token) {
-    const { isLoading, isError, error } = useGetUserQuery();
-    console.log("here!!");
-    if (isLoading) return <Loader />;
+  const { isLoading, isError, error } = useGetUserQuery(undefined, {
+    skip: !token,
+  });
+  // console.log("here!!");
+  // if (isLoading) return <Loader />;
+  // if (isError) {
+  //   console.log("error::", error);
+  //   removeToken();
+  //   window.location.href = "/";
+  // }
+
+  useEffect(() => {
     if (isError) {
       console.log("error::", error);
       removeToken();
       window.location.href = "/";
     }
-  }
+  }, [isError, error]);
 
   useEffect(() => {
     initGA();
   }, []);
+
+  if (token && isLoading) return <Loader />;
 
   return (
     <>
