@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import Loader from "../../../../../components/Loader";
 import {
   useGetBankAccountsQuery,
+  useGetStripeConnectInfoQuery,
   useGetUserQuery,
   useLazyGetLoginLinkQuery,
 } from "../../../../../redux/api";
 import { useNavigate } from "react-router-dom";
-import { handleError } from "../../../../../utils/helper";
+import AddIcon from "../../../../../assets/icons/add-icn.png";
+// import { handleError } from "../../../../../utils/helper";
 
 const BankAccounts = () => {
   const navigate = useNavigate();
@@ -18,16 +20,64 @@ const BankAccounts = () => {
     skip: !isStripeAccountConnected,
   });
 
-  const [bankAccounts, setBankAccounts] = useState([]);
-  const [
-    getLoginLink,
-    { data: linkData, isLoading: isGeneratingLink, isFetching },
-  ] = useLazyGetLoginLinkQuery();
+  const [stripeIdentity, setStripeIdentity] = useState<any>({
+    isDocumentUploaded: null,
+    isDocumentsVerified: null,
+    pendingVerifications: null,
+  });
 
-  const generateLoginLink = async () => {
-    await getLoginLink()
-      .unwrap()
-      .catch((error: any) => handleError(error, navigate));
+  const { data: stripeConnectInfo } = useGetStripeConnectInfoQuery(undefined, {
+    skip: !userData?.userExists?.stripeAccountId,
+  });
+
+  useEffect(() => {
+    if (stripeConnectInfo?.success) {
+      const isDocumentUploaded =
+        stripeConnectInfo?.account?.individual?.verification?.document?.back ||
+        stripeConnectInfo?.account?.individual?.verification?.document?.front;
+
+      const isDocumentsVerified =
+        stripeConnectInfo?.account?.individual?.verification?.status ==
+        "verified"
+          ? true
+          : false;
+
+      const pendingVerifications =
+        stripeConnectInfo?.account?.requirements?.pending_verification;
+
+      setStripeIdentity({
+        isDocumentUploaded,
+        isDocumentsVerified,
+        pendingVerifications,
+      });
+    }
+  }, [stripeConnectInfo]);
+
+  const [bankAccounts, setBankAccounts] = useState([]);
+  // const [
+  //   getLoginLink,
+  //   { data: linkData, isLoading: isGeneratingLink, isFetching },
+  // ] = useLazyGetLoginLinkQuery();
+  const [_, { data: linkData, isLoading: isGeneratingLink, isFetching }] =
+    useLazyGetLoginLinkQuery();
+
+  // const generateLoginLink = async () => {
+  //   await getLoginLink()
+  //     .unwrap()
+  //     .catch((error: any) => handleError(error, navigate));
+  // };
+
+  const verifyIdentity = async () => {
+    console.log("Enter inside verify indedntity function");
+    let step = 1;
+    if (userData?.userExists?.stripeAccountId) step = 2;
+    if (
+      userData?.userExists?.stripeAccountId &&
+      stripeIdentity.isDocumentsVerified
+    )
+      step = 3;
+
+    navigate("/dashboard/stripe-onboarding", { state: { step } });
   };
 
   useEffect(() => {
@@ -81,18 +131,21 @@ const BankAccounts = () => {
               <></>
             )}
           </div>
-          {isStripeAccountConnected ? (
-            <button
-              className="btn-pri mt-[24px] ml-auto"
-              onClick={generateLoginLink}
-            >
-              Manage your accounts
-            </button>
-          ) : (
+          {/* {stripeIdentity.isDocumentsVerified ? ( */}
+          <button
+            className="cursor-pointer flex  max-w-[250px] min-w-[150px] flex-col justify-center items-center border border-[#235370] border-dashed rounded-[16px] p-[20px] hover:bg-[#EEEEEE] mt-5"
+            onClick={verifyIdentity}
+          >
+            <img src={AddIcon} alt="" />
+            <p className="text-[14px] text-[#235370] text-center">
+              Connect your bank account
+            </p>
+          </button>
+          {/* ) : (
             <p className="text-lg font-bold text-red-600">
               Bank account not linked
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </>

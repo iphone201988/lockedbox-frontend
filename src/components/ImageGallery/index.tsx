@@ -31,7 +31,11 @@ const ImageGallery = ({ storageImages }: { storageImages: string[] }) => {
   return (
     <div className="flex min-h-[480px] max-h-[480px] max-md:min-h-[320px]">
       {/* Left main image */}
-      <div className="for-fix-image w-[50%] max-md:w-full">
+      <div
+        className={`for-fix-image ${
+          storageImages.length == 1 ? "w-[100%]" : "w-[50%]"
+        } max-md:w-full`}
+      >
         <ImageCarousel
           className="rounded-l-[16px] w-full h-full object-cover max-md:rounded-[16px] overflow-hidden"
           url={storageImages[0]}
@@ -41,11 +45,13 @@ const ImageGallery = ({ storageImages }: { storageImages: string[] }) => {
 
       {/* Middle column */}
       <div className="for-fix-image w-[25%] mx-[12px] max-lg:mr-[0] flex flex-col gap-[12px] max-lg:w-[50%] max-lg:ml-[12px] max-md:hidden">
-        <ImageCarousel
-          className="w-full h-full object-cover max-lg:min-h-[49%] overflow-hidden"
-          url={storageImages[1]}
-          onClick={() => handleImageClick(1)}
-        />
+        {storageImages[1] && (
+          <ImageCarousel
+            className="w-full h-full object-cover max-lg:min-h-[49%] overflow-hidden"
+            url={storageImages[1]}
+            onClick={() => handleImageClick(1)}
+          />
+        )}
         {storageImages[2] && (
           <ImageCarousel
             className="w-full h-full object-cover max-lg:min-h-[49%] overflow-hidden"

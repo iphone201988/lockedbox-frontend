@@ -3,6 +3,7 @@ import LocationImage from "../../../../assets/icons/location-icn-grey.png";
 import { useEffect, useRef, useState } from "react";
 import {
   useAddStripeConnectMutation,
+  useGetStripeConnectInfoQuery,
   useGetUserQuery,
   useUpdateStripeConnectMutation,
   useUpdateUserMutation,
@@ -25,7 +26,7 @@ import VerifyPhonePopup from "../../../../components/Popups/Phone";
 import VerificationCodePopup from "../../../../components/Popups/Verify";
 import VerifEmailPopup from "../../../../components/Popups/Email";
 import MapInput from "../../../../components/MapInput";
-import { InfoIcon } from "../../../../icons";
+// import { InfoIcon } from "../../../../icons";
 
 type ProfileFormType = yup.InferType<typeof ProfileSchema>;
 
@@ -43,6 +44,11 @@ const RenterProfile = () => {
   const navigate = useNavigate();
   const [profilePic, setProfilePic] = useState<any>(ProfilPic);
   const [file, setFile] = useState<any>();
+  const [stripeIdentity, setStripeIdentity] = useState<any>({
+    isDocumentUploaded: null,
+    isDocumentsVerified: null,
+    pendingVerifications: null,
+  });
 
   const [showPopup, setShowPopup] = useState({
     email: false,
@@ -59,6 +65,10 @@ const RenterProfile = () => {
     createdAt: "",
   });
   const { data: userData, refetch } = useGetUserQuery();
+
+  const { data: stripeConnectInfo } = useGetStripeConnectInfoQuery(undefined, {
+    skip: !userData?.userExists?.stripeAccountId,
+  });
 
   const { formData, setFormData, validate, errors } = useForm(
     ProfileSchema,
@@ -112,31 +122,44 @@ const RenterProfile = () => {
     }
   };
 
-  const [
-    addStripeConnect,
-    { data: stripeConnectData, isLoading: stripeConnectLoading },
-  ] = useAddStripeConnectMutation();
+  // const [
+  //   addStripeConnect,
+  //   { data: stripeConnectData, isLoading: stripeConnectLoading },
+  // ] = useAddStripeConnectMutation();
+  const [_, { data: stripeConnectData, isLoading: stripeConnectLoading }] =
+    useAddStripeConnectMutation();
 
-  const [
-    updateStripeConnect,
-    { data: updateStripeData, isLoading: updateStripeLoading },
-  ] = useUpdateStripeConnectMutation();
+  // const [
+  //   updateStripeConnect,
+  //   { data: updateStripeData, isLoading: updateStripeLoading },
+  // ] = useUpdateStripeConnectMutation();
+  const [__, { data: updateStripeData, isLoading: updateStripeLoading }] =
+    useUpdateStripeConnectMutation();
 
   const verifyIdentity = async () => {
-    try {
-      await addStripeConnect({}).unwrap();
-    } catch (error) {
-      handleError(error, navigate);
-    }
+    let step = 1;
+    if (userData?.userExists?.stripeAccountId) step = 2;
+    if (
+      userData?.userExists?.stripeAccountId &&
+      stripeIdentity.isDocumentsVerified
+    )
+      step = 3;
+
+    navigate("/dashboard/stripe-onboarding", { state: { step } });
+    // try {
+    //   await addStripeConnect({}).unwrap();
+    // } catch (error) {
+    //   handleError(error, navigate);
+    // }
   };
 
-  const updateIdentity = async () => {
-    try {
-      await updateStripeConnect({}).unwrap();
-    } catch (error) {
-      handleError(error, navigate);
-    }
-  };
+  // const updateIdentity = async () => {
+  //   try {
+  //     await updateStripeConnect({}).unwrap();
+  //   } catch (error) {
+  //     handleError(error, navigate);
+  //   }
+  // };
 
   useEffect(() => {
     if (stripeConnectData?.success) {
@@ -157,6 +180,31 @@ const RenterProfile = () => {
       }
     }
   }, [updateStripeData]);
+
+  useEffect(() => {
+    if (stripeConnectInfo?.success) {
+      const isDocumentUploaded =
+        stripeConnectInfo?.account?.individual?.verification?.document?.back ||
+        stripeConnectInfo?.account?.individual?.verification?.document?.front;
+
+      const isDocumentsVerified =
+        stripeConnectInfo?.account?.individual?.verification?.status ==
+        "verified"
+          ? true
+          : false;
+
+      const pendingVerifications =
+        stripeConnectInfo?.account?.requirements?.pending_verification;
+
+      console.log("pendingVerifications:::", pendingVerifications);
+
+      setStripeIdentity({
+        isDocumentUploaded,
+        isDocumentsVerified,
+        pendingVerifications,
+      });
+    }
+  }, [stripeConnectInfo]);
 
   useEffect(() => {
     if (userData?.success) {
@@ -404,10 +452,38 @@ const RenterProfile = () => {
                     </span>
                   </div>
                 ) : (
-                  <NotVerified handleClick={verifyIdentity} />
+                  <>
+                    {(!stripeIdentity.isDocumentUploaded ||
+                      !stripeIdentity.isDocumentsVerified) && (
+                      <NotVerified handleClick={verifyIdentity} />
+                    )}
+
+                    {stripeIdentity.isDocumentsVerified && (
+                      <button
+                        className="text-[#235370] font-semibold max-mlg:ml-auto max-mlg:mr-[6px] cursor-pointer underline"
+                        onClick={verifyIdentity}
+                      >
+                        Add Bank
+                      </button>
+                    )}
+                  </>
                 )}
+
+                {stripeIdentity.pendingVerifications &&
+                  stripeIdentity.pendingVerifications.map(
+                    (verification: any, key: number) => {
+                      return (
+                        <div
+                          key={key}
+                          className="absolute text-xs text-[#c1bcbc] right-0 top-[-20px]"
+                        >
+                          {verification}
+                        </div>
+                      );
+                    }
+                  )}
               </div>
-              {!data.stripeAccountVerification && (
+              {/* {!data.stripeAccountVerification && (
                 <div className=" flex items-center gap-1 text-xs mt-2 text-[#c1bcbc]">
                   <InfoIcon />
                   Please{" "}
@@ -419,7 +495,7 @@ const RenterProfile = () => {
                   </span>{" "}
                   to complete connecting your bank account.
                 </div>
-              )}
+              )} */}
             </>
           )}
         </div>

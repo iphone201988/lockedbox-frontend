@@ -28,9 +28,9 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
   });
 
   const isHost = role == "host";
-  const from = isHost
-    ? booking.hostId?.firstName + " " + booking.hostId?.lastName
-    : booking.renterId?.firstName + " " + booking.renterId?.lastName;
+  // const from = isHost
+  //   ? booking.hostId?.firstName + " " + booking.hostId?.lastName
+  //   : booking.renterId?.firstName + " " + booking.renterId?.lastName;
 
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -101,14 +101,18 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
               </>
             ) : (
               <>
-                <span className="font-semibold text-black">From:</span> {from}
+                {/* <span className="font-semibold text-black">From:</span> {from} */}
+                <span className="font-semibold text-black">Address:</span>{" "}
+                {listing?.address}
               </>
             )}
           </p>
           {!isHost && (
             <p className="text-[#959595] max-md:text-[16px]">
               <span className="font-semibold text-black">From:</span>{" "}
-              {startDate} - {endDate}
+              {/* {startDate} - {endDate} */}
+              {moment(startDate).tz(timeZone).format("MMM DD YYYY")} -{" "}
+              {moment(endDate).tz(timeZone).format("MMM DD YYYY")}
             </p>
           )}
           <div className="mt-auto flex items-center">

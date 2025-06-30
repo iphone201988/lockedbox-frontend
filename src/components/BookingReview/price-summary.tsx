@@ -1,3 +1,4 @@
+import { PoweredByStripe } from "../../icons";
 import PaymentDetail from "./payment-detail";
 import StartEndDate from "./start-end-date";
 import { Elements } from "@stripe/react-stripe-js";
@@ -22,6 +23,9 @@ const PriceSummary = ({
         <Elements stripe={stripePromise}>
           <PaymentDetail ref={paymentRef} />
         </Elements>
+      </div>
+      <div className="flex justify-end w-full mt-5">
+      <PoweredByStripe/>
       </div>
     </div>
   );

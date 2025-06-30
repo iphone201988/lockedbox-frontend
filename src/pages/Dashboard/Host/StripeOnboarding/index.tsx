@@ -1,76 +1,317 @@
-const StripeOnboaridng = () => {
+import { DropDownIcon } from "../../../../icons";
+import * as yup from "yup";
+import { StripeOnboardingSchema } from "../../../../schema";
+import { useForm } from "../../../../hooks/useForm";
+import Input from "../../../../components/Input";
+import { handleError, handleInputChange } from "../../../../utils/helper";
+import Phone from "../../../../components/Phone";
+import Select from "../../../../components/Select";
+import DatePickerInput from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.css";
+import {
+  useCustomStripeConnectMutation,
+  useGetStripeConnectInfoQuery,
+  useGetUserQuery,
+} from "../../../../redux/api";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import moment from "moment";
+import Loader from "../../../../components/Loader";
+import StripeUploadDocuments from "./components/UploadDocuments";
+import AddBankAccount from "./components/AddBankAccount";
+import { Elements } from "@stripe/react-stripe-js";
+// import countryList from "react-select-country-list";
+// import { useMemo } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+
+type StripeOnboardingType = yup.InferType<typeof StripeOnboardingSchema>;
+
+const initialState: StripeOnboardingType = {
+  firstName: "",
+  lastName: "",
+  businessType: "",
+  dob: "",
+  phone: "",
+  email: "",
+  addressLine1: "",
+  city: "",
+  state: "",
+  zip: "",
+};
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+const StripeOnboarding = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  if (!location.state?.step) return <Navigate to="/" />;
+
+  const { data: stripeConnectData, isLoading: stripeConnectLoading } =
+    useGetStripeConnectInfoQuery();
+
+  const { data: userData } = useGetUserQuery();
+  const [step, setStep] = useState<number>(location.state?.step);
+
+  const { formData, setFormData, validate, errors } = useForm(
+    StripeOnboardingSchema,
+    initialState
+  );
+
+  const [customStripeConnect, { data, isLoading }] =
+    useCustomStripeConnectMutation();
+
+  // const options = useMemo(() => countryList().getData(), []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const hasErrors: boolean = await validate();
+    if (hasErrors) return;
+
+    // Handle form submission here
+    console.log("Form data:", formData);
+    const date = moment(new Date(formData.dob));
+
+    const body = {
+      email: formData.email,
+      phone: formData.phone,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      dob_day: date.date(),
+      dob_month: date.month() + 1,
+      dob_year: date.year(),
+      address_line1: formData.addressLine1,
+      address_city: formData.city,
+      address_state: formData.state,
+      address_zip: formData.zip,
+    };
+
+    await customStripeConnect(body)
+      .unwrap()
+      .catch((error: any) => handleError(error, navigate));
+  };
+
+  useEffect(() => {
+    if (data?.success) {
+      setStep(2);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (stripeConnectData?.success) {
+    }
+  }, [stripeConnectData]);
+
+  useEffect(() => {
+    if (userData?.success) {
+      setFormData((prev: any) => ({
+        ...prev,
+        email: userData?.userExists?.email || "",
+        phone: userData?.userExists?.phone || "",
+      }));
+    }
+  }, [userData]);
+
+  const handleDateChange = (date: Date) => {
+    setFormData((prev: any) => ({ ...prev, dob: new Date(date) }));
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="flex justify-center items-center h-[100vh]">
-      <div className="border border-[#eeeeee] p-[20px] rounded-[16px] max-w-[520px] w-full flex flex-col gap-[16px] ">
-        <div className="flex gap-[16px]">
-          <label className="flex flex-col gap-[4px] w-full" htmlFor="">
-            First Name
-            <input
-              className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px]"
-              type="text"
-              placeholder="First name"
-            />
-          </label>
-          <label className="flex flex-col gap-[4px] w-full" htmlFor="">
-            Last Name
-            <input
-              className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px]"
-              type="text"
-              placeholder="Last name"
-            />
-          </label>
-        </div>
-        <div className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px] flex flex-col justify-center items-center h-[120px]">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 3C12.1498 3.00009 12.2977 3.03384 12.4327 3.09875C12.5677 3.16365 12.6864 3.25806 12.78 3.375L16.78 8.375C16.867 8.47687 16.9326 8.59517 16.973 8.72289C17.0134 8.8506 17.0277 8.98513 17.0151 9.11849C17.0025 9.25184 16.9632 9.38131 16.8996 9.49919C16.836 9.61708 16.7494 9.72099 16.6448 9.80475C16.5403 9.88851 16.42 9.95041 16.2911 9.98679C16.1622 10.0232 16.0273 10.0333 15.8944 10.0165C15.7615 9.99974 15.6333 9.95644 15.5174 9.88919C15.4016 9.82194 15.3005 9.7321 15.22 9.625L13 6.85V14C13 14.2652 12.8946 14.5196 12.7071 14.7071C12.5196 14.8946 12.2652 15 12 15C11.7348 15 11.4804 14.8946 11.2929 14.7071C11.1054 14.5196 11 14.2652 11 14V6.85L8.78 9.626C8.69954 9.7331 8.59839 9.82294 8.48255 9.89019C8.36671 9.95744 8.23853 10.0007 8.10564 10.0175C7.97274 10.0343 7.83783 10.0242 7.70891 9.98779C7.58 9.95141 7.4597 9.88951 7.35517 9.80575C7.25064 9.72199 7.164 9.61808 7.1004 9.50019C7.03679 9.38231 6.99752 9.25284 6.98491 9.11949C6.97231 8.98613 6.98662 8.8516 7.027 8.72389C7.06739 8.59617 7.13302 8.47787 7.22 8.376L11.22 3.376C11.3135 3.25888 11.4322 3.16428 11.5672 3.0992C11.7022 3.03412 11.8501 3.00021 12 3ZM9 14V13H5C4.46957 13 3.96086 13.2107 3.58579 13.5858C3.21071 13.9609 3 14.4696 3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15C21 14.4696 20.7893 13.9609 20.4142 13.5858C20.0391 13.2107 19.5304 13 19 13H15V14C15 14.7956 14.6839 15.5587 14.1213 16.1213C13.5587 16.6839 12.7956 17 12 17C11.2044 17 10.4413 16.6839 9.87868 16.1213C9.31607 15.5587 9 14.7956 9 14ZM17 16C16.7348 16 16.4804 16.1054 16.2929 16.2929C16.1054 16.4804 16 16.7348 16 17C16 17.2652 16.1054 17.5196 16.2929 17.7071C16.4804 17.8946 16.7348 18 17 18H17.01C17.2752 18 17.5296 17.8946 17.7171 17.7071C17.9046 17.5196 18.01 17.2652 18.01 17C18.01 16.7348 17.9046 16.4804 17.7171 16.2929C17.5296 16.1054 17.2752 16 17.01 16H17Z"
-              fill="black"
-            />
-          </svg>
-          <button className=" cursor-pointer">upload document</button>
-        </div>
-        <label className="flex flex-col gap-[4px]" htmlFor="">
-          Date of Birth
-          <input
-            className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px]"
-            type="text"
-            placeholder="MM/DD/YYYY"
-          />
-        </label>
-        <label className="flex flex-col gap-[4px]" htmlFor="">
-          Business type
-          <select
-            className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px]"
-            name=""
-            id=""
-          >
-            <option value="">Work</option>
-            <option value="">Work</option>
-            <option value="">Work</option>
-          </select>
-        </label>
-        <label className="flex flex-col gap-[4px]" htmlFor="">
-          Phone Number
-          <input
-            className="border border-[#eeeeee] py-[12px] px-[16px] rounded-[12px]"
-            type="text"
-            placeholder="Phone number"
-          />
-        </label>
-        <button className="bg-[#008cdd] py-[12px] px-[16px] rounded-[12px] text-white cursor-pointer">
-          Submit
-        </button>
-      </div>
+    <div className="flex flex-col space-y-5 items-center my-5 overflow-y-auto">
+      {(isLoading || stripeConnectLoading) && <Loader />}
+      {step == 1 && (
+        <div className="text-2xl font-bold">Create your Account</div>
+      )}
+      {step == 2 && (
+        <div className="text-2xl font-extrabold">Verify your identity</div>
+      )}
+      {step == 3 && <div className="text-2xl font-bold">Add your Account</div>}
+      <div className="text-xl font-bold">Step {step} of 3</div>
+      {step == 1 && (
+        <form
+          className="w-full flex flex-col justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <div className="border border-[#eeeeee] p-[20px] rounded-[16px] max-w-[520px] w-full flex flex-col gap-[16px]">
+            <div className="flex gap-[16px]">
+              <label className="flex flex-col gap-[4px] w-full">
+                First Name
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="firstName"
+                  value={formData?.firstName}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="Enter First name"
+                  error={errors?.firstName}
+                />
+              </label>
+              <label className="flex flex-col gap-[4px] w-full">
+                Last Name
+                <Input
+                  className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                  type="text"
+                  name="lastName"
+                  value={formData?.lastName}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  placeholder="Enter Last name"
+                  error={errors?.lastName}
+                />
+              </label>
+            </div>
+
+            <label className="flex flex-col gap-[4px]">
+              Date of Birth
+              {/* <Input
+              className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+              type="date"
+              name="dob"
+              value={formData?.dob}
+              onChange={(e: any) => handleInputChange(e, setFormData)}
+              placeholder="Enter Date of Birth"
+              error={errors?.dob}
+            /> */}
+              <DatePickerInput
+                className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
+                selected={formData.dob ? new Date(formData.dob) : null}
+                onChange={handleDateChange as any}
+                placeholderText="MM/DD/YYYY"
+              />
+              {errors?.dob && (
+                <span className="text-red-500">{errors?.dob}</span>
+              )}
+            </label>
+
+            <label className="flex flex-col gap-[4px]">
+              Business type
+              <div className="input-with-icon relative w-full max-w-[100%]">
+                <Select
+                  options={["Individual", "Corporation", "Partnership", "LLC"]}
+                  className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer dropdown-container"
+                  name="businessType"
+                  value={formData?.businessType}
+                  onChange={(e: any) => handleInputChange(e, setFormData)}
+                  error={errors?.businessType}
+                />
+                <span className="absolute right-[16px] top-[20px]">
+                  <DropDownIcon />
+                </span>
+              </div>
+            </label>
+
+            <label className="flex flex-col gap-[4px]">
+              Phone Number
+              <Phone
+                error={errors?.phone}
+                value={formData?.phone}
+                isCADOnly={true}
+                onChange={(phone: any, data: any) =>
+                  setFormData({
+                    ...formData,
+                    phone: phone == data.dialCode ? "" : phone,
+                    // countryCode: `+${data.dialCode}`,
+                  })
+                }
+              />
+            </label>
+            <label className="flex flex-col gap-[4px]">
+              Email
+              <Input
+                className="border border-[#EEEEEE] py-[20px] px-[16px] w-full rounded-2xl"
+                type="email"
+                name="email"
+                value={formData?.email}
+                onChange={(e: any) => handleInputChange(e, setFormData)}
+                placeholder="Email"
+                error={errors?.email}
+              />
+            </label>
+
+            <div className="">
+              <p className="text-[20px] font-semibold ">Billing address</p>
+              <div className="my-[16px]">
+                <p className=" font-semibold mb-[6px]">Address Line 1</p>
+                <div className="w-full max-w-[100%]">
+                  <Input
+                    className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
+                    type="text"
+                    name="addressLine1"
+                    value={formData?.addressLine1}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Enter Address"
+                    error={errors?.addressLine1}
+                  />
+                </div>
+              </div>
+
+              <div className="w-full my-3">
+                <p className=" font-semibold mb-[6px]">City</p>
+                <div className="w-full max-w-[100%]">
+                  <Input
+                    className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
+                    type="text"
+                    name="city"
+                    value={formData?.city}
+                    onChange={(e: any) => handleInputChange(e, setFormData)}
+                    placeholder="Enter City"
+                    error={errors?.city}
+                  />
+                </div>
+              </div>
+              <div className=" flex gap-[16px] max-sm:flex-wrap ">
+                <div className="w-full">
+                  <p className=" font-semibold mb-[6px]">State</p>
+                  <div className="w-full max-w-[100%]">
+                    <Input
+                      className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
+                      type="text"
+                      name="state"
+                      value={formData?.state}
+                      onChange={(e: any) => handleInputChange(e, setFormData)}
+                      placeholder="Enter State"
+                      error={errors?.state}
+                    />
+                  </div>
+                </div>
+                <div className="w-full">
+                  <p className=" font-semibold mb-[6px]">Zip Code</p>
+                  <div className="w-full max-w-[100%]">
+                    <Input
+                      className="border w-full border-[#EEEEEE] py-[20px] px-[16px] rounded-2xl cursor-pointer"
+                      type="string"
+                      name="zip"
+                      value={formData?.zip}
+                      onChange={(e: any) => handleInputChange(e, setFormData)}
+                      placeholder="Enter Zip Code"
+                      error={errors?.zip}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              className="bg-[#235370] py-[12px] px-[16px] rounded-[12px] text-white cursor-pointer hover:bg-[#1a3f57] transition-colors"
+              type="submit"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      )}
+
+      {step == 2 && <StripeUploadDocuments setStep={setStep} />}
+      {step == 3 && (
+        <Elements stripe={stripePromise}>
+          <AddBankAccount />
+        </Elements>
+      )}
     </div>
   );
 };
 
-export default StripeOnboaridng;
+export default StripeOnboarding;

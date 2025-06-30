@@ -35,13 +35,13 @@ const ChatProfile = ({
       <img
         className="w-[48px] h-[48px] object-cover rounded-full"
         src={
-          chat.profile.profileImage ? getUrl(chat.profile.profileImage) : NoUser
+          chat?.profile?.profileImage ? getUrl(chat.profile.profileImage) : NoUser
         }
         alt=""
       />
       <div className="w-full">
         <p className=" font-semibold">
-          {chat.profile.firstName} {chat.profile.lastName?.[0]}.
+          {chat?.profile?.firstName} {chat?.profile?.lastName?.[0]}.
         </p>
         <div className="flex justify-between">
           <p className="text-[14px] text-[#959595]">

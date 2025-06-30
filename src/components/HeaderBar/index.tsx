@@ -17,6 +17,7 @@ const HeaderBar = ({
   const headerMap: any = {
     "/dashboard/booking": "Bookings",
     "/dashboard/listing": "Listings",
+    "/dashboard/stripe-onboarding": "Stripe Onboarding",
     "/dashboard/reviews": `${
       role == "host" ? "Performance & Reviews" : "Reviews"
     }`,

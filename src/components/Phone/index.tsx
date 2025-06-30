@@ -6,11 +6,13 @@ const Phone = ({
   value,
   onChange = () => {},
   disable = false,
+  isCADOnly = false,
 }: PhoneProps) => {
   return (
     <>
       <PhoneInput
-        country={"us"}
+        country={isCADOnly ? "ca" : "us"}
+        {...(isCADOnly && { onlyCountries: ["ca"] })}
         inputProps={{
           name: "phone",
           autoFocus: true,

@@ -177,6 +177,22 @@ export const ContactUsSchema = yup.object({
   message: yup.string().required("Message is required"),
 });
 
+export const StripeOnboardingSchema = yup.object({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  dob: yup.string().required("Date of birth is required"),
+  businessType: yup.string().required("Business Type is required"),
+  phone: yup.string().required("Phone number is required"),
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .required("Email is required"),
+  addressLine1: yup.string().required("Address Line 1 is required"),
+  city: yup.string().required("City is required"),
+  state: yup.string().required("State is required"),
+  zip: yup.string().required("Zip code is required"),
+});
+
 export const validateForm = async (
   schema: yup.ObjectSchema<any>,
   data: any

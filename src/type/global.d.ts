@@ -32,6 +32,7 @@ type PhoneProps = {
   onChange?: (phone: string, data: any) => void;
   error: string | undefined;
   disable?: boolean;
+  isCADOnly?: boolean;
 };
 
 type VerificationPopupProps = {

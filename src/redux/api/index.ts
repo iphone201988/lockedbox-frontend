@@ -19,6 +19,7 @@ const NOTIFICATIONS_TAG = "NOTIFICATION";
 const BOOKINGS_TAG = "BOOKING";
 export const SIDEBAR_TAG = "SIDEBAR";
 export const CONVERSATION_TAG = "CONVERSATION";
+export const STRIPE_CUSTOM_IDENTIFICATION_TAG = "STRIPE_CUSTOM_IDENTIFICATION";
 
 export const lockedBoxApi = createApi({
   reducerPath: "lockedBoxApi",
@@ -32,6 +33,7 @@ export const lockedBoxApi = createApi({
     BOOKINGS_TAG,
     SIDEBAR_TAG,
     CONVERSATION_TAG,
+    STRIPE_CUSTOM_IDENTIFICATION_TAG,
   ],
   endpoints: (builder) => ({
     signUpUser: builder.mutation({
@@ -407,6 +409,37 @@ export const lockedBoxApi = createApi({
         body,
       }),
     }),
+    customStripeConnect: builder.mutation({
+      query: (body) => ({
+        url: `stripe/createCustomStripeConnectAccount`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [STRIPE_CUSTOM_IDENTIFICATION_TAG, USER_TAG],
+    }),
+    uploadStripeDocuments: builder.mutation({
+      query: (body) => ({
+        url: `stripe/uploadDocuments`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [STRIPE_CUSTOM_IDENTIFICATION_TAG],
+    }),
+    attachBankAccount: builder.mutation({
+      query: (body) => ({
+        url: `stripe/attachBankAccountStripeConnect`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [STRIPE_CUSTOM_IDENTIFICATION_TAG,USER_TAG],
+    }),
+    getStripeConnectInfo: builder.query<any, void>({
+      query: () => ({
+        url: `stripe`,
+        method: "GET",
+        providesTags: [STRIPE_CUSTOM_IDENTIFICATION_TAG],
+      }),
+    }),
   }),
 });
 
@@ -465,4 +498,8 @@ export const {
   useLazyFindMessagesQuery,
   useCancelListingMutation,
   useContactUsMutation,
+  useUploadStripeDocumentsMutation,
+  useCustomStripeConnectMutation,
+  useAttachBankAccountMutation,
+  useGetStripeConnectInfoQuery,
 } = lockedBoxApi;
