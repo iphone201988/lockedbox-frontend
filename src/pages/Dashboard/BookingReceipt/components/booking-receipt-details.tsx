@@ -5,8 +5,8 @@ import { useGetUserQuery } from "../../../../redux/api";
 
 const BookingReceiptDetails = ({ booking }: { booking: any }) => {
   let { startDate, endDate } = booking;
-  startDate = moment(startDate).format("MMM DD YYYY");
-  endDate = moment(endDate).format("MMM DD YYYY");
+  startDate = moment.utc(startDate).format("MMM DD YYYY");
+  endDate = moment.utc(endDate).format("MMM DD YYYY");
 
   const { transactionRentId: transaction } = booking;
   const { listingId: listing } = booking;

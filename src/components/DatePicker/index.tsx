@@ -34,18 +34,19 @@ const DatePicker = ({
   // Compute booked ranges from bookingDates
   const bookedRanges = useMemo(() => {
     return bookingDates.map((booking) => {
-      const start = new Date(booking.startDate);
-      const end = new Date(booking.endDate);
+      const start = new Date(moment.utc(booking.startDate).format("YYYY MM DD"));
+      const end = new Date(moment.utc(booking.endDate).format("YYYY MM DD"));
       const localStart = new Date(
         start.getFullYear(),
         start.getMonth(),
         start.getDate()
-      );
+        );
       const localEnd = new Date(
         end.getFullYear(),
         end.getMonth(),
         end.getDate()
-      );
+        );
+        // console.log("booking.startDate::::",new Date(moment.utc(booking.startDate).format("YYYY MM DD")),end)
       return { start: localStart, end: localEnd };
     });
   }, [bookingDates]);

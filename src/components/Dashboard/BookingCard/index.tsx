@@ -18,8 +18,10 @@ const BookingCard = ({ booking, type, role }: BookingCard) => {
   const { listingId: listing } = booking;
   const [cancelBookingPopup, setCancelBookingPopup] = useState(false);
   let { startDate, endDate } = booking;
-  startDate = moment(startDate).format("MMM DD YYYY");
-  endDate = moment(endDate).format("MMM DD YYYY");
+  startDate = moment.utc(startDate).format("MMM DD YYYY");
+  endDate = moment.utc(endDate).format("MMM DD YYYY");
+  // startDate=new Date(moment.utc(startDate).format("YYYY MM DD"))
+  // endDate=new Date(moment.utc(endDate).format("YYYY MM DD"))
 
   const icons = listing.allowedStorage.map((storage: string) => {
     return allowedStorageType.map((allowedStorage: any) => {

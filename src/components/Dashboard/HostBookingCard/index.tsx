@@ -33,8 +33,10 @@ const HostBookingCard = ({
 
   const { listingId: listing } = booking;
   let { startDate, endDate } = booking;
-  startDate = moment(startDate).format("MMM DD YYYY");
-  endDate = moment(endDate).format("MMM DD YYYY");
+  startDate = moment.utc(startDate).format("MMM DD YYYY");
+  endDate = moment.utc(endDate).format("MMM DD YYYY");
+  
+  console.log("------------------------------",startDate)
 
   const monthsDifference = Math.ceil(
     moment(endDate, "MMM DD YYYY").diff(
@@ -43,6 +45,7 @@ const HostBookingCard = ({
       true
     )
   );
+  
 
   const { data: userData } = useGetUserQuery();
   const role = userData?.userExists?.dashboardRole;
@@ -102,6 +105,7 @@ const HostBookingCard = ({
   const canUserCancelBooking =
     booking.status != "reject" && booking.status != "under_review";
 
+    
   return (
     <div className="border border-[#EEEEEE] rounded-[16px] ">
       {(isLoading || stripeLoading) && <Loader />}
