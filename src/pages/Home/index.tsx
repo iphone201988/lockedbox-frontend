@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useLazyGetUserQuery } from "../../redux/api";
 import { getToken } from "../../utils/helper";
 import usePageTracking from "../../hooks/usePageTracking";
+import EstimateYourEarnings from "../../components/Home/estimate-your-earnings";
+import ReviewSlider from "../../components/Home/review-slider";
 
 const Home = () => {
   const location = useLocation();
@@ -39,6 +41,8 @@ const Home = () => {
       <NavBar />
       <BannerHome />
       <Listings />
+      <EstimateYourEarnings/>
+      <ReviewSlider/>
       <Store />
       <HowToRent />
       <HostWithUs />

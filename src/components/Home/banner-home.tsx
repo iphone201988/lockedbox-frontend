@@ -29,7 +29,7 @@ const BannerHome = () => {
     navigate("/search-results", { state: { formData } });
   };
   return (
-    <div className="max-w-[1440px] px-[40px] mx-auto flex items-center gap-10 py-16 max-lg:px-[20px] max-lg:py-[40px] max-lg:gap-[20px] max-md:flex-col-reverse">
+    <div className="max-w-[1440px] px-[40px] mx-auto flex items-center gap-10 py-16 max-lg:px-[20px] max-lg:py-[40px] max-lg:gap-[20px] max-md:flex-col-reverse mt-[88px]">
       <div className="left-side flex flex-col items-center w-full">
         <h1 className="text-[52px] font-bold max-lg:text-[36px] max-sm:text-[28px]">
           Save big. Store local.
@@ -53,6 +53,31 @@ const BannerHome = () => {
             Search Nearby
           </button>
         </form>
+
+        <div className=" flex flex-col gap-[12px] mt-[40px] max-md:mt-[24px]">
+            <p className="text-[18px] font-semibold flex gap-[6px] items-center">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.78125 12.0312L8.59375 16.8438L18.2188 6.53125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+              Book with verified hosts
+              </p>
+            <p className="text-[18px] font-semibold flex gap-[6px] items-center">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.78125 12.0312L8.59375 16.8438L18.2188 6.53125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+              Local & convenient 
+              </p>
+            <p className="text-[18px] font-semibold flex gap-[6px] items-center">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.78125 12.0312L8.59375 16.8438L18.2188 6.53125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+              50% less than storage units
+              </p>
+        </div>
+
       </div>
       <div className="right-side w-full">
         <img

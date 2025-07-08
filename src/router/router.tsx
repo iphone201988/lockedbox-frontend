@@ -26,7 +26,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import AboutUs from "../pages/AboutUs";
 import AdminUserHome from "../pages/Admin/Home/User";
 import SupportCentre from "../pages/SupportCentre";
-import StripeOnboaridng from "../pages/Dashboard/Host/StripeOnboarding";
+// import StripeOnboaridng from "../pages/Dashboard/Host/StripeOnboarding";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home"));
@@ -352,14 +352,20 @@ const Router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "stripe-onboarding",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <StripeOnboaridng />
-          </Suspense>
-        ),
-      },
+
+
+// okay sir
+// Before committing your code, undo this file
+
+
+      // {
+      //   path: "stripe-onboarding",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <StripeOnboaridng />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "booking",
         element: (
