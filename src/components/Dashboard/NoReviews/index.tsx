@@ -6,7 +6,7 @@ const NoReviews = () => {
       <span>
         <NoReviewIcon />
       </span>
-      <p className="text-[18px] font-semibold">No Reviews for now</p>
+      <p className="text-[18px] font-semibold">No Reviews</p>
     </div>
   );
 };

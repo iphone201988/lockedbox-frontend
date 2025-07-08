@@ -158,7 +158,7 @@ const DatePicker = ({
             </div> */}
           {/* </div> */}
         </div>
-        <span className="text-[14px] text-[#959595]">Taxes not included</span>
+        {/* <span className="text-[14px] text-[#959595]">Taxes not included</span> */}
 
         <div className="w-full mt-[10px]">
           <p className="font-semibold mb-[6px]">
