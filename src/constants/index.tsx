@@ -28,7 +28,7 @@ export const routes = [
   { name: "Find Storage", path: "/search" },
   { name: "How it Works", path: "/" },
   { name: "Contact Us", path: "/contact-us" },
-  { name: "Host your Space", path: "/dashboard/home" },
+  { name: "Become a Host", path: "/dashboard/home" },
 ];
 
 export const RenterRoutes = [

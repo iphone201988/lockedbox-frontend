@@ -13,7 +13,7 @@ const ListingBox = ({ listing }: { listing: any }) => {
         src={getUrl(listing.storageImages[0])}
         alt=""
       />
-      <div className="flex justify-center items-center flex-col bg-[#235370] text-[#ffffff] rounded-[8px] p-[5px] absolute right-[15px] top-[15px]">
+      {/* <div className="flex justify-center items-center flex-col bg-[#235370] text-[#ffffff] rounded-[8px] p-[5px] absolute right-[15px] top-[15px]">
         <span className="flex gap-[4px] items-center">
           <svg
             width="20"
@@ -39,7 +39,7 @@ const ListingBox = ({ listing }: { listing: any }) => {
         <p className="text-[14px] mt-[-2px]">
           ({listing.totalReviews} reviews)
         </p>
-      </div>
+      </div> */}
       <a
         className="mt-[10px] text-[24px] font-semibold text-[#235370] block w-[80%] leading-[normal] max-lg:text-[20px] max-md:text-[18px] max-mlg:text-[18px]"
         href="#"

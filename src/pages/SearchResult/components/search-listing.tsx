@@ -25,7 +25,7 @@ const SearchListing = ({
           src={getUrl(image)}
           alt=""
         />
-        <div className="flex justify-center items-center  bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute right-[8px] top-[8px]">
+        {/* <div className="flex justify-center items-center  bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute right-[8px] top-[8px]">
           <span className="flex gap-[4px] items-center">
             <StarIcon />
             {averageRating ? (
@@ -39,10 +39,10 @@ const SearchListing = ({
           <p className="text-[13px] ml-[4px]">
             ({totalReviews ? totalReviews : "No"} reviews)
           </p>
-        </div>
-        <div className="bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute left-[8px] bottom-[8px]">
+        </div> */}
+        {/* <div className="bg-[#ffffff] text-[#1f1f1f] rounded-[6px] py-[2px] px-[6px] absolute left-[8px] bottom-[8px]">
           <span className="text-[13px] font-normal">{distance} km</span>
-        </div>
+        </div> */}
       </div>
       <div className="flex justify-between items-start mt-[6px]">
         <a
@@ -53,10 +53,10 @@ const SearchListing = ({
         </a>
       </div>
       <div className="w-full flex justify-between mt-1">
-        <span className="text-[#235370] max-md:text-[14px]">
+        <span className="text-gray-400 max-md:text-[14px]">
           ${price}/ month
         </span>
-        <div className="text-[#235370] max-md:text-[14px] flex items-center">
+        <div className="text-gray-400 max-md:text-[14px] flex items-center">
           <img src={DateIcon} alt="" className="w-[18px] h-[18px]" />
           <span>
             {" "}

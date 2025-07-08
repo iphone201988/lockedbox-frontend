@@ -32,7 +32,7 @@ const BannerHome = () => {
     <div className="max-w-[1440px] px-[40px] mx-auto flex items-center gap-10 py-16 max-lg:px-[20px] max-lg:py-[40px] max-lg:gap-[20px] max-md:flex-col-reverse">
       <div className="left-side flex flex-col items-center w-full">
         <h1 className="text-[52px] font-bold max-lg:text-[36px] max-sm:text-[28px]">
-          Find your Space
+          Save big. Store local.
         </h1>
         <form
           className="w-full flex flex-col justify-center items-center"

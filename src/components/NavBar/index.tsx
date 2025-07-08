@@ -7,7 +7,7 @@ import ProfileNavbar from "../ProfileNavbar";
 const NavBar = () => {
   const token = getToken();
   return (
-    <div className=" border-b border-[#EEEEEE]">
+    <div className="fixed border-b border-[#EEEEEE] w-full bg-white z-10">
       <div className=" py-5 px-10 mx-auto flex flex-row items-center justify-between max-lg:px-[20px]">
         <Logo className="max-w-[158px] max-lg:max-w-[120px] max-sm:max-w-[100px]" />
         <div className="menu flex gap-x-[32px] text-[18px] text-[#1E1E1E] font-light max-lg:text-[16px] max-lg:gap-x-[16px] max-lg:hidden">
